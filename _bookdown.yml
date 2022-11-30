@@ -1,0 +1,7 @@
+book_filename: "advanced_data_analysis_hco"
+language:
+  ui:
+    chapter_name: "Chapter "
+delete_merged_file: true
+output_dir: "docs"
+clean: ["packages.bib"]
