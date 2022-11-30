@@ -1,0 +1,65 @@
+# Prerequisites
+
+## Load R Packages {#load-r-packages}
+
+```{r}
+#| label: load-packages
+#| message: FALSE
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(mclust)
+library(psych)
+library(gridExtra)
+library(plotly)
+library(processx)
+library(reticulate)
+library(DiagrammeR)
+library(performance)
+library(afex)
+library(qqplotr)
+library(bookdown)
+library(FFTrees)
+library(rpart)
+library(rpart.plot)
+```
+
+## Load Python Version 3.10.8 {#load-python-version-3.10.8}
+
+```{r}
+#| label: load-python
+#| warning: false
+#| message: false
+
+use_python("/Library/Frameworks/Python.framework/Versions/3.10/bin/python3")
+
+```
+
+## Import Python Modules {#import-python-modules}
+
+```{python}
+#| label: import-modules
+
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+import statsmodels.stats.api as sms
+import statsmodels.stats.descriptivestats as smds
+from kneed import KneeLocator
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
+from sklearn.preprocessing import StandardScaler
+from sklearn import tree
+from sklearn.datasets import load_iris
+import plotly.express as px
+import plotly.io as pio
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+import kaleido
+import psutil
+import graphviz 
+
+```
