@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Brushing Up on the Basics | Advanced Data Analysis in R and Python</title>
+  <meta name="description" content="Chapter 2 Brushing Up on the Basics | Advanced Data Analysis in R and Python" />
+  <meta name="generator" content="bookdown 0.30.1 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Brushing Up on the Basics | Advanced Data Analysis in R and Python" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta name="github-repo" content="hco-consulting/data-analysis" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Brushing Up on the Basics | Advanced Data Analysis in R and Python" />
+  
+  
+  
+
+<meta name="author" content="Hamilkar Constantin Oueslati" />
+
+
+<meta name="date" content="2022-11-30" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="prerequisites.html"/>
+<link rel="next" href="unsupervised-learning.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
+<ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#contact-the-author"><i class="fa fa-check"></i>Contact the Author</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#load-r-packages"><i class="fa fa-check"></i><b>1.1</b> Load R Packages</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#load-python-version-3.10.8"><i class="fa fa-check"></i><b>1.2</b> Load Python Version 3.10.8</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#import-python-modules"><i class="fa fa-check"></i><b>1.3</b> Import Python Modules</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html"><i class="fa fa-check"></i><b>2</b> Brushing Up on the Basics</a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#mixed-anova-r"><i class="fa fa-check"></i><b>2.1</b> Mixed ANOVA <em>R</em></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#preperation-of-dataset-iris-r"><i class="fa fa-check"></i><b>2.1.1</b> Preperation of Dataset <code>iris</code> <em>R</em></a></li>
+<li class="chapter" data-level="2.1.2" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#creating-the-anova-model"><i class="fa fa-check"></i><b>2.1.2</b> Creating the ANOVA Model</a></li>
+<li class="chapter" data-level="2.1.3" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#testing-assumptions-anova-r"><i class="fa fa-check"></i><b>2.1.3</b> Testing Assumptions of the ANOVA <em>R</em></a></li>
+<li class="chapter" data-level="2.1.4" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#results-mixed-anova"><i class="fa fa-check"></i><b>2.1.4</b> Results of Mixed ANOVA</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>3</b> Unsupervised Learning</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#non-hierarchical-clustering-r"><i class="fa fa-check"></i><b>3.1</b> Non-Hierarchical Clustering <em>R</em></a>
+<ul>
+<li class="chapter" data-level="3.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#import-dataset-iris-r"><i class="fa fa-check"></i><b>3.1.1</b> Import Dataset <code>iris</code> <em>R</em></a></li>
+<li class="chapter" data-level="3.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering-k-means-algorithm"><i class="fa fa-check"></i><b>3.1.2</b> Clustering Using a <em>k</em>-means Algorithm</a></li>
+<li class="chapter" data-level="3.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#visualization-results-clustering-r"><i class="fa fa-check"></i><b>3.1.3</b> Visualization of Results of Clustering <em>R</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#non-hierarchical-clustering-python"><i class="fa fa-check"></i><b>3.2</b> Non-Hierarchical Clustering <em>Python</em></a>
+<ul>
+<li class="chapter" data-level="3.2.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#import-dataset-iris-python"><i class="fa fa-check"></i><b>3.2.1</b> Import Dataset <code>iris</code> <em>Python</em></a></li>
+<li class="chapter" data-level="3.2.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#preprocessing-of-data"><i class="fa fa-check"></i><b>3.2.2</b> Preprocessing of Data</a></li>
+<li class="chapter" data-level="3.2.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering-using-a-k-means-algorithm"><i class="fa fa-check"></i><b>3.2.3</b> Clustering Using a <em>k</em>-means Algorithm</a></li>
+<li class="chapter" data-level="3.2.4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#visualization-results-clustering-python"><i class="fa fa-check"></i><b>3.2.4</b> Visualization of Results of Clustering <em>Python</em></a></li>
+<li class="chapter" data-level="3.2.5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#conclusion-k-means"><i class="fa fa-check"></i><b>3.2.5</b> Conclusion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>4</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="supervised-learning.html"><a href="supervised-learning.html#into-decision-trees"><i class="fa fa-check"></i><b>4.1</b> Introduction to Decision Trees</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-dt"><i class="fa fa-check"></i><b>4.1.1</b> What are Decision Trees?</a></li>
+<li class="chapter" data-level="4.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#concept-dt"><i class="fa fa-check"></i><b>4.1.2</b> Basic Concepts of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#history-dt"><i class="fa fa-check"></i><b>4.1.3</b> A Short History of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#terminology-dt"><i class="fa fa-check"></i><b>4.1.4</b> Basic Terminology of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.5" data-path="supervised-learning.html"><a href="supervised-learning.html#eg-dt-python"><i class="fa fa-check"></i><b>4.1.5</b> An Example of Creating a Decision with <em>Python</em></a></li>
+<li class="chapter" data-level="4.1.6" data-path="supervised-learning.html"><a href="supervised-learning.html#eg-dt-r"><i class="fa fa-check"></i><b>4.1.6</b> An Example of Creating a Decision with <em>R</em></a></li>
+<li class="chapter" data-level="4.1.7" data-path="supervised-learning.html"><a href="supervised-learning.html#adv-disadv-dt"><i class="fa fa-check"></i><b>4.1.7</b> Advantages and Disadvantages of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.8" data-path="supervised-learning.html"><a href="supervised-learning.html#fft"><i class="fa fa-check"></i><b>4.1.8</b> Fast-and-Frugal Trees</a></li>
+<li class="chapter" data-level="4.1.9" data-path="supervised-learning.html"><a href="supervised-learning.html#fft-creation"><i class="fa fa-check"></i><b>4.1.9</b> Creating a FFT with <code>FFTrees</code></a></li>
+<li class="chapter" data-level="4.1.10" data-path="supervised-learning.html"><a href="supervised-learning.html#dt-conclusion"><i class="fa fa-check"></i><b>4.1.10</b> Conclusion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="works-cited.html"><a href="works-cited.html"><i class="fa fa-check"></i>Works Cited</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Advanced Data Analysis in R and Python</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="brushing-up-on-the-basics" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Brushing Up on the Basics<a href="brushing-up-on-the-basics.html#brushing-up-on-the-basics" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="mixed-anova-r" class="section level2 hasAnchor" number="2.1">
+<h2><span class="header-section-number">2.1</span> Mixed ANOVA <em>R</em><a href="brushing-up-on-the-basics.html#mixed-anova-r" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Below I have conducted a mixed ANOVA based on the data from the dataset <code>iris</code>.</p>
+<p>The <strong>dependent variable</strong> used in said calculation are the <strong>respective measurements</strong> recorded in the dataset.</p>
+<p><strong>“Species”</strong> is the <strong>between-factor</strong>, with “Setosa”, “Versicolor” and “Virginica” being its factor levels.</p>
+<p><strong>“Part of Flower”</strong> is the <strong>first within-factor</strong> with “Petal” and “Sepal” being its factor levels.</p>
+<p><strong>“Kind of Measurement”</strong> is the <strong>second within-factor</strong> with “Width” and “Length” being its factor levels.</p>
+<div id="preperation-of-dataset-iris-r" class="section level3 hasAnchor" number="2.1.1">
+<h3><span class="header-section-number">2.1.1</span> Preperation of Dataset <code>iris</code> <em>R</em><a href="brushing-up-on-the-basics.html#preperation-of-dataset-iris-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Before a mixed ANOVA analysis can be conducted the data in the dataset <code>iris</code> needs to be reordered and recoded accordingly.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="brushing-up-on-the-basics.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create custom function to recode variables </span></span>
+<span id="cb4-2"><a href="brushing-up-on-the-basics.html#cb4-2" aria-hidden="true" tabindex="-1"></a> recode.var <span class="ot">&lt;-</span> <span class="cf">function</span>(x,   <span class="co"># what vector do you want to recode?</span></span>
+<span id="cb4-3"><a href="brushing-up-on-the-basics.html#cb4-3" aria-hidden="true" tabindex="-1"></a>                       old,  <span class="co"># what values do you want to change?</span></span>
+<span id="cb4-4"><a href="brushing-up-on-the-basics.html#cb4-4" aria-hidden="true" tabindex="-1"></a>                       new,  <span class="co"># what should the new values be?</span></span>
+<span id="cb4-5"><a href="brushing-up-on-the-basics.html#cb4-5" aria-hidden="true" tabindex="-1"></a>                       <span class="at">otherNA =</span> <span class="cn">TRUE</span>,   <span class="co"># should other values be converted to NA?</span></span>
+<span id="cb4-6"><a href="brushing-up-on-the-basics.html#cb4-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">numeric =</span> <span class="cn">TRUE</span>) { <span class="co"># should result be numeric?</span></span>
+<span id="cb4-7"><a href="brushing-up-on-the-basics.html#cb4-7" aria-hidden="true" tabindex="-1"></a>   x.new <span class="ot">&lt;-</span> x  <span class="co"># copy vector to x.new</span></span>
+<span id="cb4-8"><a href="brushing-up-on-the-basics.html#cb4-8" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(<span class="fu">class</span>(x.new) <span class="sc">==</span> <span class="st">&quot;factor&quot;</span>) {x.new <span class="ot">&lt;-</span> <span class="fu">paste</span>(x.new)} <span class="co"># remove factors</span></span>
+<span id="cb4-9"><a href="brushing-up-on-the-basics.html#cb4-9" aria-hidden="true" tabindex="-1"></a>   <span class="cf">for</span>(i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(old)) { <span class="co"># loop through all old values:</span></span>
+<span id="cb4-10"><a href="brushing-up-on-the-basics.html#cb4-10" aria-hidden="true" tabindex="-1"></a>    x.new[x <span class="sc">==</span> old[i]] <span class="ot">&lt;-</span> new[i]</span>
+<span id="cb4-11"><a href="brushing-up-on-the-basics.html#cb4-11" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-12"><a href="brushing-up-on-the-basics.html#cb4-12" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(otherNA) { <span class="co"># convert unspecified values to NA:</span></span>
+<span id="cb4-13"><a href="brushing-up-on-the-basics.html#cb4-13" aria-hidden="true" tabindex="-1"></a>    x.new[(x <span class="sc">%in%</span> old) <span class="sc">==</span> <span class="cn">FALSE</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb4-14"><a href="brushing-up-on-the-basics.html#cb4-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-15"><a href="brushing-up-on-the-basics.html#cb4-15" aria-hidden="true" tabindex="-1"></a>   <span class="cf">if</span>(numeric) {x.new <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(x.new)}  <span class="co"># convert vector to numeric values</span></span>
+<span id="cb4-16"><a href="brushing-up-on-the-basics.html#cb4-16" aria-hidden="true" tabindex="-1"></a>   <span class="fu">return</span>(x.new)  <span class="co"># return new vector</span></span>
+<span id="cb4-17"><a href="brushing-up-on-the-basics.html#cb4-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-18"><a href="brushing-up-on-the-basics.html#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="brushing-up-on-the-basics.html#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Create appropriate subset of &#39;iris&#39;</span></span>
+<span id="cb4-20"><a href="brushing-up-on-the-basics.html#cb4-20" aria-hidden="true" tabindex="-1"></a>iris_anova_prep1 <span class="ot">&lt;-</span> iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span>
+<span id="cb4-21"><a href="brushing-up-on-the-basics.html#cb4-21" aria-hidden="true" tabindex="-1"></a>iris_anova_prep1<span class="sc">$</span>id <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>)</span>
+<span id="cb4-22"><a href="brushing-up-on-the-basics.html#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="brushing-up-on-the-basics.html#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename and recode &#39;TCategory&#39; for better readability</span></span>
+<span id="cb4-24"><a href="brushing-up-on-the-basics.html#cb4-24" aria-hidden="true" tabindex="-1"></a>iris_anova_prep1<span class="sc">$</span>Species <span class="ot">&lt;-</span> <span class="fu">recode.var</span>(iris<span class="sc">$</span>TCategory,</span>
+<span id="cb4-25"><a href="brushing-up-on-the-basics.html#cb4-25" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">old =</span> <span class="fu">c</span>(<span class="st">&quot;I.setosa&quot;</span>, </span>
+<span id="cb4-26"><a href="brushing-up-on-the-basics.html#cb4-26" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;I.versicolor&quot;</span>, </span>
+<span id="cb4-27"><a href="brushing-up-on-the-basics.html#cb4-27" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;I.virginica&quot;</span>),</span>
+<span id="cb4-28"><a href="brushing-up-on-the-basics.html#cb4-28" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">new =</span> <span class="fu">c</span>(<span class="st">&quot;Setosa&quot;</span>, </span>
+<span id="cb4-29"><a href="brushing-up-on-the-basics.html#cb4-29" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;Versicolor&quot;</span>, </span>
+<span id="cb4-30"><a href="brushing-up-on-the-basics.html#cb4-30" aria-hidden="true" tabindex="-1"></a>                                               <span class="st">&quot;Virginica&quot;</span>), </span>
+<span id="cb4-31"><a href="brushing-up-on-the-basics.html#cb4-31" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">otherNA =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb4-32"><a href="brushing-up-on-the-basics.html#cb4-32" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">numeric =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb4-33"><a href="brushing-up-on-the-basics.html#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Save &#39;Species&#39; as factor variable</span></span>
+<span id="cb4-34"><a href="brushing-up-on-the-basics.html#cb4-34" aria-hidden="true" tabindex="-1"></a>iris_anova_prep1<span class="sc">$</span>Species <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(iris_anova_prep1<span class="sc">$</span>Species)</span>
+<span id="cb4-35"><a href="brushing-up-on-the-basics.html#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="brushing-up-on-the-basics.html#cb4-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Reformat dataframe from wide to long format with temporary variable &#39;wtifl_prep&#39;</span></span>
+<span id="cb4-37"><a href="brushing-up-on-the-basics.html#cb4-37" aria-hidden="true" tabindex="-1"></a>iris_anova_prep1 <span class="ot">&lt;-</span> <span class="fu">gather</span>(iris_anova_prep1, </span>
+<span id="cb4-38"><a href="brushing-up-on-the-basics.html#cb4-38" aria-hidden="true" tabindex="-1"></a>                           wtifl_prep, </span>
+<span id="cb4-39"><a href="brushing-up-on-the-basics.html#cb4-39" aria-hidden="true" tabindex="-1"></a>                           Measurement, </span>
+<span id="cb4-40"><a href="brushing-up-on-the-basics.html#cb4-40" aria-hidden="true" tabindex="-1"></a>                           Sepal_length<span class="sc">:</span>Petal_width, </span>
+<span id="cb4-41"><a href="brushing-up-on-the-basics.html#cb4-41" aria-hidden="true" tabindex="-1"></a>                           <span class="at">factor_key=</span><span class="cn">TRUE</span>)</span>
+<span id="cb4-42"><a href="brushing-up-on-the-basics.html#cb4-42" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris_anova_prep1)</span></code></pre></div>
+<pre><code>##   id Species   wtifl_prep Measurement
+## 1  1  Setosa Sepal_length         5.1
+## 2  2  Setosa Sepal_length         4.9
+## 3  3  Setosa Sepal_length         4.7
+## 4  4  Setosa Sepal_length         4.6
+## 5  5  Setosa Sepal_length         5.0
+## 6  6  Setosa Sepal_length         5.4</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="brushing-up-on-the-basics.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare creation of within-factor variables &#39;Part_of_Flower&#39; and &#39;Kind_of_Measurement&#39;</span></span>
+<span id="cb6-2"><a href="brushing-up-on-the-basics.html#cb6-2" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2 <span class="ot">&lt;-</span> iris_anova_prep1</span>
+<span id="cb6-3"><a href="brushing-up-on-the-basics.html#cb6-3" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2<span class="sc">$</span>Part_of_Flower <span class="ot">&lt;-</span> iris_anova_prep2<span class="sc">$</span>wtifl_prep</span>
+<span id="cb6-4"><a href="brushing-up-on-the-basics.html#cb6-4" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2<span class="sc">$</span>Kind_of_Measurement <span class="ot">&lt;-</span> iris_anova_prep2<span class="sc">$</span>wtifl_prep</span>
+<span id="cb6-5"><a href="brushing-up-on-the-basics.html#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="brushing-up-on-the-basics.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Split temporary variable &#39;wtifl_prep&#39; into within-factor variables &#39;Part_of_Flower&#39; and &#39;Kind_of_Measurement&#39;</span></span>
+<span id="cb6-7"><a href="brushing-up-on-the-basics.html#cb6-7" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2<span class="sc">$</span>Part_of_Flower <span class="ot">&lt;-</span> </span>
+<span id="cb6-8"><a href="brushing-up-on-the-basics.html#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recode.var</span>(iris_anova_prep2<span class="sc">$</span>Part_of_Flower,</span>
+<span id="cb6-9"><a href="brushing-up-on-the-basics.html#cb6-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">old =</span> <span class="fu">c</span>(<span class="st">&quot;Sepal_length&quot;</span>, </span>
+<span id="cb6-10"><a href="brushing-up-on-the-basics.html#cb6-10" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Sepal_width&quot;</span>, </span>
+<span id="cb6-11"><a href="brushing-up-on-the-basics.html#cb6-11" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Petal_length&quot;</span>, </span>
+<span id="cb6-12"><a href="brushing-up-on-the-basics.html#cb6-12" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Petal_width&quot;</span>),</span>
+<span id="cb6-13"><a href="brushing-up-on-the-basics.html#cb6-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">new =</span> <span class="fu">c</span>(<span class="st">&quot;Sepal&quot;</span>, </span>
+<span id="cb6-14"><a href="brushing-up-on-the-basics.html#cb6-14" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Sepal&quot;</span>, </span>
+<span id="cb6-15"><a href="brushing-up-on-the-basics.html#cb6-15" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Petal&quot;</span>, </span>
+<span id="cb6-16"><a href="brushing-up-on-the-basics.html#cb6-16" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Petal&quot;</span>),</span>
+<span id="cb6-17"><a href="brushing-up-on-the-basics.html#cb6-17" aria-hidden="true" tabindex="-1"></a>             <span class="at">otherNA =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-18"><a href="brushing-up-on-the-basics.html#cb6-18" aria-hidden="true" tabindex="-1"></a>             <span class="at">numeric =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-19"><a href="brushing-up-on-the-basics.html#cb6-19" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2<span class="sc">$</span>Kind_of_Measurement <span class="ot">&lt;-</span> </span>
+<span id="cb6-20"><a href="brushing-up-on-the-basics.html#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">recode.var</span>(iris_anova_prep2<span class="sc">$</span>Kind_of_Measurement,</span>
+<span id="cb6-21"><a href="brushing-up-on-the-basics.html#cb6-21" aria-hidden="true" tabindex="-1"></a>             <span class="at">old =</span> <span class="fu">c</span>(<span class="st">&quot;Sepal_length&quot;</span>, </span>
+<span id="cb6-22"><a href="brushing-up-on-the-basics.html#cb6-22" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Sepal_width&quot;</span>, </span>
+<span id="cb6-23"><a href="brushing-up-on-the-basics.html#cb6-23" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Petal_length&quot;</span>, </span>
+<span id="cb6-24"><a href="brushing-up-on-the-basics.html#cb6-24" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Petal_width&quot;</span>),</span>
+<span id="cb6-25"><a href="brushing-up-on-the-basics.html#cb6-25" aria-hidden="true" tabindex="-1"></a>             <span class="at">new =</span> <span class="fu">c</span>(<span class="st">&quot;Length&quot;</span>, </span>
+<span id="cb6-26"><a href="brushing-up-on-the-basics.html#cb6-26" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Width&quot;</span>, </span>
+<span id="cb6-27"><a href="brushing-up-on-the-basics.html#cb6-27" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Length&quot;</span>, </span>
+<span id="cb6-28"><a href="brushing-up-on-the-basics.html#cb6-28" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;Width&quot;</span>),</span>
+<span id="cb6-29"><a href="brushing-up-on-the-basics.html#cb6-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">otherNA =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb6-30"><a href="brushing-up-on-the-basics.html#cb6-30" aria-hidden="true" tabindex="-1"></a>             <span class="at">numeric =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb6-31"><a href="brushing-up-on-the-basics.html#cb6-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-32"><a href="brushing-up-on-the-basics.html#cb6-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Save &#39;Part_of_Flower&#39; and &#39;Kind_of_Measurement&#39; as factor variables</span></span>
+<span id="cb6-33"><a href="brushing-up-on-the-basics.html#cb6-33" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2<span class="sc">$</span>Part_of_Flower <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(iris_anova_prep2<span class="sc">$</span>Part_of_Flower)</span>
+<span id="cb6-34"><a href="brushing-up-on-the-basics.html#cb6-34" aria-hidden="true" tabindex="-1"></a>iris_anova_prep2<span class="sc">$</span>Kind_of_Measurement <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(iris_anova_prep2<span class="sc">$</span>Kind_of_Measurement)</span>
+<span id="cb6-35"><a href="brushing-up-on-the-basics.html#cb6-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-36"><a href="brushing-up-on-the-basics.html#cb6-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Delete temporary variable &#39;wtifl_prep&#39;</span></span>
+<span id="cb6-37"><a href="brushing-up-on-the-basics.html#cb6-37" aria-hidden="true" tabindex="-1"></a>iris_anova <span class="ot">&lt;-</span> iris_anova_prep2[,<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">4</span>)]</span>
+<span id="cb6-38"><a href="brushing-up-on-the-basics.html#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(iris_anova)</span></code></pre></div>
+<pre><code>##   id Species Part_of_Flower Kind_of_Measurement Measurement
+## 1  1  Setosa          Sepal              Length         5.1
+## 2  2  Setosa          Sepal              Length         4.9
+## 3  3  Setosa          Sepal              Length         4.7
+## 4  4  Setosa          Sepal              Length         4.6
+## 5  5  Setosa          Sepal              Length         5.0
+## 6  6  Setosa          Sepal              Length         5.4</code></pre>
+</div>
+<div id="creating-the-anova-model" class="section level3 hasAnchor" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> Creating the ANOVA Model<a href="brushing-up-on-the-basics.html#creating-the-anova-model" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="brushing-up-on-the-basics.html#cb8-1" aria-hidden="true" tabindex="-1"></a>iris_anova_model <span class="ot">&lt;-</span> <span class="fu">aov_ez</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;Measurement&quot;</span>, iris_anova, <span class="at">between =</span> <span class="st">&quot;Species&quot;</span>, <span class="at">within =</span> <span class="fu">c</span>(<span class="st">&quot;Part_of_Flower&quot;</span>,</span>
+<span id="cb8-2"><a href="brushing-up-on-the-basics.html#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;Kind_of_Measurement&quot;</span>))</span></code></pre></div>
+<p><em>Note. Type III Sums of Squares are used for the calculation of the ANOVA</em></p>
+</div>
+<div id="testing-assumptions-anova-r" class="section level3 hasAnchor" number="2.1.3">
+<h3><span class="header-section-number">2.1.3</span> Testing Assumptions of the ANOVA <em>R</em><a href="brushing-up-on-the-basics.html#testing-assumptions-anova-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="oiid" class="section level4 hasAnchor" number="2.1.3.1">
+<h4><span class="header-section-number">2.1.3.1</span> Observations are Independent and Identically Distributed<a href="brushing-up-on-the-basics.html#oiid" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>This assumption cannot be tested empirically, but needs to hold on conceptual or logical grounds. For the purpose of this exercise I am therefore simply assuming, that said assumption holds.</p>
+</div>
+<div id="homogeneity-of-variances" class="section level4 hasAnchor" number="2.1.3.2">
+<h4><span class="header-section-number">2.1.3.2</span> Homogeneity of Variances<a href="brushing-up-on-the-basics.html#homogeneity-of-variances" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The variances across all the groups (cells) of between-subject effects should be the same. In order to test this assumption <strong>Levene’s Test</strong> is conducted.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="brushing-up-on-the-basics.html#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_homogeneity</span>(iris_anova_model)</span></code></pre></div>
+<pre><code>## Warning: Variances differ between groups (Levene&#39;s Test, p = 0.001).</code></pre>
+<p>These results indicate that the assumption of homogeneity of variances is in fact <strong>significantly violated</strong>.</p>
+</div>
+<div id="sphericity" class="section level4 hasAnchor" number="2.1.3.3">
+<h4><span class="header-section-number">2.1.3.3</span> Sphericity<a href="brushing-up-on-the-basics.html#sphericity" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For within-subjects effects, sphericity is the condition where the variances of the differences between all possible pairs of within-subject conditions (i.e., levels of the independent variable) are equal. In order to test this assumption <strong>Mauchly’s test</strong> is conducted.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="brushing-up-on-the-basics.html#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_sphericity</span>(iris_anova_model)</span></code></pre></div>
+<pre><code>## OK: Data seems to be spherical (p &gt; .999).</code></pre>
+<p>These results indicate that the assumption of sphericity is <strong>not significantly violated</strong>.</p>
+</div>
+<div id="normality-of-residuals" class="section level4 hasAnchor" number="2.1.3.4">
+<h4><span class="header-section-number">2.1.3.4</span> Normality of Residuals<a href="brushing-up-on-the-basics.html#normality-of-residuals" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>The errors used for the estimation of the error term(s) (MSE) are normally distributed. In order to test this assumption the <strong>Shapiro-Wilk test</strong> is conducted.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="brushing-up-on-the-basics.html#cb13-1" aria-hidden="true" tabindex="-1"></a>iris_anova_norm <span class="ot">&lt;-</span> <span class="fu">check_normality</span>(iris_anova_model)</span>
+<span id="cb13-2"><a href="brushing-up-on-the-basics.html#cb13-2" aria-hidden="true" tabindex="-1"></a>iris_anova_norm</span></code></pre></div>
+<pre><code>## Warning: Non-normality of residuals detected (p &lt; .001).</code></pre>
+<p>Since this test tends to have high type-I error rates, a visual inspection of the residuals using a <strong>quantile-quantile plot</strong> (qq-plots) is preferred.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="brushing-up-on-the-basics.html#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris_anova_norm, <span class="at">type =</span> <span class="st">&quot;qq&quot;</span>)</span></code></pre></div>
+<p><img src="advanced_data_analysis_hco_files/figure-html/anova-assumtion-test4-1.png" width="672" /></p>
+<p>Figure 2.1: Quantile-Quantile plot</p>
+<p>If the residuals were normally distributed, we would see them falling close to the diagonal line, inside the 95% confidence bands around the qq-line. Unfortunately it seems, that the assumption of the normality of residuals is in deed <strong>significantly violated</strong>.</p>
+</div>
+<div id="conclusion-assumptions" class="section level4 hasAnchor" number="2.1.3.5">
+<h4><span class="header-section-number">2.1.3.5</span> Conclusion<a href="brushing-up-on-the-basics.html#conclusion-assumptions" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Since this is just an exercise in conducting ANOVA analyses, the above results are simply ignored and the analysis was conducted nonetheless.</p>
+</div>
+</div>
+<div id="results-mixed-anova" class="section level3 hasAnchor" number="2.1.4">
+<h3><span class="header-section-number">2.1.4</span> Results of Mixed ANOVA<a href="brushing-up-on-the-basics.html#results-mixed-anova" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="brushing-up-on-the-basics.html#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris_anova_model)</span></code></pre></div>
+<pre><code>## 
+## Univariate Type III Repeated-Measures ANOVA Assuming Sphericity
+## 
+##                                            Sum Sq num Df Error SS den Df    F value
+## (Intercept)                                7198.2      1   53.966    147 19607.2785
+## Species                                     310.5      2   53.966    147   422.9379
+## Part_of_Flower                              582.1      1   10.664    147  8024.8551
+## Species:Part_of_Flower                      152.6      2   10.664    147  1051.5113
+## Kind_of_Measurement                        1073.1      1   20.254    147  7788.1235
+## Species:Kind_of_Measurement                 127.9      2   20.254    147   463.9684
+## Part_of_Flower:Kind_of_Measurement            2.0      1    4.503    147    64.3902
+## Species:Part_of_Flower:Kind_of_Measurement    0.5      2    4.503    147     8.0009
+##                                               Pr(&gt;F)    
+## (Intercept)                                &lt; 2.2e-16 ***
+## Species                                    &lt; 2.2e-16 ***
+## Part_of_Flower                             &lt; 2.2e-16 ***
+## Species:Part_of_Flower                     &lt; 2.2e-16 ***
+## Kind_of_Measurement                        &lt; 2.2e-16 ***
+## Species:Kind_of_Measurement                &lt; 2.2e-16 ***
+## Part_of_Flower:Kind_of_Measurement         2.974e-13 ***
+## Species:Part_of_Flower:Kind_of_Measurement 0.0005031 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="prerequisites.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="unsupervised-learning.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
