@@ -66,7 +66,7 @@ Formally a decision tree is comprised of the following elements [@Neth2017; @KDC
 
     -   is a sub-section of the entire tree.
 
-### An Example of Creating a Decision with *Python* {#eg-dt-python}
+### An Example of Creating a Decision Tree with *Python* {#eg-dt-python}
 
 Below you see an example of a decision tree, which I created using a free software machine learning library for the Python programming language called [*scikit-learn*](https://scikit-learn.org).
 
@@ -90,7 +90,7 @@ tree.plot_tree(clf)
 
 Unfortunately "the scikit-learn implementation does not support categorical variables for now" [@scikitDT]. Luckily the are *R* packages that allow the construction of decision trees based on categorical data. An example would be the [`rpart` package](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf).
 
-### An Example of Creating a Decision with *R* {#eg-dt-r}
+### An Example of Creating a Decision Tree with *R* {#eg-dt-r}
 
 Below you see an example of a decision tree, which I created using the `rpart` package.
 
