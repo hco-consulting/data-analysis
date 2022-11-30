@@ -436,7 +436,7 @@ Figure 3.8: Categorization vs. Clustering - plotted against Petal Width using \*
 
 ### Conclusion {#conclusion-k-means}
 
-Figures [one through](#visualization-results-clustering-r)[four](#visualization-results-clustering-r "Visualization of Results of Clustering R") clearly show, that the method, which I adapated from Bauner et al. [-@Baumer2017] yields surprisingly good results, given the data the calculations are based on.
+Figures [one through](#visualization-results-clustering-r) [four](#visualization-results-clustering-r "Visualization of Results of Clustering R") clearly show, that the method, which I adapated from Bauner et al. [-@Baumer2017] yields surprisingly good results, given the data the calculations are based on.
 
 Comparing the figures mentioned above with the figures [five through eight](#visualization-results-clustering-python "Visualization of Results of Clustering Python"), it becomes clear that the "Python method", which I adapted from Arvai [-@Arvai2022], yields surprisingly good results as well.
 
