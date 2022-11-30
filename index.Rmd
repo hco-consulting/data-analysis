@@ -1,0 +1,41 @@
+---
+title: "Advanced Data Analysis in R and Python"
+author: "Hamilkar Constantin Oueslati"
+date: "`r Sys.Date()`"
+output: bookdown::gitbook
+documentclass: book
+bibliography: refs.bib
+csl: /Users/constantine/Documents/R System-Wide/apa7ed.csl
+link-citations: true
+github-repo: hco-consulting/data-analysis
+---
+
+# Preface {.unnumbered}
+
+This book shall document my efforts in learning different methods used in the analysis of psychological data.
+
+Since this book was created at the beginning of my master's programme in psychology at the University of Constance (winter of 2022), this repository will only include methods, that were taught to me (by myself or others) during the course of said master's programme.
+
+## Contact the Author {.unnumbered}
+
+In case you wish to contact me, please use the following contact details:
+
+**Hamilkar Constantin Oueslati**
+
+Pronouns: they/them (engl.) and dey/deren/denen (ger.)\
+Undergraduate Student at the University of Konstanz\
+Study Programme: Psychology (M.Sc.)\
+
+Mail: [hamilkar-constantin.oueslati\@uni-konstanz.de](mailto:hamilkar-constantin.oueslati@uni-konstanz.de?subject=Regarding%20the%20Book%20%22Advanced%20Data%20Analysis%20in%20R%20and%20Python%22&body=Dear%20Hamilkar%20Constantin%20Oueslati%2C%0D%0A "Mail an Hamilkar Constantin Oueslati")
+
+Web: <https://hco-consulting.eu>
+
+```{r}
+#| label: create-bib-database
+#| include: FALSE
+
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
