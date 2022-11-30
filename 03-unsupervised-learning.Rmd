@@ -1,0 +1,443 @@
+# Unsupervised Learning
+
+## Non-Hierarchical Clustering *R* {#non-hierarchical-clustering-r}
+
+### Import Dataset `iris` *R*
+
+```{r}
+#| label: import-iris-r
+
+iris <- read.csv("Data/iris.dat", row.names=NULL)
+
+iris$TCategory <- as.factor(iris$TCategory)
+iris$Category <- as.factor(iris$Category)
+
+# Inspecting the imported dataset
+glimpse(iris)
+str(iris)
+describe(iris)
+
+```
+
+### Clustering Using a *k*-means Algorithm {#clustering-k-means-algorithm}
+
+Using the R package [**mclust**](https://www.rdocumentation.org/packages/mclust/versions/6.0.0) I have chosen to use a *k*-means clustering algorithm to separate the flowers into **three** clusters based on their **sepal length** and **width** as well as on their **petal length** and **width**.
+
+```{r}
+#|label: clustering_k-means_r_0
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+
+iris <- read.csv("Data/iris.dat", row.names=NULL)
+iris_wo_cat <- iris[,1:4]
+
+set.seed(15)
+
+iris_clusters <- iris_wo_cat %>%
+  kmeans(centers = 3) %>%
+  fitted("classes") %>%
+  as.character()
+
+iris <- iris %>% 
+  mutate(cluster = iris_clusters)
+
+```
+
+This method was adapted from the method described in chapter 9.1.2 in the book *Modern Data Science with R* by Baumer et al. [-@Baumer2017].
+
+### Visualization of Results of Clustering *R* {#visualization-results-clustering-r}
+
+```{r}
+#|label: clustering_k-means_r_1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_1 <- plot_ly(
+  data = iris, 
+  x = ~Category, 
+  y = ~Sepal_length, 
+  color = ~cluster, 
+  type = "scatter",
+  mode = "markers")
+
+iris_c_plot_1 <- iris_c_plot_1 %>% 
+layout(xaxis = list(title = "Species",
+                    showticklabels = TRUE,
+                    ticktext = 
+                      list("Iris Setosa", 
+                           "Iris Versicolor", 
+                           "Iris Virginica"),
+                    tickvals = list(0, 1, 2),
+                    tickmode = "array",
+                    zeroline = FALSE),
+       yaxis = list(title = "Sepal Length [cm]",
+                    showticklabels = TRUE,
+                    zeroline = FALSE),
+       legend = list(title = list(text='<b> Cluster </b>')))
+
+iris_c_plot_1
+
+```
+
+Figure 3.1: Categorization vs. Clustering - plotted against Sepal Length using \*R\*
+
+```{r}
+#|label: clustering_k-means_r_2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+
+iris_c_plot_2 <- plot_ly(
+  data = iris, 
+  x = ~Category, 
+  y = ~Sepal_width, 
+  color = ~cluster, 
+  type = "scatter",
+  mode = "markers", 
+  showlegend = FALSE)
+
+iris_c_plot_2 <- iris_c_plot_2 %>% 
+  layout(xaxis = list(title = "Species",
+                      showticklabels = TRUE,
+                      ticktext = 
+                        list("Iris Setosa", 
+                             "Iris Versicolor", 
+                             "Iris Virginica"),
+                      tickvals = list(0, 1, 2),
+                      tickmode = "array",
+                      zeroline = FALSE),
+         yaxis = list(title = "Sepal Width [cm]",
+                      showticklabels = TRUE,
+                      zeroline = FALSE))
+
+iris_c_plot_2
+
+```
+
+Figure 3.2: Categorization vs. Clustering - plotted against Sepal Width using \*R\*
+
+```{r}
+#|label: clustering_k-means_r_3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_3 <- plot_ly(
+  data = iris, 
+  x = ~Category, 
+  y = ~Petal_length, 
+  color = ~cluster, 
+  type = "scatter",
+  mode = "markers", 
+  showlegend = FALSE)
+
+iris_c_plot_3 <- iris_c_plot_3 %>% 
+  layout(xaxis = list(title = "Species",
+                      showticklabels = TRUE,
+                      ticktext = 
+                        list("Iris Setosa", 
+                             "Iris Versicolor", 
+                             "Iris Virginica"),
+                      tickvals = list(0, 1, 2),
+                      tickmode = "array",
+                      zeroline = FALSE),
+         yaxis = list(title = "Petal Length [cm]",
+                      showticklabels = TRUE,
+                      zeroline = FALSE))
+
+iris_c_plot_3
+
+```
+
+Figure 3.3: Categorization vs. Clustering - plotted against Petal Length using \*R\*
+
+```{r}
+#|label: clustering_k-means_r_4
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_4 <- plot_ly(
+  data = iris, 
+  x = ~Category, 
+  y = ~Petal_width, 
+  color = ~cluster, 
+  type = "scatter",
+  mode = "markers", 
+  showlegend = FALSE)
+
+iris_c_plot_4 <- iris_c_plot_4 %>% 
+  layout(xaxis = list(title = "Species",
+                      showticklabels = TRUE,
+                      ticktext = 
+                        list("Iris Setosa",
+                             "Iris Versicolor", 
+                             "Iris Virginica"),
+                      tickvals = list(0, 1, 2),
+                      tickmode = "array",
+                      zeroline = FALSE),
+         yaxis = list(title = "Petal Width [cm]",
+                      showticklabels = TRUE,
+                      zeroline = FALSE))
+
+iris_c_plot_4
+```
+
+Figure 3.4: Categorization vs. Clustering - plotted against Petal Width using \*R\*
+
+## Non-Hierarchical Clustering *Python* {#non-hierarchical-clustering-python}
+
+### Import Dataset `iris` *Python* {#import-dataset-iris-python}
+
+```{python}
+#| label: import-iris-python
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+# Import dataset 'iris' as a 'Pandas Dataframe'
+iris_df= pd.read_csv('Data/iris.dat', header=0)
+
+# Import dataset 'iris' as a 'NumPy Array'
+iris_arr= pd.read_csv('Data/iris.dat', header=0).values
+
+
+# Defining a function that checks whether the dataset is a 'Pandas Dataframe'
+# or a 'NumPy Array' and prints the structure of said dataset.
+def data_structure(dataset): 
+  
+  if isinstance(dataset, pd.DataFrame):
+    print("The dataset is a 'Pandas Dataframe'", "\n", 
+    "Number of dimensions of dataframe: ", dataset.ndim, "\n", 
+    "Shape of dataset: ", dataset.shape, "\n", 
+    "Size of dataset: ", dataset.size )
+    
+  elif isinstance(dataset, np.ndarray):
+    print("The dataset is a 'NumPy Array'", "\n", 
+    "Number of dimensions of dataframe: ",dataset.ndim, "\n", 
+    "Shape of dataset: ", dataset.shape, "\n", 
+    "Size of dataset: ", dataset.size )
+    
+  else:
+    raise ValueError("Please, choose either a 'Pandas Dataframe' or a 'NumPy Array'.")
+
+
+# Inspecting the imported datasets
+print("Inspecting type and structure of 'iris_df'")
+data_structure(iris_df)
+print("Inspecting type and structure of 'iris_arr'")
+data_structure(iris_arr)
+
+iris_df.head
+
+```
+
+### Preprocessing of Data {#preprocessing-of-data}
+
+All the numerical features, which the machine learning algorithm should consider in the process of clustering, were measured in the same unit (cm). Due to that fact it is not strictly necessary to conduct feature scaling during the preprocessing of the data. Nevertheless I chose to standardize the data, since I am trying to teach myself the best-practice approach to using machine learning algorithms. More information on preprocessing data can be found [here](https://scikit-learn.org/stable/modules/preprocessing.html).
+
+```{python}
+#| label: preprcessing-data
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+# Choosing the data used for the clustering
+iris_ml = iris_arr[:, :4].copy()
+
+# Standardization
+scaler = StandardScaler()
+iris_ml_std = scaler.fit_transform(iris_ml)
+
+# Inspecting the data used for clustering
+data_structure(iris_ml_std)
+iris_ml_std[:5, :]
+
+```
+
+### Clustering Using a *k*-means Algorithm
+
+In order to be able to compare workflows I searched for a clustering method in **Python**, which is similar to the one I adapted from Baumer et al. [-@Baumer2017]. During my search I learned a great deal more about the *k*-means algorithm:
+
+The the conventional *k*-means algorithm is surprisingly simple and requires only a few simple steps. During the *first step* the algorithm randomly chooses *k* **centroids**, while *k* being equal to the number of clusters one chooses and centroids being data points representing the center of a cluster.\
+The *second step* is actually a two-step processes called **expectation-maximization**, which is repeated until the positions of the centroids do not change anymore.\
+First, during the *expectation step* of the *second step*, each data point is assigned to its nearest centroid.\
+Then, during the *maximization step* of the *second step*, the mean of all data points is calculated for each cluster and a new centroid is set accordingly.
+
+Interestingly enough the quality of the cluster assignments is determined by computing the sum of the squared Euclidean distances of each data point to its closest centroid (sum of the squared error). Since the goal is to try to maximize the quality of the cluster assignments, the algorithm tries to minimize the error. Simple, but effective and not unlike what we are doing, when conducting a regression analysis.
+
+Below you can see what a conventional *k*-means algorithm looks like:
+
+|     |                                                                       |
+|----------------------|--------------------------------------------------|
+| 1:  | Specify the number *k* clusters to assign.                            |
+| 2:  | Randomly initialize *k* centroids.                                    |
+| 3:  | **repeat**                                                            |
+| 4:  | -- **expectation:** Assign each data point to its closest centroid.   |
+| 5:  | -- **maximization:** Compute the new centroid (mean) of each cluster. |
+| 6:  | **until** The centroid positions do not change.                       |
+
+During my research I have come across the Python module [**scikit-learn**](https://scikit-learn.org/stable/index.html) and chose to use said module to replicate the clustering method adapted from Baumer et al. [-@Baumer2017] (see [above](#non-hierarchical-clustering-r)) using Python.
+
+```{python}
+#| label: clustering_k-means_python
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+kmeans = KMeans(init="random", n_clusters=3, n_init=10, max_iter=300, random_state=15)
+kmeans.fit(iris_ml_std)
+
+cl_kmeans_lowest_SSE = kmeans.inertia_
+cl_kmeans_centers = kmeans.cluster_centers_
+cl_kmeans_req_it = kmeans.n_iter_
+
+print("The lowest SSE value: ", cl_kmeans_lowest_SSE)
+print("Final locations of the centroids: ", "\n", cl_kmeans_centers)
+print("The number of iterations required to converge: ", cl_kmeans_req_it)
+
+cl_labels = kmeans.labels_
+cl_labels = cl_labels.reshape(-1, 1)
+
+# Add cluster assignments to 'iris_arr'
+iris_arr_cl = iris_arr.copy()
+iris_arr_cl = np.concatenate((iris_arr_cl, cl_labels), axis=1)
+
+# Add cluster assignments to 'iris_df'
+iris_df_cl = iris_df.copy()
+cl_labels_str = cl_labels.copy()
+cl_labels_str = cl_labels_str.astype(str)
+iris_df_cl["Cluster"] = cl_labels_str
+
+```
+
+The method which I used to conduct the *k*-means clustering in Python I adapted from an online tutorial by Arvai [-@Arvai2022].
+
+### Visualization of Results of Clustering *Python* {#visualization-results-clustering-python}
+
+```{python}
+#| label: clustering_k-means_plot1_python
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_1_py = px.scatter(
+  iris_df_cl,
+  x="TCategory", y="Sepal_length", 
+  color="Cluster",
+  labels=dict(
+    TCategory="Species", 
+    Sepal_length="Sepal Length (cm)"),
+    template="plotly_white")
+    
+iris_c_plot_1_py.update_layout(
+  xaxis=
+  dict(
+    tickmode="array",
+    tickvals=[0,1,2],
+    ticktext=["Iris Setosa","Iris Versicolor","Iris Virginica"]))
+
+```
+
+Figure 3.5: Categorization vs. Clustering - plotted against Sepal Length using \*Python\*
+
+```{python}
+#| label: clustering_k-means_plot2_python
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_2_py = px.scatter(
+  iris_df_cl, 
+  x="TCategory", y="Sepal_width", 
+  color="Cluster", 
+  labels=dict(
+    TCategory="Species", 
+    Sepal_width="Sepal Width (cm)"), 
+    template="plotly_white")
+
+iris_c_plot_2_py.update_layout(
+  xaxis= dict(
+    tickmode="array",
+    tickvals=[0,1,2], 
+    ticktext=["Iris Setosa","Iris Versicolor","Iris Virginica"]))
+
+```
+
+Figure 3.6: Categorization vs. Clustering - plotted against Sepal Width using \*Python\*
+
+```{python}
+#| label: clustering_k-means_plot3_python
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_3_py = px.scatter(
+  iris_df_cl, 
+  x="TCategory", y="Petal_length", 
+  color="Cluster", 
+  labels=dict(
+    TCategory="Species", 
+    Petal_length="Petal Length (cm)"), 
+    template="plotly_white")
+
+iris_c_plot_3_py.update_layout(
+  xaxis= dict(
+    tickmode="array",
+    tickvals=[0,1,2], 
+    ticktext=["Iris Setosa","Iris Versicolor","Iris Virginica"]))
+
+```
+
+Figure 3.7: Categorization vs. Clustering - plotted against Petal Length using \*Python\*
+
+```{python}
+#| label: clustering_k-means_plot4_python
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+iris_c_plot_4_py = px.scatter(
+  iris_df_cl, 
+  x="TCategory", y="Petal_width", 
+  color="Cluster", 
+  labels=dict(
+    TCategory="Species", 
+    Petal_width="Petal Width (cm)"), 
+    template="plotly_white")
+
+iris_c_plot_4_py.update_layout(
+  xaxis= dict(
+    tickmode="array",
+    tickvals=[0,1,2], 
+    ticktext=["Iris Setosa","Iris Versicolor","Iris Virginica"]))
+
+```
+
+Figure 3.8: Categorization vs. Clustering - plotted against Petal Width using \*Python\*
+
+### Conclusion {#conclusion-k-means}
+
+Figures [one through](#visualization-results-clustering-r)[four](#visualization-results-clustering-r "Visualization of Results of Clustering R") clearly show, that the method, which I adapated from Bauner et al. [-@Baumer2017] yields surprisingly good results, given the data the calculations are based on.
+
+Comparing the figures mentioned above with the figures [five through eight](#visualization-results-clustering-python "Visualization of Results of Clustering Python"), it becomes clear that the "Python method", which I adapted from Arvai [-@Arvai2022], yields surprisingly good results as well.
+
+Nevertheless I find it import to note that the "Python method" and the "R method" yield slightly **different results**. Hence further inspection of said differences is necessary.
