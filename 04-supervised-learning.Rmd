@@ -1,0 +1,256 @@
+# Supervised Learning
+
+## Introduction to Decision Trees {#into-decision-trees}
+
+### What are Decision Trees? {#what-dt}
+
+Decision trees are non-parametric supervised learning algorithms, that are used to predict the class or value of a specific target variable. Predictions are based on *n* simple decision rules which are inferred from the set of data, which was used to train the respective algorithm [@KDChauhan2022].
+
+Hastie et al. [-@Hastie2009] differentiate between to classes of decision trees: *Regression trees* and *classification trees*. The former is a class of decision tree algorithms, that are used when the target variable is *continuous*; accordingly algorithms of the latter class are used, when the target variable is *categorical*. To simplify matters this chapter shall focus on *classification trees*.
+
+In contrast to other decision algorithms decision trees are *non-compensatory*. Decision algorithms, such as *random forests* and *regression*, which are typically compensatory algorithms, are designed to use most, if not all, of the available cue information. The design of such algorithms is based on the premise, that the value of one cue (a.k.a. feature or predictor) could overturn the evidence given by another or several other cues. Non-compensatory algorithms on the hand, such as decision trees, use only a partial subset of the given cue information to reach a decision. This design is based on the premise, that the value or values of one or several cues cannot be outweighed by the values of any other cues. In short this means that decision trees deliberately ignore information. This design can actually offer significant practical and statistical advantages [@Neth2017].
+
+### Basic Concepts of Decision Trees {#concept-dt}
+
+Classification trees are used to solve *binary classification tasks*. The goal of tasks of this class is the prediction of a *binary criterion value* (e.g. having heart disease vs. not having heart disease) for each of a set of *individual cases* (e.g. patients) based on each case's values on a not necessarily specified range of *cues* (e.g. thallium scintigraphy results, chest pain type etc.) [@Neth2017].
+
+These kinds of decision trees (as well as decision trees in general) can be applied as an ordered set of *n* simple conditional rules (A ⟹ B). These rules are applied sequentially [@Neth2017].
+
+### A Short History of Decision Trees {#history-dt}
+
+One of the first decision tree algorithms was actually invented to model human learning in psychology [@Hunt1966]. This algorithm forms the foundation for many popular decision tree algorithms such as the **ID3** algorithm [@Quinlan1986], the **C4.5** algorithm [@Quinlan2003] and the famous **CART** (**C**lassification **A**nd **R**egression **T**rees) algorithm [@Breiman1984].
+
+For further information I recommend reading the short but very informative article "Decision Trees" by de Ville [-@deVille2013].
+
+### Basic Terminology of Decision Trees {#terminology-dt}
+
+Before we dive in deeper in the inner workings of decision trees I would like to give a short overview of the basic terminology used in the context of decision trees.
+
+Formally a decision tree is comprised of the following elements [@Neth2017; @KDChauhan2022; @ibm]:
+
+-   The *Root Node* ...
+
+    -   is the top node of a decision tree.
+
+    -   has no incoming branches.
+
+    -   represents the entire population or sample.
+
+-   A *Decision Node* ...
+
+    -   is a sub-node (i.e. not a root node), that splits into further sub-nodes.
+
+    -   represents cue-based questions.
+
+    -   represents a subset of the data.
+
+-   *Branches* ...
+
+    -   represent answers to cue-based questions.
+
+-   *Parent* *nodes* ...
+
+    -   are nodes, that split into sub-nodes.
+
+-   *Child nodes* ...
+
+    -   are the sub-nodes of parent nodes.
+
+-   *Leaf* or *terminal node*s *...*
+
+    -   do not split into further sub-nodes.
+
+    -   represent decisions.
+
+-   A S*ub-tree* ...
+
+    -   is a sub-section of the entire tree.
+
+### An Example of Creating a Decision with *Python* {#eg-dt-python}
+
+Below you see an example of a decision tree, which I created using a free software machine learning library for the Python programming language called [*scikit-learn*](https://scikit-learn.org).
+
+The algorithm used for the creation of the following decision tree is based on the **CART** algorithm [@Breiman1984].
+
+```{python}
+#|label: dt-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+
+iris = load_iris()
+X, y = iris.data, iris.target
+clf = tree.DecisionTreeClassifier()
+clf = clf.fit(X, y)
+
+tree.plot_tree(clf)
+
+```
+
+Unfortunately "the scikit-learn implementation does not support categorical variables for now" [@scikitDT]. Luckily the are *R* packages that allow the construction of decision trees based on categorical data. An example would be the [`rpart` package](https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf).
+
+### An Example of Creating a Decision with *R* {#eg-dt-r}
+
+Below you see an example of a decision tree, which I created using the `rpart` package.
+
+The algorithm used for the creation of the following decision tree is based on the **CART** algorithm [@Breiman1984].
+
+#### Preprocessing of Data {#prepro-dt-r}
+
+```{r}
+#| label: rpart-prepro
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+set.seed(678)
+path <- 'https://raw.githubusercontent.com/guru99-edu/R-Programming/master/titanic_data.csv'
+titanic <-read.csv(path)
+
+shuffle_index <- sample(1:nrow(titanic))
+titanic <- titanic[shuffle_index, ]
+
+preclean_titanic <- titanic
+
+preclean_titanic$age <- as.integer(preclean_titanic$age)
+preclean_titanic$fare <- as.integer(preclean_titanic$fare)
+
+
+clean_titanic <- preclean_titanic %>%
+  select(-c(home.dest, cabin, name, x, ticket)) %>% # Drop variables
+  mutate(pclass = factor(pclass, levels = c(1, 2, 3), #Convert to factor level
+	                       labels = c('Upper', 'Middle', 'Lower')),
+         survived = factor(survived, levels = c(0, 1), #Convert to factor level
+                           labels = c('No', 'Yes')),
+         sex = factor(sex),
+         embarked = factor(embarked)) %>%
+  na.omit()
+
+```
+
+#### Creating a Train and Test Dataset {#traintest-dt-r}
+
+```{r}
+#| label: rpart-traintest
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+create_train_test <- function(data, size = 0.8, train = TRUE){
+    n_row = nrow(data)
+    total_row = size * n_row
+    train_sample <- 1: total_row
+    if (train == TRUE) {
+        return (data[train_sample, ])
+    } else {
+        return (data[-train_sample, ])
+    }
+}
+
+data_train <- create_train_test(clean_titanic, 0.8, train = TRUE) # Train dataset with 80% of original data
+data_test <- create_train_test(clean_titanic, 0.8, train = FALSE) # test dataset with 20% of original data
+
+```
+
+#### Creating and Visualizing the Decision Tree {#crevi-dt-r}
+
+```{r}
+#| label: rpart-crevi
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+fit <- rpart(survived~., data = data_train, method = "class")
+
+rpart.plot(fit, extra = 106)
+
+```
+
+#### Prediction of Data {#predict-dt-r}
+
+```{r}
+#| label: rpart-predict
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+predict_unseen <-predict(fit, data_test, type = 'class')
+
+table_mat <- table(data_test$survived, predict_unseen)
+table_mat
+
+```
+
+### Advantages and Disadvantages of Decision Trees {#adv-disadv-dt}
+
+One of the big advantages of decision trees is, that they are incredibly *simple to understand*, *to interpret* and *to visualize*. Furthermore they are generally able to handle both *numerical* and *categorical data*. Another advantage is, that they can not only solve classification tasks, but regression tasks as well. Besides that they can even handle multi-output problems (problems where several outputs need to be predicted).
+
+Unfortunately, like any other algorithms or statistical methods, decision tree algorithms do have several disadvantages as well. The main and most important disadvantage of decision trees though is the problem of *overfitting*. As I have explained before decision tree algorithms are non-compensatory algorithms, i.e. they ignore data (see [above](#what-dt)). This does not mean though, that they are always simple. Quite the opposite in fact. Without the appropriate necessary restrictions decision trees can become highly complex networks of questions containing dozens or - depending on the respective dataset - even hundreds of dozens of nodes. Although such complex decision trees usually describe the data, which they were trained with, very well, they tend to be exceptionally bad at predicting data.
+
+Fortunately the problem of overfitting can be overcome by carefully pruning - i.e. trimming off certain branches of the decision tree - without decreasing the overall accuracy of the decision tree algorithm. One algorithm used to achieve this is the *minimal cost-complexity pruning* algorithm.
+
+*For further information on the advantages and disadvantages of decision trees please read the respective [article](https://scikit-learn.org/stable/modules/tree.html) on the scikit-learn website* [@scikitDT]*.*
+
+### Fast-and-Frugal Trees {#fft}
+
+Another solution for the problem of overfitting is the usage of more restrictive forms of decision tree algorithms. One of the most restrictive forms of a decision tree is a *fast-and-frugal tree* [@Neth2017].
+
+Based on the research by Gigerenzer and colleagues on the topic of *heuristics* Phillips, Neth (University of Constance), Woike and Gaissmaier (University of Constance) [-@Neth2017] build the *R* package `FFTrees`, that allows users to easily create, visualize, and evaluate fast-and-frugal trees. Furthermore the package introduces a very handy new class of algorithms for constructing fast-and-frugal trees.
+
+### Creating a FFT with `FFTrees` {#fft-creation}
+
+```{r}
+#| label: fft1
+#| message: false
+#| warning: false
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+# Step 1: Create FFTs from training data and test on testing data heart.
+heart.fft <- FFTrees(formula = diagnosis ~ ., # Criterion
+data = heart.train, # Training data 
+data.test = heart.test, # Testing data
+main = "Heart Disease", # Optional labels 
+decision.labels = c("Low-Risk", "High-Risk"))
+
+```
+
+```{r}
+#| label: fft
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+
+# Step 1: Create FFTs from training data and test on testing data heart.
+heart.fft <- FFTrees(formula = diagnosis ~ ., # Criterion
+data = heart.train, # Training data 
+data.test = heart.test, # Testing data
+main = "Heart Disease", # Optional labels 
+decision.labels = c("Low-Risk", "High-Risk"))
+
+# Step 3: Inspect and summarize FFTs
+heart.fft # Print statistics of the final FFT
+inwords(heart.fft) # Print a verbal description of the final FFT
+summary(heart.fft) # Print statistics of all FFTs
+
+# Step 4: Visualize the final FFT and performance results 
+# a) plot final FFT applied to test data:
+plot(heart.fft, data = "test")
+
+# b) plot individual cue accuracies in ROC space:
+plot(heart.fft, what = "cues")
+
+
+```
+
+### Conclusion {#dt-conclusion}
+
+Decision tree algorithms are incredibly versatile and can be used in a number of contexts for wide range of problems. Due to their simplicity they are easy to understand, to interpret and to visualize.
+
+As well as any other algorithms they do have certain libations of course. Thanks to the work for example of scientists like Phillips et al. [-@Neth2017], many of these limitations can be overcome though.
+
+Fast-and-frugal trees especially have an amazing potential in a number of fields.
+
+Thus I recommend everyone to familiarize themselves with the usage of decision trees and *to take a stroll though this algorithmic jungle*.
