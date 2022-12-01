@@ -79,8 +79,8 @@ The algorithm used for the creation of the following decision tree is based on t
 #|   - width.cutoff=60
 
 
-iris = load_iris()
-X, y = iris.data, iris.target
+py_iris = load_iris()
+X, y = py_iris.data, py_iris.target
 clf = tree.DecisionTreeClassifier()
 clf = clf.fit(X, y)
 
