@@ -23,7 +23,7 @@
 <meta name="author" content="Hamilkar Constantin Oueslati" />
 
 
-<meta name="date" content="2022-11-30" />
+<meta name="date" content="2022-12-01" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -302,13 +302,13 @@ div.csl-indent {
 <span id="cb55-4"><a href="supervised-learning.html#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co">#|   - width.cutoff=60</span></span>
 <span id="cb55-5"><a href="supervised-learning.html#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-6"><a href="supervised-learning.html#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-7"><a href="supervised-learning.html#cb55-7" aria-hidden="true" tabindex="-1"></a>iris <span class="op">=</span> load_iris()</span>
-<span id="cb55-8"><a href="supervised-learning.html#cb55-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> iris.data, iris.target</span>
+<span id="cb55-7"><a href="supervised-learning.html#cb55-7" aria-hidden="true" tabindex="-1"></a>py_iris <span class="op">=</span> load_iris()</span>
+<span id="cb55-8"><a href="supervised-learning.html#cb55-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> py_iris.data, py_iris.target</span>
 <span id="cb55-9"><a href="supervised-learning.html#cb55-9" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> tree.DecisionTreeClassifier()</span>
 <span id="cb55-10"><a href="supervised-learning.html#cb55-10" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> clf.fit(X, y)</span>
 <span id="cb55-11"><a href="supervised-learning.html#cb55-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb55-12"><a href="supervised-learning.html#cb55-12" aria-hidden="true" tabindex="-1"></a>tree.plot_tree(clf)</span></code></pre></div>
-<p><img src="advanced_data_analysis_hco_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="advanced_data_analysis_hco_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>Unfortunately “the scikit-learn implementation does not support categorical variables for now” <span class="citation">(<a href="#ref-scikitDT" role="doc-biblioref"><span>“Decision Trees,”</span> n.d.</a>)</span>. Luckily the are <em>R</em> packages that allow the construction of decision trees based on categorical data. An example would be the <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf"><code>rpart</code> package</a>.</p>
 </div>
 <div id="eg-dt-r" class="section level3 hasAnchor" number="4.1.6">
@@ -407,7 +407,6 @@ div.csl-indent {
 <pre><code>## Setting cost.outcomes = list(hi = 0, mi = 1, fa = 1, cr = 0)</code></pre>
 <pre><code>## Growing FFTs with ifan:</code></pre>
 <pre><code>## 
-[========================================&gt;------------------------------------]  54%
 [==============================================&gt;------------------------------]  62%
 [====================================================&gt;------------------------]  69%
 [==========================================================&gt;------------------]  77%
