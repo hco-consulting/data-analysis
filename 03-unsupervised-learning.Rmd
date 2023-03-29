@@ -24,7 +24,7 @@ describe(iris)
 Using the R package [**mclust**](https://www.rdocumentation.org/packages/mclust/versions/6.0.0) I have chosen to use a *k*-means clustering algorithm to separate the flowers into **three** clusters based on their **sepal length** and **width** as well as on their **petal length** and **width**.
 
 ```{r}
-#|label: clustering_k-means_r_0
+#| label: clustering_k-means_r_0
 #| tidy: true
 #| tidy-opts: 
 #|   - width.cutoff=60
@@ -50,7 +50,7 @@ This method was adapted from the method described in chapter 9.1.2 in the book *
 ### Visualization of Results of Clustering *R* {#visualization-results-clustering-r}
 
 ```{r}
-#|label: clustering_k-means_r_1
+#| label: clustering_k-means_r_1
 #| tidy: true
 #| tidy-opts: 
 #|   - width.cutoff=60
@@ -85,7 +85,7 @@ iris_c_plot_1
 Figure 3.1: Categorization vs. Clustering - plotted against Sepal Length using \*R\*
 
 ```{r}
-#|label: clustering_k-means_r_2
+#| label: clustering_k-means_r_2
 #| tidy: true
 #| tidy-opts: 
 #|   - width.cutoff=60
@@ -121,7 +121,7 @@ iris_c_plot_2
 Figure 3.2: Categorization vs. Clustering - plotted against Sepal Width using \*R\*
 
 ```{r}
-#|label: clustering_k-means_r_3
+#| label: clustering_k-means_r_3
 #| tidy: true
 #| tidy-opts: 
 #|   - width.cutoff=60
@@ -156,7 +156,7 @@ iris_c_plot_3
 Figure 3.3: Categorization vs. Clustering - plotted against Petal Length using \*R\*
 
 ```{r}
-#|label: clustering_k-means_r_4
+#| label: clustering_k-means_r_4
 #| tidy: true
 #| tidy-opts: 
 #|   - width.cutoff=60

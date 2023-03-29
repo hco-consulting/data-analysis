@@ -1,4 +1,44 @@
-# Works Cited {-}
+# References {-}
 
-::: {#refs}
+## Software {-}
+
+### R and RStudio {-}
+```{r}
+#| label: cite-r-rstudio
+#| warning: false
+#| message: false
+
+cite_r_rstudio(cat_output = TRUE, write_bib_file = FALSE)
+
+```
+
+::: {#refs_rrstudio}
+:::
+
+### R Packages {-}
+
+::: {#refs_rpackages}
+:::
+
+### Python {-}
+```{r}
+#| label: cite-python
+#| warning: false
+#| message: false
+
+cite_python(cat_output = TRUE, write_bib_file = FALSE)
+
+```
+
+::: {#refs_python}
+:::
+
+### Python Packages {-}
+
+::: {#refs_pypackages}
+:::
+
+## Bibliography {-}
+
+::: {#refs_main}
 :::

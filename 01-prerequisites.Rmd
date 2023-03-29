@@ -1,16 +1,36 @@
 # Prerequisites
 
+## System Information
+
+This Web Book was created on a platform running under **macOS Ventura 13.2.1**.
+
+## Configure Chunk Options
+```{r}
+#| label: knitr-setup
+
+knitr::opts_chunk$set(echo = TRUE, out.width = "100%")
+
+```
+
 ## Load R Packages {#load-r-packages}
 
 ```{r}
 #| label: load-packages
 #| message: FALSE
 
+library(devtools)
+library(remotes)
+library(knitr)
 library(dplyr)
 library(tidyr)
+library(tidyverse)
+library(broom)
+library(broom.mixed)
 library(ggplot2)
+library(ggpubr)
 library(mclust)
 library(psych)
+library(cat)
 library(gridExtra)
 library(plotly)
 library(processx)
@@ -23,16 +43,39 @@ library(bookdown)
 library(FFTrees)
 library(rpart)
 library(rpart.plot)
+library(binom)
+library(rjags)
+library(BayesianFirstAid)
+library(rstatix)
+library(AICcmodavg)
+library(BayesFactor)
+library(emmeans)
+library(stanova)
+library(rstanarm)
+library(rstan)
+library(coda)
+library(StanHeaders)
+library(brms)
+library(caret)
+library(bayesplot)
+library(bayesrules)
+library(tidybayes)
+library(janitor)
+library(tibble)
+library(glue)
+library(RefManageR)
+library(rmarkdown)
+
 ```
 
-## Load Python Version 3.10.8 {#load-python-version-3.10.8}
+## Load Python {#load-python}
 
 ```{r}
 #| label: load-python
 #| warning: false
 #| message: false
 
-use_python("/Library/Frameworks/Python.framework/Versions/3.10/bin/python3")
+use_python("/Library/Frameworks/Python.framework/Versions/3.11/bin/python3")
 
 ```
 
@@ -41,6 +84,7 @@ use_python("/Library/Frameworks/Python.framework/Versions/3.10/bin/python3")
 ```{python}
 #| label: import-modules
 
+import sys
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -48,17 +92,353 @@ import statsmodels.api as sm
 import statsmodels.formula.api as smf
 import statsmodels.stats.api as sms
 import statsmodels.stats.descriptivestats as smds
+from statsmodels.graphics.tsaplots import plot_acf
 from kneed import KneeLocator
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
 from sklearn import tree
 from sklearn.datasets import load_iris
+from chart_studio.plotly import plot, iplot
 import plotly.express as px
 import plotly.io as pio
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
-import kaleido
-import psutil
+import scipy.stats as st
+import seaborn as sns
+from collections import Counter
 
 ```
+
+## Manage References
+```{r}
+#| label: save-references-r
+#| warning: false
+#| message: false
+
+write_bib(.packages(), "r_packages.bib")
+
+cite_r_rstudio <- function(cat_output = FALSE, write_bib_file = FALSE){
+  
+  cite_r <- as.BibEntry(citation())
+  r_version <- paste(strsplit(version[['version.string']], ' ')[[1]][3],
+                     strsplit(version[['version.string']], ' ')[[1]][4],
+                     sep = " ")
+  
+  r_studio <- RStudio.Version()
+  cite_r_studio <- as.BibEntry(r_studio$citation)
+  r_studio_version <- r_studio$long_version
+  r_studio_name <- r_studio$release_name
+  
+  frameline <- strrep("-", 50)
+  output <- glue(
+    r"[
+    {frameline}
+    R Version: {r_version}
+    {frameline}
+    RStudio Version: {r_studio_name} - {r_studio_version}
+    {frameline}
+    ]")
+  
+  if (cat_output){cat(output)}
+  
+  bib_entries <- list(cite_r,cite_r_studio)
+  names(bib_entries) <- c("Bib Entry for 'R'", 
+                         "Bib Entry for 'RStudio'")
+  
+  if (write_bib_file){
+    WriteBib(c(bib_entries$`Bib Entry for 'R'`, 
+               bib_entries$`Bib Entry for 'RStudio'`), 
+          file = "r_references.bib")
+  }
+  
+  invisible(bib_entries)
+  
+}
+
+cite_r_rstudio(cat_output = FALSE, write_bib_file = TRUE)
+
+```
+
+```{r}
+#| label: save-references-python-1
+#| warning: false
+#| message: false
+#| cache: true
+
+numpy_bib <- GetBibEntryWithDOI("10.1038/s41586-020-2649-2")
+matplotlib_bib <- GetBibEntryWithDOI("10.1109/MCSE.2007.55")
+pandas_bib <- GetBibEntryWithDOI("10.25080/Majora-92bf1922-00a")
+statsmodels_bib <- as.BibEntry(
+  c(bibtype = "inproceedings",
+    key = "seabold2010statsmodels",
+    title = "statsmodels: Econometric and statistical modeling with python",
+    author = "Skipper Seabold and Josef Perktold",
+    booktitle = "9th Python in Science Conference",
+    year = "2010"))
+kneed_bib <- GetBibEntryWithDOI("10.1109/ICDCSW.2011.20")
+sklearn_bib <- as.BibEntry(
+  c(bibtype = "Article",
+    key = "scikit-learn",
+    title = "Scikit-learn: Machine Learning in {P}ython}",
+    author = "F. Pedregosa and G. Varoquaux and A. Gramfort and V.Michel and B. Thirion and O. Grisel and M. Blondel and P. Prettenhofer and R. Weiss and V. Dubourg and J.  Vanderplas and A. Passos and D. Cournapeau and M. Brucher and M. Perrot and E. Duchesnay",
+    journal = "Journal of Machine Learning Research",
+    volume = "12",
+    pages = "2825--2830",
+    year = "2011"))
+plotly_bib <- as.BibEntry(
+  c(bibtype = "Online",
+    key = "plotly",
+    title = "Collaborative data science",
+    author = "Plotly Technologies Inc.",
+    publisher = "Plotly Technologies Inc.",
+    adress = "Montreal, QC",
+    year = "2015",
+    url = "https://plot.ly"))
+scipy_bib <- GetBibEntryWithDOI("10.1038/s41592-019-0686-2")
+seaborn_bib <- GetBibEntryWithDOI("10.21105/joss.03021")
+
+WriteBib(c(numpy_bib, matplotlib_bib, pandas_bib, statsmodels_bib, kneed_bib,
+           sklearn_bib, plotly_bib, scipy_bib, seaborn_bib), 
+          file = "python_packages.bib")
+
+```
+
+```{python}
+#| label: save-references-python-2
+#| warning: false
+#| message: false
+
+python_version = ".".join(map(str, sys.version_info[:3]))
+
+```
+
+```{r}
+#| label: save-references-python-3
+#| warning: false
+#| message: false
+
+cite_python <- function(cat_output = FALSE, write_bib_file = FALSE){
+  
+  python_bib <- as.BibEntry(
+    c(bibtype = "Article",
+      key = "python1991",
+      title = "Interactively testing remote servers using the Python programming language",
+      author = "Guido van Rossum and Jelke de Boer",
+      journal = "CWI Quarterly",
+      volume = "4",
+      number = "4",
+      pages = "283--304",
+      year = "1991",
+      month = "dec"))
+  
+  if (write_bib_file){
+    WriteBib(python_bib,
+             file = "python_reference.bib")
+    }
+  
+  frameline <- strrep("-", 25)
+  output <- glue(
+    r"[
+    {frameline}
+    Python Version: {py$python_version}
+    {frameline}
+    ]")
+  
+  if (cat_output){cat(output)}
+  
+  invisible(python_bib)
+  
+}
+
+cite_python(cat_output = FALSE, write_bib_file = TRUE)
+
+
+```
+
+## Pandoc Filters
+
+Some **lua** filters do no work with the **Pandoc** version bundled with **RStudio**. Due to that I installed a separate **Pandoc** version. For more information see the [Pandoc installation guide](https://pandoc.org/installing.html).
+
+In order to render documents using a different version of **Pandoc** one must supply the **rmarkdown** package with the path of the **Pandoc** executable by calling the function `rmarkdown::find_pandoc()`. Find the **Pandoc** executable by inputting `which pandoc` in the **Terminal**.
+```{r}
+#| label: hello-pandoc
+#| warning: false
+#| message: false
+
+find_pandoc(cache = FALSE)
+find_pandoc(dir = "/usr/local/bin/pandoc")
+
+```
+
+
+Save **Lua** filters to the `filters` directory of **Pandoc**'s user data directory. One can get the path to the user data directory with `pandoc -v`. After installation of **Pandoc** usually neither the `filters` nor the user data directory exist. Create the `filters` directory by inputting `mkdir -p ~/.local/share/pandoc/filters` in the **Terminal**.
+
+### Enable Multiple Bibliographies
+
+The following code chunk writes the **Lua** filter by Albert Krewinkel to a **Lua** file within the `filters` directory mentioned above using the `cat` engine.
+
+Alternatively one could just copy and save the code manually using any other code editor. 
+
+For more information and a whole host of useful filters see the [Pandoc Lua filters GitHub repository](https://github.com/pandoc/lua-filters).
+
+```{r}
+#| label: enable-multiple-bibliographies
+#| warning: false
+#| message: false
+
+# ```{cat engine.opts = list(file = "/Users/constantine/.local/share/pandoc/filters/multiple-bibliographies.lua")}
+
+# --[[
+# multiple-bibliographies – create multiple bibliographies
+# Copyright © 2018-2021 Albert Krewinkel
+# Permission to use, copy, modify, and/or distribute this software for any
+# purpose with or without fee is hereby granted, provided that the above
+# copyright notice and this permission notice appear in all copies.
+# THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+# WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+# MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+# ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+# WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+# ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+# OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+# ]]
+# local List = require 'pandoc.List'
+# local utils = require 'pandoc.utils'
+# local stringify = utils.stringify
+# local run_json_filter = utils.run_json_filter
+# 
+# --- Collection of all cites in the document
+# local all_cites = {}
+# --- Document meta value
+# local doc_meta = pandoc.Meta{}
+# 
+# --- Div used by pandoc-citeproc to insert the bibliography.
+# local refs_div = pandoc.Div({}, pandoc.Attr('refs'))
+# 
+# -- Div filled by citeproc with properties set according to
+# -- the output format and the attributes of cs:bibliography
+# local refs_div_with_properties
+# 
+# local supports_quiet_flag = (function ()
+#   -- We use pandoc instead of pandoc-citeproc starting with pandoc 2.11
+#   if PANDOC_VERSION >= "2.11" then
+#     return true
+#   end
+#   local version = pandoc.pipe('pandoc-citeproc', {'--version'}, '')
+#   local major, minor, patch = version:match 'pandoc%-citeproc (%d+)%.(%d+)%.?(%d*)'
+#   major, minor, patch = tonumber(major), tonumber(minor), tonumber(patch)
+#   return major > 0
+#     or minor > 14
+#     or (minor == 14 and patch >= 5)
+# end)()
+# 
+# local function run_citeproc(doc, quiet)
+#   if PANDOC_VERSION >= "2.11" then
+#     return run_json_filter(
+#       doc,
+#       'pandoc',
+#       {'--from=json', '--to=json', '--citeproc', quiet and '--quiet' or nil}
+#     )
+#   else
+#     -- doc = run_json_filter(doc, 'pandoc-citeproc')
+#     return run_json_filter(
+#       doc,
+#       'pandoc-citeproc',
+#       {FORMAT, (quiet and supports_quiet_flag) and '-q' or nil}
+#     )
+#   end
+# end
+# 
+# 
+# --- Resolve citations in the document by combining all bibliographies
+# -- before running pandoc-citeproc on the full document.
+# local function resolve_doc_citations (doc)
+#   -- combine all bibliographies
+#   local meta = doc.meta
+#   local orig_bib = meta.bibliography
+#   meta.bibliography = pandoc.MetaList{orig_bib}
+#   for name, value in pairs(meta) do
+#     if name:match('^bibliography_') then
+#       table.insert(meta.bibliography, value)
+#     end
+#   end
+#   -- add dummy div to catch the created bibliography
+#   table.insert(doc.blocks, refs_div)
+#   -- resolve all citations
+#   -- doc = run_json_filter(doc, 'pandoc-citeproc')
+#   doc = run_citeproc(doc)
+#   -- remove catch-all bibliography and keep it for future use
+#   refs_div_with_properties = table.remove(doc.blocks)
+#   -- restore bibliography to original value
+#   doc.meta.bibliography = orig_bib
+#   return doc
+# end
+# 
+# --- Explicitly create a new meta object with all fields relevant for
+# --- pandoc-citeproc.
+# local function meta_for_pandoc_citeproc (bibliography)
+#   -- We could just indiscriminately copy all meta fields, but let's be
+#   -- explicit about what's important.
+#   local fields = {
+#     'bibliography', 'references', 'csl', 'citation-style',
+#     'link-citations', 'citation-abbreviations', 'lang',
+#     'suppress-bibliography', 'reference-section-title',
+#     'notes-after-punctuation', 'nocite'
+#   }
+#   local new_meta = pandoc.Meta{}
+#   for _, field in ipairs(fields) do
+#     new_meta[field] = doc_meta[field]
+#   end
+#   new_meta.bibliography = bibliography
+#   return new_meta
+# end
+# 
+# local function remove_duplicates(classes)
+#   local seen = {}
+#   return classes:filter(function(x)
+#       if seen[x] then
+#         return false
+#       else
+#         seen[x] = true
+#         return true
+#       end
+#   end)
+# end
+#
+# --- Create a bibliography for a given topic. This acts on all divs whose
+# -- ID starts with "refs", followed by nothing but underscores and
+# -- alphanumeric characters.
+# local function create_topic_bibliography (div)
+#   local name = div.identifier:match('^refs([_%w]*)$')
+#   local bibfile = name and doc_meta['bibliography' .. name]
+#   if not bibfile then
+#     return nil
+#   end
+#   local tmp_blocks = {pandoc.Para(all_cites), refs_div}
+#   local tmp_meta = meta_for_pandoc_citeproc(bibfile)
+#   local tmp_doc = pandoc.Pandoc(tmp_blocks, tmp_meta)
+#   local res = run_citeproc(tmp_doc, true) -- try to be quiet
+#   -- First block of the result contains the dummy paragraph, second is
+#   -- the refs Div filled by pandoc-citeproc.
+#   div.content = res.blocks[2].content
+#   -- Set the classes and attributes as pandoc-citeproc did it on refs_div
+#   div.classes = remove_duplicates(refs_div_with_properties.classes)
+#   div.attributes = refs_div_with_properties.attributes
+#   return div
+# end
+# 
+# return {
+#   {
+#     -- Collect all citations and the doc's Meta value for other filters.
+#     Cite = function (c) all_cites[#all_cites + 1] = c end,
+#     Meta = function (m) doc_meta = m end,
+#   },
+#   { Pandoc = resolve_doc_citations },
+#   { Div = create_topic_bibliography },
+# }
+#```
+```
+
+Before being able to use a **Lua** filter one needs to make the appropriate adjustments to the **YAML metadata**. For more information see **chapter 5.1.2** of the **R Markdown Cookbook** [@Cookbook].
+

@@ -1,0 +1,2959 @@
+# Bayesian Statistics {#bayesian-statistics}
+
+In the course of my bachelor studies in psychology I was mainly taught the frequentist approach to conducting statistical analyses. Therefore I decided to expand my knowledge regarding Bayesian statistics in the course of my master studies.
+
+In this chapter you will find examples of several statistical analyses, which I conducted using the Bayesian approach, rather than the frequentist approach. Said analyses were part of an assignment in a course titled "Introduction to Bayesian-Statistics for Psychologists" held by Prof. Dr. Fridtjof Nussbeck in the winter semester of 2022/23.
+
+This chapter also includes a very brief introduction to **Markov Chain Monte Carlo Methods** as well as more detailed practical introduction to **Bayesian Decision Theory**. These too were part of the same course assignment mentioned above.
+
+## Bayesian Basics {#bayesian-basics}
+
+### Binomial Test {#bayesian-binomial-test}
+
+**Research Question:** Are the sentiments of tweets written by users from New York during the Delta Covid wave (January 2020 - October 2021) differently distributed than the sentiments of tweets written by users from Toronto in the same time period?
+
+```{r}
+#| label: bay-binom-test
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| cache: true
+
+# load datasets
+ny_tweets <- read.csv("Data/new_york_scores.csv", row.names=NULL)
+ny_tweets <- ny_tweets[,-4]
+colnames(ny_tweets) <- c("ID", "Date", "Text", "Sentiment", "Score")
+ny_tweets$`City of Origin` <- rep("New York", length(ny_tweets$ID))
+ny_tweets$`City of Origin` <- as.factor(ny_tweets$`City of Origin`)
+ny_tweets$Sentiment <- as.factor(ny_tweets$Sentiment)
+
+toronto_tweets <- read.csv("Data/toronto_scores.csv", row.names=NULL)
+toronto_tweets <- toronto_tweets[,-4]
+colnames(toronto_tweets) <- c("ID", "Date", "Text", "Sentiment", "Score")
+toronto_tweets$`City of Origin` <- rep("Toronto", length(toronto_tweets$ID))
+toronto_tweets$`City of Origin` <- as.factor(toronto_tweets$`City of Origin`)
+toronto_tweets$Sentiment <- as.factor(toronto_tweets$Sentiment)
+
+tweets <- bind_rows(ny_tweets, toronto_tweets)
+
+# inspect datasets
+head(ny_tweets)
+head(toronto_tweets)
+
+## histograms - distribution of tweet sentiments
+tweets %>%
+  group_by(`City of Origin`) %>%
+  do(tweet_hist = plot_ly(., x = ~Sentiment,
+                          name = ~`City of Origin`,
+                          color = ~`City of Origin`,
+                          colors = c('#f4cccc', '#c0d6e4'),
+                          type = "histogram",
+                          hovertemplate = paste('<b>Count</b>: %{y}',
+                                        '<br><b>Sentiment</b>: %{x}',
+                                        '<extra></extra>')) %>%
+       layout(yaxis = list(title = 'Number of Tweets (#)'))) %>%
+  subplot(nrows = 1, shareX = TRUE, shareY = TRUE) %>%
+  layout(title = "Distribution of Tweet Sentiments",
+         legend = list(title=list(text='<b> City of Origin </b>')),
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+# install and load packages needed for main analysis
+# install.packages("binom")
+# library(binom)
+
+# prepare analysis: define number of 'successes', 'failures' and observations
+one_ny = sum(with(ny_tweets, Sentiment == "1"))
+zero_ny = sum(with(ny_tweets, Sentiment == "0"))
+obs_ny = one_ny + zero_ny
+
+one_toronto = sum(with(toronto_tweets, Sentiment == "1"))
+zero_toronto = sum(with(toronto_tweets, Sentiment == "0"))
+obs_toronto = one_toronto + zero_toronto
+
+# calculate binomial confidence intervals (using 'highest probability density' aka 'hpd')
+hpd_ny.tweet.sentiment <- binom.bayes(x = one_ny, n = obs_ny, 
+                                      type = "highest", conf.level = 0.95, 
+                                      tol = 1e-9)
+hpd_toronto.tweet.sentiment <- binom.bayes(x = one_toronto, n = obs_toronto,
+                                           type = "highest", conf.level = 0.95, 
+                                           tol = 1e-9)
+hpd_ny.tweet.sentiment
+hpd_toronto.tweet.sentiment
+
+# density plots
+binom.bayes.densityplot(hpd_ny.tweet.sentiment)
+binom.bayes.densityplot(hpd_toronto.tweet.sentiment)
+
+```
+
+The calculated binomial confidence intervals overlap considerably. Thus we can conclude, that the distribution of sentiments of tweets written by users from **New York** between January 2020 and October 2021, **does not** differ from the distribution of sentiments of tweets written by users from **Toronto** in the same time period.
+
+### Independent t-Test {#bayesian-t-test}
+
+**Research Question:** Do the IMDB scores of thriller films significantly differ from the IMDB scores of comedy films?
+
+```{r}
+#| label: bay-t-test
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| cache: true
+
+# load dataset
+netflix_originals <- read.csv("Data/NetflixOriginals.csv")
+
+# inspect dataset
+head(netflix_originals)
+netflix_originals %>% count(Genre)
+
+## violin plots - distribution of IMDB scores
+no_plot_df <- filter(netflix_originals, 
+                     Genre == "Comedy" | Genre == "Thriller")
+
+netflix_violin_plot <- no_plot_df %>%
+  plot_ly(x = ~Genre, y = ~IMDB.Score, split = ~Genre,
+          type = 'violin', box = list(visible = T),
+          meanline = list(visible = T), 
+          color = ~Genre,
+          colors = c('#f4cccc', '#c0d6e4')) 
+
+netflix_violin_plot <- netflix_violin_plot %>%
+  layout(title = "Distribution of IMDB Scores",
+         xaxis = list(title = "Genre"),
+         yaxis = list(title = "IMDB Score", zeroline = F),
+         showlegend = FALSE,
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+netflix_violin_plot
+
+# install and load programs and packages needed for main analysis
+# install JAGS 
+## info --> https://mcmc-jags.sourceforge.io
+## packages --> https://sourceforge.net/projects/mcmc-jags/files/
+# install.packages("rjags")
+# library(rjags)
+# devtools::install_github("rasmusab/bayesian_first_aid")
+# library(BayesianFirstAid)
+
+# calculate independent t-test
+thriller_imdb_scores <- 
+  netflix_originals$IMDB.Score[netflix_originals$Genre == "Thriller"]
+comedy_imdb_scores <- 
+  netflix_originals$IMDB.Score[netflix_originals$Genre == "Comedy"]
+
+bayttest_analysis_thriller_comedy <- 
+  bayes.t.test(thriller_imdb_scores,comedy_imdb_scores)
+
+summary(bayttest_analysis_thriller_comedy)
+plot(bayttest_analysis_thriller_comedy)
+
+```
+
+The Bayesian estimation of the difference in means (IMDB scores) between the two groups of films show no significant difference. Therefore it can be concluded, that the IMDB scores of thriller films **do not** significantly differ from the IMDB scores of comedy films.
+
+### One-Way ANOVA {#bayesian-anova}
+
+An experiment was conducted to ascertain, whether concentration is influenced by listening to different types of music.The participants in the experiment were assigned to four groups and asked to complete a concentration test within 15 minutes while listening to different types of music (classic, rock, opera, German hits), depending on which group they were in.
+
+**Research Question:** Do concentration test scores of the participants differ depending on which type of music they were listening to while completing the test?
+
+```{r}
+#| label: bay-anova
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| cache: true
+
+# load dataset
+exp_music_conc <- read.table("Data/Daten_kap13.txt",
+                             sep = '\t', header = TRUE)
+colnames(exp_music_conc) <- c("Genre", "TestScore")
+exp_music_conc$Genre <- as.factor(exp_music_conc$Genre)
+exp_music_conc$TestScore <- as.numeric(exp_music_conc$TestScore)
+
+# inspect dataset
+head(exp_music_conc)
+exp_music_conc %>% count(Genre)
+describe(exp_music_conc)
+
+## violin plots - distribution of test scores
+exp_mc_plot <- exp_music_conc %>%
+  plot_ly(x = ~Genre, y = ~TestScore, split = ~Genre,
+          type = 'violin', box = list(visible = T),
+          meanline = list(visible = T), 
+          color = ~Genre,
+          colors = c('#f4cccc', '#c0d6e4', '#e68d8d', '#8ab3cd')) 
+
+exp_mc_plot <- exp_mc_plot %>%
+  layout(title = "Distribution of Test Scores",
+         xaxis = list(title = "Genre"),
+         yaxis = list(title = "Test Score", zeroline = F),
+         showlegend = FALSE,
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+exp_mc_plot
+
+# install and load packages needed for main analysis
+# install.packages("AICcmodavg")
+# install.packages("BayesFactor")
+# install.packages("rstanarm")
+# install.packages("rstan")
+# remotes::install_github("bayesstuff/stanova")
+# install.packages("emmeans")
+# install.packages("coda")
+# install.packages("logspline")
+# install.packages("bayestestR")
+# library(emmeans)
+# library(stanova)
+# library(rstanarm)
+# library(rstan)
+# library(coda)
+# library(logspline)
+# library(bayestestR)
+
+# conduct Bayesian One-Way ANOVA
+anovaBF(TestScore ~ Genre, data = exp_music_conc, 
+        whichModels = "all", progress=FALSE)
+
+# conduct a post-hoc test on / draw contrasts from 
+# the posterior distribution
+exp_stan_glm <- stan_glm(TestScore ~ Genre, data = exp_music_conc,
+                         iter = 2000, warmup = 500,
+                         chains = 3, thin = 2, refresh = 0,
+                         prior = normal(0, 100),
+                         prior_aux = cauchy(0, 5))
+summary(exp_stan_glm)
+
+tidyMCMC(exp_stan_glm, conf.int = TRUE,
+         conf.method = "HPDinterval")
+
+```
+
+According to the results of the above calculations none of the credible intervals for the comparisons of the factors one trough four (Genre one through four) include zero. We can therefore conclude, that the concentration test scores of the participants **do indeed** differ depending on which type of music they were listening to while completing the test.
+
+### Regression {#bayesian-regression}
+
+An experiment was conducted in which the context people interact with each other was manipulated: The participants had to either speak to (1) a friend or (2) a professor. During the experiment the number of gestures the participants made while interacting where counted.
+
+This example is based on a paper by [@Winter2021].
+
+**Research Question:** Does the social context (interacting with a friend or a professor) and the languages spoken by the participants modulate the non-verbal politeness strategies (i.e. number of gestures) of the participants.
+
+```{r}
+#| label: bay-reg-inter
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+# load and wrangle data
+## load dataset
+dyads <- read.csv("Data/dyads.csv")
+colnames(dyads) <- c("ID", "SocialContext", "Duration", 
+                     "Language", "BinaryGender", 
+                     "NumberGestures")
+dyads$SocialContext <- as.factor(dyads$SocialContext)
+dyads$SocialContext <- recode_factor(dyads$SocialContext,
+                                       friend = "Friend",
+                                       prof = "Professor")
+dyads$Duration <- as.numeric(dyads$Duration)
+dyads$Language <- as.factor(dyads$Language)
+dyads$BinaryGender <- as.factor(dyads$BinaryGender)
+dyads$NumberGestures <- as.integer(dyads$NumberGestures)
+
+dyads$GestureRate <- rep(NA, length(dyads$ID))
+
+for (i in 1:length(dyads$ID)){
+  dyads$GestureRate[i] <- dyads$NumberGestures[i] / 
+    dyads$Duration[i]
+}
+
+# inspect dataset
+head(dyads)
+describe(dyads)
+
+## 2 measures per ID
+dyads %>%
+  count(ID)
+
+## number of participants
+dyads %>%
+  count(ID) %>% 
+  nrow()
+
+## mean number of gestures
+dyads %>% 
+  group_by(SocialContext) %>% 
+  summarize(`Mean Number of Gestures` = mean(NumberGestures))
+
+## mean rate of gestures (number of gestures divided by duration) 
+dyads %>%  
+  group_by(SocialContext) %>% 
+  summarize(`Mean Rate of Gestures` = mean(GestureRate))
+
+## violin plots - number of gestures
+exp_dyads_plot <- dyads %>%  
+  plot_ly(type = 'violin') 
+
+exp_dyads_plot <- exp_dyads_plot %>%
+  add_trace(x = ~SocialContext[dyads$Language == "Catalan"], 
+            y = ~NumberGestures[dyads$Language == "Catalan"], 
+            legendgroup = 'Catalan', 
+            scalegroup = 'Catalan',
+            name = 'Catalan',
+            box = list(visible = T),
+            meanline = list(visible = T),
+            color = I('#f4cccc'))
+
+exp_dyads_plot <- exp_dyads_plot %>%
+  add_trace(x = ~SocialContext[dyads$Language == "Korean"], 
+            y = ~NumberGestures[dyads$Language == "Korean"], 
+            legendgroup = 'Korean', 
+            scalegroup = 'Korean',
+            name = 'Korean',
+            box = list(visible = T),
+            meanline = list(visible = T),
+            color = I('#c0d6e4'))
+
+exp_dyads_plot <- exp_dyads_plot %>%
+  layout(title = "Distribution of Number of Gestures",
+         xaxis = list(title = "Social Context"),
+         yaxis = list(title = "Gesture Rate", zeroline = F),
+         legend = list(title=list(text='<b> Language </b>')),
+         violinmode = "group",
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+exp_dyads_plot
+
+# install and load packages needed for main analysis
+# install.packages("StanHeaders")
+# install.packages("brms")
+# install.packages("bayesplot")
+# library(StanHeaders)
+# library(brms)
+# library(bayesplot)
+
+
+# conduct main analysis
+## Model 1: NumberGestures ~ 1 + SocialContext
+gr.sc.brm <- brm(NumberGestures ~ 1 + SocialContext,
+                 data = dyads, family = poisson(), seed = 666)
+
+
+### plots regarding MCMC draws
+#### trace plots of MCMC draws
+mcmc_trace(gr.sc.brm)
+#### kernel density plots of posterior draws
+mcmc_dens_overlay(gr.sc.brm)
+#### grid of autocorrelation plots
+mcmc_acf(gr.sc.brm) 
+
+### summary of all priors
+prior_summary(gr.sc.brm)
+
+### summary of model parameters
+summary(gr.sc.brm)
+
+### plotting from posterior distribution
+poi_ef_grsc <- conditional_effects(gr.sc.brm)[[1]]
+poi_ef_grsc <- rename(poi_ef_grsc,
+                      Estimate = 'estimate__',
+                      lower = 'lower__',
+                      upper = 'upper__',
+                      se = 'se__')
+
+
+effects_grsc.plot <- poi_ef_grsc %>%
+  ggplot(aes(x = SocialContext, y = Estimate,
+             ymin = lower, ymax = upper)) +
+  geom_errorbar(width = 0.25, size = 0.6,
+                color = '#f4cccc') +
+  geom_point(size = 3, shape = 16, 
+             color = '#f4cccc')
+
+effects_grsc.plotly <- ggplotly(effects_grsc.plot) %>%
+  layout(title = "Conditional Effects - Model 1",
+         plot_bgcolor='#ffffff', 
+         xaxis = list(title='Social Context', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(title='Estimate', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+effects_grsc.plotly
+
+## Model 2: NumberGestures ~ 1 + SocialContext + Language
+gr.sc.l.brm <- update(gr.sc.brm, 
+                      formula. = ~ . + Language, 
+                      newdata = dyads, seed = 666)
+
+### plots regarding MCMC draws
+#### trace plots of MCMC draws
+mcmc_trace(gr.sc.l.brm)
+#### kernel density plots of posterior draws
+mcmc_dens_overlay(gr.sc.l.brm)
+#### grid of autocorrelation plots
+mcmc_acf(gr.sc.l.brm) 
+
+### summary of all priors
+prior_summary(gr.sc.l.brm)
+
+### summary of model parameters
+summary(gr.sc.l.brm)
+
+### plotting from posterior distribution
+poi_ef_grscl <- conditional_effects(gr.sc.l.brm)[[2]]
+poi_ef_grscl <- rename(poi_ef_grscl,
+                      Estimate = 'estimate__',
+                      lower = 'lower__',
+                      upper = 'upper__',
+                      se = 'se__')
+
+
+effects_grscl.plot <- poi_ef_grscl %>%
+  ggplot(aes(x = Language, y = Estimate,
+             ymin = lower, ymax = upper)) +
+  geom_errorbar(width = 0.25, size = 0.6,
+                color = '#c0d6e4') +
+  geom_point(size = 3, shape = 16, 
+             color = '#c0d6e4')
+
+effects_grscl.plotly <- ggplotly(effects_grscl.plot) %>%
+  layout(title = "Conditional Effects - Model 2",
+         plot_bgcolor='#ffffff', 
+         xaxis = list(title='Language', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(title='Estimate', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+effects_grscl.plotly
+
+## Model 3: NumberGestures ~ 1 + SocialContext + Language + SocialContext*Language
+gr.sc.l.inter.brm <- update(gr.sc.l.brm,
+                            formula. = ~ . + Language*SocialContext,
+                            newdata = dyads, seed = 666)
+
+### plots regarding MCMC draws
+#### trace plots of MCMC draws
+mcmc_trace(gr.sc.l.inter.brm)
+#### kernel density plots of posterior draws
+mcmc_dens_overlay(gr.sc.l.inter.brm)
+#### grid of autocorrelation plots
+mcmc_acf(gr.sc.l.inter.brm) 
+
+### summary of all priors
+prior_summary(gr.sc.l.inter.brm)
+
+### summary of model parameters
+summary(gr.sc.l.inter.brm)
+
+### plotting from posterior distribution
+poi_ef_grscl_inter <- conditional_effects(gr.sc.l.inter.brm)[[3]]
+poi_ef_grscl_inter <- rename(poi_ef_grscl_inter,
+                             Estimate = 'estimate__',
+                             lower = 'lower__',
+                             upper = 'upper__',
+                             se = 'se__')
+
+
+effects_grscl_inter.plot <- poi_ef_grscl_inter %>%
+  ggplot(aes(x = SocialContext, y = Estimate,
+             ymin = lower, ymax = upper,
+             color = Language)) +
+  geom_errorbar(width = 0.25, size = 0.6,
+                position = position_dodge(0.3)) +
+  geom_point(size = 3, shape = 16,
+             position = position_dodge(0.3)) +
+  scale_color_manual(values = c("#8ab3cd", "#e68d8d"))
+
+effects_grscl_inter.plotly <- ggplotly(effects_grscl_inter.plot) %>%
+  layout(title = "Conditional Effects - Model 3",
+         plot_bgcolor='#ffffff', 
+         xaxis = list(title='Language', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(title='Estimate', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+effects_grscl_inter.plotly
+
+## compare models
+gr.sc.brm_loo <- loo(gr.sc.brm)
+gr.sc.l.brm_loo <- loo(gr.sc.l.brm)
+gr.sc.l.inter.brm_loo <- loo(gr.sc.l.inter.brm)
+
+loos <- loo_compare(gr.sc.brm_loo, 
+                    gr.sc.l.brm_loo, 
+                    gr.sc.l.inter.brm_loo)
+loos
+
+```
+
+In order to evaluate the three models based on how well they predict unseen data, the models were compared using (approximate) leave-one-out cross-validation (LOO-CV). The model in the first row of the table above is taken as the baseline. It is the model with the highest ELPD value (Expected Log-Predictive Density - measure of expected predictive accuracy) in the comparison set. Based on the fact though that the standard errors for the differences in the ELPD values are much higher than the respective differences in the ELPD values themselves, one cannot assume, that either the second model or the third model perform better than the first model.
+
+According to the results of the above calculations one can therefore conclude, that the social context (interacting with a friend or a professor) **did indeed** modulate the non-verbal politeness strategies (i.e. number of gestures) of the participants.
+
+## Markov Chain Monte Carlo Methods {#mcmc}
+
+**Markov Chain Monte Carlo** (MCMC) methods are aimed at generating samples from a difficult probability distribution, that can be defined up to a factor. In Bayesian statistics it is used to generate posterior distributions.
+
+They are several different commonly used MCMC algorithms. One MCMC algorithm, that is often used in the context of Bayesian statistics is the **Metropolis-Hastings Algorithm**.
+
+### Understanding the Basics {#mcmc-basics}
+
+For a brief explanation of the concepts of **Markov Chains**, **Monte Carlo Simulations** and **MCMC** methods I recommend watching the following videos:
+
+**Markov Chains** [@MarkovChains_Ritvik2020]
+
+```{r echo=FALSE, out.extra='style="border: none;"', out.width='99%'}
+#| label: embed1
+
+knitr::include_url('https://www.youtube.com/embed/prZMpThbU3E')
+
+```
+
+[Video: "Markov Chains : Data Science Basics"](https://www.youtube.com/watch?v=prZMpThbU3E "Video: "Markov Chains : Data Science Basics"")
+
+**Monte Carlo Simulations** [@MonteCarlo_Ritvik2021]
+
+```{r echo=FALSE, out.extra='style="border: none;"', out.width='99%'}
+#| label: embed2
+
+knitr::include_url('https://www.youtube.com/embed/EaR3C4e600k')
+
+```
+
+[Video: "Monte Carlo Methods : Data Science Basics"](https://www.youtube.com/watch?v=EaR3C4e600k "Video: "Monte Carlo Methods : Data Science Basics"")
+
+**Markov Chain Monte Carlo Methods** [@MCMC_Ritvik2021]
+
+```{r echo=FALSE, out.extra='style="border: none;"', out.width='99%'}
+#| label: embed3
+
+knitr::include_url('https://www.youtube.com/embed/yApmR-c_hKU')
+
+```
+
+[Video: "Markov Chain Monte Carlo (MCMC) : Data Science Concepts"](https://www.youtube.com/watch?v=yApmR-c_hKU "Video: "Markov Chain Monte Carlo (MCMC) : Data Science Concepts"")
+
+### Real World Application {#mcmc-irl}
+
+There are several different packages in **R** and in **Python**, which one can use to perform calculations using MCMC methods. The examples below though do not use any of these packages. Thanks to the work of some of my fellow students I am able to present the inner workings of the actual functions needed to perform analyses using the MCMC approach. The specific MCMC algorithm used in the examples below is the **Metropolis-Hastings Algorithm**.
+
+*Please note, that the following examples are coded using R as well as Python.*
+
+The examples below are all based on actual data retrieved from the website of the **Open-Source Psychometrics Project**. The dataset, that was used, contains the answers of N = 18,192 participants to the **Short Dark Triad** (SD3) questionnaire [@SD32014].
+
+Said questionnaire contains 27 items to assess the extent of the elements of the so-called "Dark Triad" which are **narcissism**, **psychopathy**, and **machiavellianism**. Answers are scored on a 5-point Likert scale (1 = disagree strongly; 5 = agree strongly).
+
+#### Load and Inspect the Data
+
+```{python}
+#| label: mcmc1-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+
+# read in data set (Short Dark Triad)
+sdt = pd.read_csv("Data/short_dark_triad.csv", delimiter="\t")
+
+# reverse items N2, N6, N8, P2, P7
+sdt['N2R'] = (sdt['N2'] - 6).abs()
+sdt['N6R'] = (sdt['N6'] - 6).abs()
+sdt['N8R'] = (sdt['N8'] - 6).abs()
+sdt['P2R'] = (sdt['P2'] - 6).abs()
+sdt['P7R'] = (sdt['P7'] - 6).abs()
+
+# get averages for machiavellianism., narcissism, and psychopathy
+sdt['M_avg'] = sdt[['M1', 'M2', 'M3', 'M4', 'M5', 'M6', 'M7', 'M8', 'M9']].mean(axis=1).round(2)
+sdt['N_avg'] = sdt[['N1', 'N2R', 'N3', 'N4', 'N5', 'N6R', 'N7', 'N8R', 'N9']].mean(axis=1).round(2)
+sdt['P_avg'] = sdt[['P1', 'P2R', 'P3', 'P4', 'P5', 'P6', 'P7R', 'P8', 'P9']].mean(axis=1).round(2)
+sdt['DT_avg'] = sdt[['M_avg', 'N_avg', 'P_avg']].mean(axis=1).round(2)
+
+# only include the first 1000 rows
+sdt = sdt.iloc[:1000,:]
+
+```
+
+```{r}
+#| label: mcmc1-r
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+# load data & preprocessing
+## read in data set (Short Dark Triad)
+sdt_r <- read.csv("Data/short_dark_triad.csv", sep = "\t")
+
+## reverse items N2, N6, N8, P2, P7
+sdt_r$N2R <- abs(sdt_r$N2 - 6)
+sdt_r$N6R <- abs(sdt_r$N6 - 6)
+sdt_r$N8R <- abs(sdt_r$N8 - 6)
+sdt_r$P2R <- abs(sdt_r$P2 - 6)
+sdt_r$P7R <- abs(sdt_r$P7 - 6)
+
+## get averages for machiavellianism., narcissism, and psychopathy
+sdt_r$M_avg <- round(rowMeans(sdt_r[, c('M1', 'M2', 'M3', 
+                                        'M4', 'M5', 'M6', 
+                                        'M7', 'M8', 'M9')],
+                              na.rm = TRUE), 2)
+sdt_r$N_avg <- round(rowMeans(sdt_r[, c('N1', 'N2R', 'N3', 
+                                        'N4', 'N5', 'N6R', 
+                                        'N7', 'N8R', 'N9')],
+                              na.rm = TRUE), 2)
+sdt_r$P_avg <- round(rowMeans(sdt_r[, c('P1', 'P2R', 'P3', 
+                                        'P4', 'P5', 'P6', 
+                                        'P7R', 'P8', 'P9')],
+                              na.rm = TRUE), 2)
+sdt_r$DT_avg <- round(rowMeans(sdt_r[, c('M_avg', 'N_avg', 'P_avg')],
+                               na.rm = TRUE), 2)
+
+## only include the first 1000 rows
+sdt_r <- sdt_r[1:1000,]
+
+
+# inspect data
+distplot.M_avg <- ggplot(sdt_r,
+                       aes(x = M_avg, color = 'Density')) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 31,  
+                 fill = '#f4cccc', 
+                 alpha = 0.5) +  
+  geom_density(color = '#e68d8d') +  
+  geom_rug(color = '#f4cccc') + 
+  ylab("") + 
+  xlab("")  + 
+  theme(legend.position = "none") +
+  scale_color_manual(values = c('Density' = '#f4cccc'))
+
+distplot.M_avg.plotly <- ggplotly(distplot.M_avg) %>%  
+  layout(plot_bgcolor='#ffffff', 
+         xaxis = list(title='Machiavellianism\n[mean score]', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(title='Density', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee')) 
+
+################
+
+distplot.N_avg <- ggplot(sdt_r,
+                       aes(x = N_avg, color = 'Density')) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 31,  
+                 fill = '#f4cccc', 
+                 alpha = 0.5) +  
+  geom_density(color = '#e68d8d') +  
+  geom_rug(color = '#f4cccc') + 
+  ylab("") + 
+  xlab("")  + 
+  theme(legend.position = "none") +
+  scale_color_manual(values = c('Density' = '#f4cccc'))
+
+distplot.N_avg.plotly <- ggplotly(distplot.N_avg) %>%  
+  layout(plot_bgcolor='#ffffff', 
+         xaxis = list(title='Narcissism\n[mean score]', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee')) 
+
+################
+
+distplot.P_avg <- ggplot(sdt_r,
+                       aes(x = P_avg, color = 'Density')) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 31,  
+                 fill = '#f4cccc', 
+                 alpha = 0.5) +  
+  geom_density(color = '#e68d8d') +  
+  geom_rug(color = '#f4cccc') + 
+  ylab("") + 
+  xlab("")  + 
+  theme(legend.position = "none") +
+  scale_color_manual(values = c('Density' = '#f4cccc'))
+
+distplot.P_avg.plotly <- ggplotly(distplot.P_avg) %>%  
+  layout(plot_bgcolor='#ffffff', 
+         xaxis = list(title='Psychopathy\n[mean score]',
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee')) 
+
+
+distplots.sdt <- subplot(distplot.M_avg.plotly, distplot.N_avg.plotly,
+                         distplot.P_avg.plotly, nrows = 1, margin = 0.03,
+                         titleY = TRUE, titleX = TRUE) %>%
+  layout(title = "Distribution Plots - SDT",
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+distplots.sdt
+
+```
+
+#### Example #1 {#mcmc-irl-ex1}
+
+**Research Question:** Which of the three constructs of the "Dark Triad" has the highest expected average value?
+
+##### Defining the MCMC Simulation {#ex1-define-mcmc}
+
+The following functions enable us to perform the actual analysis using the MCMC approach.
+
+```{python}
+#| label: mcmc2-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+# import packages needed for main analysis
+# import pandas as pd
+# import numpy as np
+# import scipy.stats as st
+# from statsmodels.graphics.tsaplots import plot_acf
+# import matplotlib.pyplot as plt
+# import seaborn as sns
+# from collections import Counter
+# install.packages("reticulate")
+# library(reticulate)
+
+```
+
+```{python}
+#| label: mcmc3-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+# define MCMC simulation to estimate value x
+## code function to define target distribution
+def target_fun(X, theta):
+  # 1. target function ln f(theta) = ln p(x|theta)p(x)
+  # likelihood defined as ~N(theta,1)
+  loglik = np.sum(np.log(st.norm(loc=theta, scale=1).pdf(X)))
+  # prior defined as ~N(0,1)
+  logprior = np.log(st.norm(loc=0, scale=1).pdf(theta))
+  
+  return loglik + logprior  # as log we return sum
+
+```
+
+```{python}
+#| label: mcmc4-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+  
+## code function to define proposal distribution 
+def proposal_fun(theta_curr):
+  # 2. proposal function q(theta) based on Gaussian normal distribution
+  # ~N(theta_curr,0.2)
+  theta_new = st.norm(loc=theta_curr, scale=0.2).rvs()
+  
+  return theta_new
+  
+```
+
+```{python}
+#| label: mcmc5-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+  
+def proposal_func_prob(x1, x2):
+  # for calculation of weighing matrix: q(theta_1|theta_2)
+  q = st.norm(loc=x1, scale=0.2).pdf(x2)
+  
+  return q
+
+```
+
+```{python}
+#| label: mcmc6-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+## code function to estimate posterior distribution
+def mcmc_mh_posterior(X, theta_init, target_fun, proposal_fun, proposal_func_prob, n_iter=1000):
+  # Metropolis-Hastings to estimate posterior
+  thetas = []  # 3. create container thetas
+  theta_curr = theta_init  # 4. initialize theta_0
+  accept_rates = []
+  accept_cum = 0
+  
+  # 5. loop over number of iterations of Markov chain
+  for i in range(1, n_iter+1):
+    theta_new = proposal_fun(theta_curr)
+    # 6. Calculate target function f(theta_curr)
+    prob_curr = target_fun(X, theta_curr)
+    # Calculate target function f(theta_theta_new)
+    # -> values will be used for acceptance ratio
+    prob_new = target_fun(X, theta_new)
+    
+    # 7. calculate acceptance ratio r
+    # we calculate the prob=exp(x) only when prob<1
+    # so the exp(x) will not overflow for large x
+    if prob_new > prob_curr:
+      acceptance_ratio = 1
+    else:
+      # weigthing ratio q(theta_curr|theta_new)/q(theta_new|theta_curr)
+      qr = proposal_func_prob(theta_curr,theta_new)/proposal_func_prob(theta_curr, theta_new)
+      acceptance_ratio = np.exp(prob_new - prob_curr)*qr 
+        # 8. set acceptance probability A
+        
+    acceptance_prob = min(1, acceptance_ratio)
+    
+    #9. compare A with random z drawn from uniform distribution
+    if acceptance_prob > st.uniform(0,1).rvs():
+      # if A>z: update theta_curr, add theta to drawn sample
+      theta_curr = theta_new
+      accept_cum = accept_cum+1
+      thetas.append(theta_new)
+    else:
+      # if A<=z: do not update theta_curr,
+      # add theta_curr again to drawn sample
+      thetas.append(theta_curr)
+      
+    accept_rates.append(accept_cum/i)
+    
+  return thetas, accept_rates
+    
+```
+
+##### Additional Functions {#ex1-add-func}
+
+The functions below enable us to visually inspect the MCMC simulation as well as visualize and report its results.
+
+```{r}
+#| label: mcmc7-r
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+## code function to plot results of MCMC simulation in r using plotly
+### before using this function convert python objects to r objects
+### convert python list to numeric r vetor: r_thetas_M_avg <- unlist(py$thetas_M_avg)
+### convert python integer to numeric r vetor: r_burn_in_RQ1 <- py$burn_in_RQ1
+rplotly_mcmcres <- function(data, burn_in, colourplt = c('#c0d6e4', '#8ab3cd', '#f4cccc', '#e68d8d'), theta_name, acf_lags_max = 100){
+  # plot full trace with plotly 
+  trace_full <- plot_ly(y = data, type = 'scatter', mode = 'lines',
+                        line = list(color = colourplt[2]),
+                        hovertemplate = 
+                          paste('<b>Iteration</b>: %{x}',
+                                '<br><b>Theta Value</b>: %{y}',
+                                '<extra></extra>')) %>% 
+    layout(title = paste0("Full Trace - incl. burn-in (", burn_in, ")"),
+           xaxis = list(title = "Number of Iterations",
+                        zeroline = FALSE),
+           yaxis = list(title = paste0("<i>theta</i> - ",theta_name)),
+           margin = list(l = 75, r = 75, b = 75, t = 75))
+  
+  # plot trace excl. burn-in with plotly
+  data_burned <- data[-c(1:burn_in)]
+  trace_burned <- plot_ly(y = data_burned, type = 'scatter', 
+                          mode = 'lines', line = list(color = colourplt[4]),
+                          hovertemplate = 
+                            paste('<b>Iteration</b>: %{x}',
+                                  '<br><b>Theta Value</b>: %{y}',
+                                  '<extra></extra>')) %>% 
+    layout(title = paste0("Trace - after discarding burn-in (", burn_in, ")") ,
+           xaxis = list(title = "Number of Iterations",
+                        zeroline = FALSE),
+           yaxis = list(title = paste0("<i>theta</i> - ",theta_name)),
+           margin = list(l = 75, r = 75, b = 75, t = 75))
+  
+  # distribution plot of theta - after burn-in
+  data_burned_density <- density(data_burned)
+  histplot.theta <- plot_ly() %>% 
+    add_histogram(x = data_burned,
+                  marker = list(color = colourplt[3],
+                                line = list(color = colourplt[4], width = 2)),
+                  hovertemplate = paste('<b>Count</b>: %{y}',
+                                        '<br><b>Theta Value</b>: %{x}',
+                                        '<extra></extra>'),
+                  name = "Histogram") %>%
+    add_lines(x = data_burned_density$x, y = data_burned_density$y, 
+              fill = 'none', yaxis = 'y2', name = 'Density', 
+              line = list(color = colourplt[2]),
+              hovertemplate = paste('<b>Density</b>: %{y}',
+                                    '<br><b>Theta Value</b>: %{x}',
+                                    '<extra></extra>')) %>%
+    layout(title = paste0("Distribution of theta after discarding burn-in (", burn_in, ")"),
+           yaxis = list(title = "Count", zeroline = FALSE,
+                        gridcolor = colourplt[3]),
+           yaxis2 = list(title = "Density", overlaying = "y", 
+                         side = "right", zeroline = FALSE,
+                         gridcolor = colourplt[1]),
+           xaxis = list(title = paste0("<i>theta</i> - ",theta_name),
+                        zeroline = FALSE),
+           margin = list(l = 75, r = 75, b = 75, t = 75))
+  
+  # autocorrelation plot - after burn-in
+  acf_res <- acf(x = data_burned, lag.max = acf_lags_max,
+                 type = "correlation", plot = FALSE)
+  acf_plot_data <- data.frame(lag = acf_res$lag[,,1],
+                              acf = acf_res$acf[,,1])
+  
+  acf_plot_mcmc <- plot_ly(acf_plot_data, x = ~lag, y = ~acf, 
+                           type = 'scatter', mode = 'lines+markers',
+                           line = list(color = colourplt[3]),
+                           marker = list(color = colourplt[4]),
+                           hovertemplate = 
+                             paste('<b>Lag</b>: %{x}',
+                                   '<br><b>Autocorrelation</b>: %{y}',
+                                   '<extra></extra>')) %>% 
+    layout(title = paste0("Autocorrelation Plot after discarding burn-in (", burn_in, ")"),
+           xaxis = list(title = "Lag",
+                        zeroline = FALSE),
+           yaxis = list(title = "Autocorrelation",
+                        range = c(-1.1, 1.1),
+                        zerolinewidth = 0.5),
+           margin = list(l = 75, r = 75, b = 75, t = 75))
+  
+  # save plots to a list
+  mcmc_plots <- list(trace_full,trace_burned, histplot.theta, acf_plot_mcmc)
+  names(mcmc_plots) <- c("Full Trace", "Trace after Burn-In", 
+                         "Distribution of Theta", "Autocorrelation Plot")
+  
+  # return list of plots
+  return(mcmc_plots)
+  
+}
+
+
+
+```
+
+```{python}
+#| label: mcmc8-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+## code function to calculate highest probability density region
+def hpd(trace, mass_frac) :
+  """
+  Returns highest probability density region 
+  given by a set of samples.
+  
+  Parameters
+  ----------
+  trace : array
+    1D array of MCMC samples for a single variable
+  mass_frac : float with 0 < mass_frac <= 1
+    The fraction of the probability to be included in
+    the HPD.  For example, `massfrac` = 0.95 gives a 
+    95% HPD.
+    
+  Returns
+  -------
+  output : array, shape (2,)
+    The bounds of the HPD
+  """
+  # Get sorted list
+  d = np.sort(np.copy(trace))
+  
+  # Number of total samples taken
+  n = len(trace)
+  
+  # Get number of samples that should be included in HPD
+  n_samples = np.floor(mass_frac * n).astype(int)
+  
+  # Get width (in units of data) of all intervals with n_samples samples
+  int_width = d[n_samples:] - d[:n-n_samples]
+  
+  # Pick out minimal interval
+  min_int = np.argmin(int_width)
+  
+  # Return interval
+  return np.array([d[min_int], d[min_int+n_samples]])
+
+```
+
+```{python}
+#| label: mcmc9-python
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+## code function to return further results of mcmc analysis
+def mcmc_overview(thetas, burn_in):
+  mode_list = [ '%.4f' % elem for elem in thetas ]
+  mode_raw = Counter(mode_list[burn_in:])
+  
+  res = f"""
+  {'-'*50}
+   RESULTS OF MCMC ANALYIS 
+  {'-'*50}
+  
+   Burn-In Period: first {burn_in}
+  
+   Mode of the Distribution: {mode_raw.most_common(1)[0][0]}
+   Mean of the Distribution: {np.mean(thetas[burn_in:]): .4f}
+   SD of the Distribution: {np.std(thetas[burn_in:]): .4f}
+   Highest Density Interval (95%): {hpd(thetas[burn_in:], 0.95).round(4)}
+  
+  {'-'*50}
+  """
+  
+  print(res)
+  
+
+```
+
+##### **Expected Average Value - Machiavellianism** {#ex1-M-avg}
+
+```{python}
+#| label: mcmc-machiavellianism-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+# conduct main analysis
+burn_in_RQ1 = 500
+
+## run MCMC simulation
+M_avg = sdt['M_avg'].to_numpy()
+
+thetas_M_avg, accept_rates_M_avg = mcmc_mh_posterior(M_avg, 1, target_fun, proposal_fun, proposal_func_prob, n_iter=8000)
+
+```
+
+```{python}
+#| label: mcmc-machiavellianism-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+## print results of MCMC analysis
+mcmc_overview(thetas = thetas_M_avg, burn_in = burn_in_RQ1)
+
+```
+
+```{r}
+#| label: mcmc-machiavellianism-3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+## plot results of mcmc analysis
+r_thetas_M_avg <- unlist(py$thetas_M_avg)
+r_burn_in_RQ1 <- py$burn_in_RQ1
+
+M_avg_mcmc_plots <- rplotly_mcmcres(data = r_thetas_M_avg, 
+                                    burn_in = r_burn_in_RQ1, 
+                                    theta_name = "Machiavellianism")
+
+M_avg_mcmc_plots$`Full Trace`
+M_avg_mcmc_plots$`Trace after Burn-In`
+M_avg_mcmc_plots$`Distribution of Theta`
+M_avg_mcmc_plots$`Autocorrelation Plot`
+
+```
+
+##### **Expected Average Value - Narcissism** {#ex1-N-avg}
+
+```{python}
+#| label: mcmc-narcissism-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+# conduct main analysis
+## run MCMC simulation
+N_avg = sdt['N_avg'].to_numpy()
+
+thetas_N_avg, accept_rates_N_avg = mcmc_mh_posterior(N_avg, 1, target_fun, proposal_fun, proposal_func_prob, n_iter=8000)
+
+```
+
+```{python}
+#| label: mcmc-narcissism-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+## print results of MCMC analysis
+mcmc_overview(thetas = thetas_N_avg, burn_in = burn_in_RQ1)
+
+```
+
+```{r}
+#| label: mcmc-narcissism-3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+## plot results of mcmc analysis
+r_thetas_N_avg <- unlist(py$thetas_N_avg)
+
+N_avg_mcmc_plots <- rplotly_mcmcres(data = r_thetas_N_avg, 
+                                    burn_in = r_burn_in_RQ1, 
+                                    theta_name = "Narcissism")
+
+N_avg_mcmc_plots$`Full Trace`
+N_avg_mcmc_plots$`Trace after Burn-In`
+N_avg_mcmc_plots$`Distribution of Theta`
+N_avg_mcmc_plots$`Autocorrelation Plot`
+
+```
+
+##### **Expected Average Value - Psychopathy** {#ex1-P-avg}
+
+```{python}
+#| label: mcmc-psychopathy-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+
+# conduct main analysis
+## run MCMC simulation
+P_avg = sdt['P_avg'].to_numpy()
+
+thetas_P_avg, accept_rates_P_avg = mcmc_mh_posterior(P_avg, 1, target_fun, proposal_fun, proposal_func_prob, n_iter=8000)
+
+```
+
+```{python}
+#| label: mcmc-psychopathy-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+## print results of MCMC analysis
+mcmc_overview(thetas = thetas_P_avg, burn_in = burn_in_RQ1)
+
+```
+
+```{r}
+#| label: mcmc-psychopathy-3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+## plot results of mcmc analysis
+r_thetas_P_avg <- unlist(py$thetas_P_avg)
+
+P_avg_mcmc_plots <- rplotly_mcmcres(data = r_thetas_P_avg, 
+                                    burn_in = r_burn_in_RQ1, 
+                                    theta_name = "Narcissism")
+
+P_avg_mcmc_plots$`Full Trace`
+P_avg_mcmc_plots$`Trace after Burn-In`
+P_avg_mcmc_plots$`Distribution of Theta`
+P_avg_mcmc_plots$`Autocorrelation Plot`
+
+```
+
+##### **Comparison of Expected Average Values** {#ex1-comp-avg}
+
+|                                    |                      |                 |                 |
+|:----------------:|:----------------:|:----------------:|:-----------------:|
+|                                    | **Machiavellianism** | **Narcissism**  | **Psychopathy** |
+|    **Mean of the Distribution**    |        3.7090        |     3.0787      |     2.8430      |
+|     **SD of the Distribution**     |        0.0315        |     0.0316      |     0.0313      |
+| **Highest Density Interval (95%)** |   3.6498 - 3.7654    | 3.0189 - 3.1383 | 2.7835 - 2.9057 |
+
+Based on the results of the above calculations one can conclude, that the expected average value for **Machiavellianism** is the **highest**.
+
+## Bayesian Decision Theory {#bdt}
+
+This chapter is written as a practical introduction to **Bayesian Decision Theory** (BDT). Since I found it easiest to understand the concept of BDT, by directly applying it to real world problems, I devised appropriate scenarios and did just that.
+
+*The scenarios, all names, organizations and people portrayed in the following examples are fictitious. No identification with actual persons (living or deceased), places, organizations and products is intended or should be inferred.*
+
+### The Problem at Hand {#bdt-problem}
+
+Imagine the following scenario: The NGO "**Living with Diabetes**" (LwD) provides **medical treatment** for people with **diabetes** in regions of the world where **insulin** is **not always readily available** and **often very expensive**. The NGO LwD aims to **correctly diagnose** diabetes in **as many people as possible** **as quickly as possible**.
+
+For this very reason LwD conducted a **representative study** in which data regarding several possible **indicators for diabetes** was collected. LwD then tasked **two independent doctors** with the creation of a **simple diagnostical model** based on that data, that would enable the NGO to **quickly and correctly** identify patients with diabetes.
+
+#### Model 1 vs Model 2 {#bdt-problem-models}
+
+**Doctor A** proposed a model (Model 1), in which the **Glucose Level** and the **Body Mass Index** of a patient are used as **predictors** for a positive or negative diabetes diagnosis.
+
+**Doctor B** proposed a model (Model 2), in which the **Glucose Level** and the **Age** of a patient are used as **predictors** for a positive or negative diabetes diagnosis.
+
+As staff members of LwD and resident experts in statistics, programming and decision theory it is now **our job to decide which diagnostical model LwD should use**, to decide when to prescribe insulin.
+
+#### What we have to Work with {#bdt-problem-given}
+
+Both Doctor A and Doctor B provided you with the following:
+
+-   The Dataset used to create Model 1 and Model 2
+
+-   Distribution Plots for Age, Glucose Level and Body Mass Index
+
+-   Two-Dimensional Histograms for Glucose Level and Age and for Glucose Level and Body Mass Index
+
+-   The results of two multiple logistic regression analyses (frequentist and Bayesian approach) for each model including:
+
+    -   Four summary statistics
+
+    -   Four plots of the predicted probabilities for a positive Diabetes Diagnosis
+
+    -   Four confusion matrices for (cut-off value for classification $p=0.5$)
+
+    -   Four sets of accuracy statistics (cut-off value for classification $p=0.5$)
+
+##### The Dataset {#bdt-problem-given-data}
+
+###### Information about the Dataset {#bdt-problem-given-data-info}
+
+**Source of Dataset**: [National Institute of Diabetes and Digestive and Kidney Diseases](https://www.niddk.nih.gov)
+
+**Objective:** Diagnostical prediction of diabetes, based on diagnostic measurements included in the dataset
+
+**License:** [CC0: Public Domain](https://creativecommons.org/publicdomain/zero/1.0/)
+
+**Retrieved from:** [Kaggle](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
+
+###### Load Dataset {#bdt-problem-given-data-load}
+
+```{r}
+#| label: bdt-load-inspect-dataset
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pi_diabetes <- read.csv("~/Documents/UNIK/UNIK - Psychologie/Master/1. Semester/Bayes-Statistik/Presentation/Data/diabetes.csv")
+diab.original <- pi_diabetes
+
+```
+
+###### Preprocessing {#bdt-problem-given-data-prep}
+
+```{r}
+#| label: bdt-preprocessing
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diab <- diab.original
+
+fft.diab <- diab
+
+# removing those observation rows with 0 in the variables 2:6
+for (i in 2:6) {
+      diab <- diab[-which(diab[, i] == 0), ]
+}
+
+####
+names(fft.diab) <- tolower(names(diab.original))
+fft.diab$outcome <- as.logical(fft.diab$outcome)
+####
+
+# scale the predictors for easier comparison of coefficient posteriors
+diab$Pregnancies <- scale(diab$Pregnancies)
+diab$Glucose <- scale(diab$Glucose)
+diab$BloodPressure <- scale(diab$BloodPressure)
+diab$SkinThickness <- scale(diab$SkinThickness)
+diab$Insulin <- scale(diab$Insulin)
+diab$BMI <- scale(diab$BMI)
+diab$DiabetesPedigreeFunction <- scale(diab$DiabetesPedigreeFunction)
+diab$Age <- scale(diab$Age)
+
+# modify the data column names slightly for easier typing
+names(diab) <- tolower(names(diab.original))
+
+diab$outcome.int <- diab$outcome
+diab$outcome <- factor(diab$outcome)
+diab.inspect <- diab
+
+```
+
+###### Basic Inspection {#bdt-problem-given-data-insp}
+
+```{r}
+#| label: bdt-inspect-data1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| echo: false
+
+head(diab.inspect[,c(1:8,10)])
+describe(diab.inspect[,c(1:8,10)])
+
+diab.inspect$glucose <- as.numeric(diab.inspect$glucose)
+diab.inspect$bmi <- as.numeric(diab.inspect$bmi)
+diab.inspect$age <- as.numeric(diab.inspect$age)
+diab.inspect$pregnancies <- as.numeric(diab.inspect$pregnancies)
+diab.inspect$bloodpressure <- as.numeric(diab.inspect$bloodpressure)
+diab.inspect$skinthickness <- as.numeric(diab.inspect$skinthickness)
+diab.inspect$insulin <- as.numeric(diab.inspect$insulin)
+diab.inspect$diabetespedigreefunction <- as.numeric(diab.inspect$diabetespedigreefunction)
+
+```
+
+###### Scatter Plot Matrix (SPLOM) {#bdt-problem-given-data-splom}
+
+```{r}
+#| label: bdt-inspect-data2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| echo: false
+
+pl_colorscale = list(c(0.0, '#119dff'),
+                  c(0.5, '#119dff'),
+                  c(0.5, '#ef553b'),
+                  c(1, '#ef553b'))
+
+axis.splom = list(showline=FALSE,
+                  zeroline=FALSE,
+                  gridcolor='#ffff',
+                  ticklen=4,
+                  titlefont=list(size=13))
+
+splom.diab <- diab.inspect %>%
+  plot_ly() 
+splom.diab <- splom.diab %>%
+  add_trace(type = 'splom',
+            dimensions = list(list(label='Glucose', values=~glucose),
+                              list(label='BMI', values=~bmi),
+                              list(label='Age', values=~age),
+                              list(label='Insulin', values=~insulin),
+                              list(label='#PG', values=~pregnancies),
+                              list(label='BP', values=~bloodpressure),
+                              list(label='ST', values=~skinthickness),
+                              list(label='DPF', 
+                                   values=~diabetespedigreefunction)),
+            text=~factor(outcome.int, labels=c("non-diabetic","diabetic")),
+            diagonal=list(visible=F),
+            marker = list(color = ~outcome.int,
+                          colorscale = pl_colorscale,
+                          size = 5,
+                          line = list(width = 1,
+                                      color = 'rgb(230,230,230)'))) 
+
+splom.diab <- splom.diab %>%
+  layout(hovermode='closest',
+         dragmode = 'select',
+         plot_bgcolor='rgba(240,240,240, 0.95)',
+         xaxis=list(domain=NULL, showline=F, zeroline=F, 
+                    gridcolor='#ffff', ticklen=4,
+                    titlefont=list(size=13)),
+         yaxis=list(domain=NULL, showline=F, zeroline=F, 
+                    gridcolor='#ffff', ticklen=4,
+                    titlefont=list(size=13)),
+         xaxis2=axis.splom,xaxis3=axis.splom,
+         xaxis4=axis.splom,xaxis5=axis.splom,
+         xaxis6=axis.splom,xaxis7=axis.splom,
+         xaxis8=axis.splom,yaxis2=axis.splom,
+         yaxis3=axis.splom,yaxis4=axis.splom,
+         yaxis5=axis.splom,yaxis6=axis.splom,
+         yaxis7=axis.splom,yaxis8=axis.splom)
+
+splom.diab <-  splom.diab %>% style(showupperhalf = F)
+
+splom.diab <- splom.diab %>% 
+  add_annotations(x= 0.95,
+                  y= 0.95,
+                  xref = "paper",
+                  yref = "paper",
+                  text = paste("<b>Meanings of Abbreviations</b><br>",
+                               "DPF - Diabetes Pedigree Function<br>",
+                               "ST - Skin Thickness<br>",
+                               "BP - Blood Pressure<br>",
+                               "#PG - Number of Pregnancies<br><br>",
+                               "<b>All variables were standardized."),
+                  showarrow = F)
+
+splom.diab
+
+```
+
+##### Distribution Plots of Relevant Variables {#bdt-problem-given-dist}
+
+```{r}
+#| label: bdt-inspect-var1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| echo: false
+
+distplot.age <- ggplot(diab.inspect,
+                       aes(x = age, color = 'Density')) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 31,  
+                 fill = '#f4cccc', 
+                 alpha = 0.5) +  
+  geom_density(color = '#e68d8d') +  
+  geom_rug(color = '#f4cccc') + 
+  ylab("") + 
+  xlab("")  + 
+  theme(legend.position = "none") +
+  scale_color_manual(values = c('Density' = '#f4cccc'))
+
+distplot.age.plotly <- ggplotly(distplot.age) %>%  
+  layout(plot_bgcolor='#ffffff', 
+         xaxis = list(title='Age [scaled]', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(title='Density', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee')) 
+
+################
+
+distplot.glucose <- ggplot(diab.inspect,
+                       aes(x = glucose, color = 'Density')) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 31,  
+                 fill = '#f4cccc', 
+                 alpha = 0.5) +  
+  geom_density(color = '#e68d8d') +  
+  geom_rug(color = '#f4cccc') + 
+  ylab("") + 
+  xlab("")  + 
+  theme(legend.position = "none") +
+  scale_color_manual(values = c('Density' = '#f4cccc'))
+
+distplot.glucose.plotly <- ggplotly(distplot.glucose) %>%  
+  layout(plot_bgcolor='#ffffff', 
+         xaxis = list(title='Glucose Level [scaled]', 
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee')) 
+
+################
+
+distplot.bmi <- ggplot(diab.inspect,
+                       aes(x = bmi, color = 'Density')) +
+  geom_histogram(aes(y = after_stat(density)), 
+                 bins = 31,  
+                 fill = '#f4cccc', 
+                 alpha = 0.5) +  
+  geom_density(color = '#e68d8d') +  
+  geom_rug(color = '#f4cccc') + 
+  ylab("") + 
+  xlab("")  + 
+  theme(legend.position = "none") +
+  scale_color_manual(values = c('Density' = '#f4cccc'))
+
+distplot.bmi.plotly <- ggplotly(distplot.bmi) %>%  
+  layout(plot_bgcolor='#ffffff', 
+         xaxis = list(title='BMI [scaled]',
+                      zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee'),
+         yaxis = list(zerolinecolor = '#eeeeee',
+                      zerolinewidth = 2,
+                      gridcolor = '#eeeeee')) 
+
+
+distplots <- subplot(distplot.age.plotly, distplot.glucose.plotly, 
+                     distplot.bmi.plotly, nrows = 1, margin = 0.03,
+                     titleY = TRUE, titleX = TRUE)
+
+distplots
+
+```
+
+##### Two-Dimensional Histograms of Relevant Variables {#bdt-problem-given-2dhist}
+
+```{r}
+#| label: bdt-inspect-var2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| echo: false
+
+hist2d.glucose.age <- plot_ly(diab.inspect, 
+                              x = ~glucose, 
+                              y = ~age) 
+hist2d.glucose.age <- hist2d.glucose.age %>%
+  add_trace(type='histogram2dcontour',
+            contours = list(showlabels = T,
+                            labelfont = list(color = 'white')),
+            hoverlabel = list(bgcolor = 'white',
+                              bordercolor = 'black',
+                              font = list(color = 'black')),
+            hovertemplate = paste('<b>Glucose Level</b>: %{x}',
+                                  '<br><b>Age</b>: %{y}<br>',
+                                  '<b>Count</b>: %{z}',
+                                  '<extra></extra>'),
+            showscale = FALSE)
+
+hist2d.glucose.age <- hist2d.glucose.age %>%  
+  layout(xaxis = list(title = 'Glucose Level [scaled]'),
+         yaxis = list(title = 'Age [scaled]'))
+
+hist2d.glucose.age.subhist <- 
+  subplot(plot_ly(diab.inspect, x = ~glucose,
+                  color = I('darkorchid'), type = 'histogram',
+                  hovertemplate = paste('<b>Bin-Range</b>: %{x}',
+                                        '<br><b>Count</b>: %{y}',
+                                        '<extra></extra>')),
+          plotly_empty(),
+          hist2d.glucose.age,
+          plot_ly(diab.inspect, y = ~age,
+                  color = I('darkorchid'), type = 'histogram',
+                  hovertemplate = paste('<b>Bin-Range</b>: %{y}',
+                                        '<br><b>Count</b>: %{x}',
+                                        '<extra></extra>')),
+          nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2),
+          shareX = TRUE, shareY = TRUE, titleX = TRUE, titleY = TRUE)
+
+hist2d.glucose.age.subhist <- hist2d.glucose.age.subhist %>%
+  layout(showlegend = FALSE)
+
+################
+
+hist2d.glucose.bmi <- plot_ly(diab.inspect, 
+                              x = ~glucose, 
+                              y = ~bmi) 
+hist2d.glucose.bmi <- hist2d.glucose.bmi %>%
+  add_trace(type='histogram2dcontour',
+            contours = list(showlabels = T,
+                            labelfont = list(color = 'white')),
+            hoverlabel = list(bgcolor = 'white',
+                              bordercolor = 'black',
+                              font = list(color = 'black')),
+            hovertemplate = paste('<b>Glucose Level</b>: %{x}',
+                                  '<br><b>BMI</b>: %{y}<br>',
+                                  '<b>Count</b>: %{z}',
+                                  '<extra></extra>'),
+            showscale = FALSE)
+
+hist2d.glucose.bmi <- hist2d.glucose.bmi %>%  
+  layout(xaxis = list(title = 'Glucose Level [scaled]'),
+         yaxis = list(title = 'Body Mass Index [scaled]'))
+
+hist2d.glucose.bmi.subhist <- 
+  subplot(plot_ly(diab.inspect, x = ~glucose,
+                  color = I('darkorchid'), type = 'histogram',
+                  hovertemplate = paste('<b>Bin-Range</b>: %{x}',
+                                        '<br><b>Count</b>: %{y}',
+                                        '<extra></extra>')),
+          plotly_empty(),
+          hist2d.glucose.bmi,
+          plot_ly(diab.inspect, y = ~bmi,
+                  color = I('darkorchid'), type = 'histogram',
+                  hovertemplate = paste('<b>Bin-Range</b>: %{y}',
+                                        '<br><b>Count</b>: %{x}',
+                                        '<extra></extra>')),
+          nrows = 2, heights = c(0.2, 0.8), widths = c(0.8, 0.2),
+          shareX = TRUE, shareY = TRUE, titleX = TRUE, titleY = TRUE)
+
+hist2d.glucose.bmi.subhist <- hist2d.glucose.bmi.subhist %>%
+  layout(showlegend = FALSE)
+
+hist2dplots <- subplot(hist2d.glucose.age.subhist, 
+                       hist2d.glucose.bmi.subhist, 
+                       nrows = 1, titleY = TRUE, 
+                       titleX = TRUE, margin = 0.05)
+
+hist2dplots
+
+```
+
+##### Frequentist Approach to MLR {#bdt-problem-given-freqMLR}
+
+###### Model 1: Diabetes Diagnosis \~ Glucose Level + BMI {#bdt-problem-given-freqMLR-m1}
+
+```{r}
+#| label: bdt-frequentist-logreg-model1.1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pred1.1.diab <- glm(formula = outcome ~ glucose + bmi,
+                   data = diab,
+                   family = binomial) 
+
+odds.pred1.1.diab <- exp(coef(pred1.1.diab)) #calculating odds ratio (OR)
+
+conf.int.or.m1.1 <- exp(confint(pred1.1.diab)) #confidence intervalls of OR (If CI of OR includes 1 -> not significant)
+
+diab.lr.fr <- diab
+diab.lr.fr$prob.pred1.1.diab <- pred1.1.diab$fitted.values #fitted values show the probabilities measured based on the model
+
+diab.plot <- diab.lr.fr
+
+```
+
+```{r}
+#| label: bdt-frequentist-logreg-model1.1-plot
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diab.plot$glucose <- as.numeric(diab.plot$glucose)
+diab.plot$bmi <- as.numeric(diab.plot$bmi)
+
+model1.1.plot <- plot_ly(diab.plot, x = ~glucose, y = ~bmi, z = ~outcome,
+                         type="scatter3d", mode="markers",
+                         name="Recorded Diabetes\nDiagnosis",
+                         marker = list(size = 3, color='#90527a'))
+
+model1.1.plot <- model1.1.plot %>% 
+  add_trace(diab.plot, x = ~glucose, y = ~bmi, z = ~prob.pred1.1.diab,
+            type="scatter3d", mode="markers",
+            name="Predicted Propability\nof Diabetes Diagnosis\n(Frequentist Approach)",
+            marker = list(size = 3, color='#f4cccc'))
+
+model1.1.plot <- model1.1.plot %>% 
+  layout(title = list(text='Model 1: Diabetes Diagnosis ~ Glucose Level + BMI', y = 0.95),
+         scene = list(xaxis = list(title = 'Glucose Level [scaled]'),
+                      yaxis = list(title = 'Body Mass Index [scaled]'),
+                      zaxis = list(title = 'Diabetes Diagnosis [scaled]',
+                                   nticks = 11, range = c(0,1))),
+         legend = list(y = 0.05))
+
+```
+
+###### Model 2: Diabetes Diagnosis \~ Glucose Level + Insulin Level {#bdt-problem-given-freqMLR-m2}
+
+```{r}
+#| label: bdt-frequentist-logreg-model2.1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pred2.1.diab <- glm(formula = outcome ~ glucose + age,
+                   data = diab,
+                   family = binomial) 
+
+odds.pred2.1.diab <- exp(coef(pred2.1.diab)) #calculating odds ratio (OR)
+
+conf.int.or.m2.1 <- exp(confint(pred2.1.diab)) #confidence intervalls of OR (If CI of OR includes 1 -> not significant)
+
+diab.lr.fr$prob.pred2.1.diab <- pred2.1.diab$fitted.values #fitted values show the probabilities measured based on the model
+
+diab.plot$prob.pred2.1.diab <- diab.lr.fr$prob.pred2.1.diab
+
+```
+
+```{r}
+#| label: bdt-frequentist-logreg-model2.1-plot
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diab.plot$age <- as.numeric(diab.plot$age)
+
+model2.1.plot <- plot_ly(diab.plot, x = ~glucose, y = ~age, z = ~outcome,
+                         type="scatter3d", mode="markers",
+                         name="Recorded Diabetes\nDiagnosis",
+                         marker = list(size = 3, color='#90527a'))
+
+model2.1.plot <- model2.1.plot %>% 
+  add_trace(diab.plot, x = ~glucose, y = ~age, z = ~prob.pred2.1.diab,
+            type="scatter3d", mode="markers",
+            name="Predicted Propability\nof Diabetes Diagnosis\n(Frequentist Approach)",
+            marker = list(size = 3, color='#c0d6e4'))
+
+model2.1.plot <- model2.1.plot %>% 
+  layout(title = list(text='Model 2: Diabetes Diagnosis ~ Glucose Level + Age', y = 0.95),
+         scene = list(xaxis = list(title = 'Glucose Level [scaled]'),
+                      yaxis = list(title = 'Age [scaled]'),
+                      zaxis = list(title = 'Diabetes Diagnosis [scaled]',
+                                   nticks = 11, range = c(0,1))),
+         legend = list(y = 0.05))
+
+```
+
+###### Results of MLR Analyses {#bdt-problem-given-freqMLR-res}
+
+####### **Model 1: Summary Statistics and Plot of Predicted Values**
+
+```{r}
+#| label: bdt-frequentist-comp-model1&2-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+summary(pred1.1.diab)
+model1.1.plot
+
+```
+
+####### **Model 2: Summary Statistics and Plot of Predicted Values**
+
+```{r}
+#| label: bdt-frequentist-comp-model1&2-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+summary(pred2.1.diab)
+model2.1.plot
+
+```
+
+```{r}
+#| label: bdt-frequentist-confusion-matrices
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diab.lr.fr$m1.class.cop0.5 <- ifelse(diab.lr.fr$prob.pred1.1.diab > 0.5, 1, 0) # if predicted probability is > 0.5, assign "positive diabetes diagnosis" (=1), if < 0.4, then assign "negative diabetes diagnosis" (=0)
+diab.lr.fr$m2.class.cop0.5 <- ifelse(diab.lr.fr$prob.pred2.1.diab > 0.5, 1, 0)
+
+fr.model1.pred.pos.rec.pos <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m1.class.cop0.5 == 1
+    & diab.lr.fr$outcome == '1', ])
+
+fr.model1.pred.neg.rec.pos <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m1.class.cop0.5 == 0
+    & diab.lr.fr$outcome == '1', ])
+
+fr.model1.pred.pos.rec.neg <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m1.class.cop0.5 == 1
+    & diab.lr.fr$outcome == '0', ])
+
+fr.model1.pred.neg.rec.neg <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m1.class.cop0.5 == 0
+    & diab.lr.fr$outcome == '0', ])
+
+fr.model1.hits <- fr.model1.pred.pos.rec.pos
+fr.model1.misses <- fr.model1.pred.neg.rec.pos
+fr.model1.false.alarms <- fr.model1.pred.pos.rec.neg
+fr.model1.correct.rejections <- fr.model1.pred.neg.rec.neg
+
+##########
+
+fr.model2.pred.pos.rec.pos <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m2.class.cop0.5 == 1
+    & diab.lr.fr$outcome == '1', ])
+
+fr.model2.pred.neg.rec.pos <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m2.class.cop0.5 == 0
+    & diab.lr.fr$outcome == '1', ])
+
+fr.model2.pred.pos.rec.neg <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m2.class.cop0.5 == 1
+    & diab.lr.fr$outcome == '0', ])
+
+fr.model2.pred.neg.rec.neg <- 
+  nrow(diab.lr.fr[
+    diab.lr.fr$m2.class.cop0.5 == 0
+    & diab.lr.fr$outcome == '0', ])
+
+fr.model2.hits <- fr.model2.pred.pos.rec.pos
+fr.model2.misses <- fr.model2.pred.neg.rec.pos
+fr.model2.false.alarms <- fr.model2.pred.pos.rec.neg
+fr.model2.correct.rejections <- fr.model2.pred.neg.rec.neg
+
+```
+
+###### Confusion Matrices - **Cut-Off Value for Classification** $p=0.5$ {#bdt-problem-given-freqMLR-conf}
+
+|             Model 1              | **Recorded Diagnosis POSITIVE** | **Recorded Diagnosis NEGATIVE** |
+|:-------------------------:|:---------------------:|:---------------------:|
+| **Predicted Diagnosis POSITIVE** |             69 Hits             |         28 False Alarms         |
+| **Predicted Diagnosis NEGATIVE** |            61 Misses            |     234 Correct Rejections      |
+
+|             Model 2              | **Recorded Diagnosis POSITIVE** | **Recorded Diagnosis NEGATIVE** |
+|:-------------------------:|:---------------------:|:---------------------:|
+| **Predicted Diagnosis POSITIVE** |             74 Hits             |         29 False Alarms         |
+| **Predicted Diagnosis NEGATIVE** |            56 Misses            |     233 Correct Rejections      |
+
+###### Accuracy Statistics {#bdt-problem-given-freqMLR-acc}
+
+**Accuracy** - Probability of correctly identifying any case $$ 
+{accuracy} = \frac{hits + {correct~rejections}}{hits + {false~alarms} + misses + {correct~rejections}}
+$$
+
+**Sensitivity -** Probability of correctly identifying a true positive case $$ 
+sensitivity = \frac{hits}{hits + misses}
+$$
+
+**Specificity** - Probability of correctly identifying a true negative case $$ 
+specificity = \frac{{correct~rejections}}{{correct~rejections} + {false~alarms}}
+$$
+
+**Weighted Accuracy** - Weighted average of sensitivity and specificity dictated by a sensitivity weighting parameter $w$ $$ 
+{weighted~accuracy} = sensitivity \times w + specificity \times (1-w)
+$$
+
+**Balanced Accuracy** - Average of sensitivity and specificity (i.e., weighted accuracy with $w = 0.5$) $$ 
+{balanced~accuracy} = sensitivity \times 0.5 + specificity \times 0.5
+$$
+
+```{r}
+#| label: bdt-frequentist-accuracy-statistics
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+fr.model1.acc <- (fr.model1.hits + fr.model1.correct.rejections)/
+  (fr.model1.hits + fr.model1.false.alarms + 
+     fr.model1.misses + fr.model1.correct.rejections)
+
+fr.model1.sens <- fr.model1.hits/
+  (fr.model1.hits + fr.model1.misses)
+
+fr.model1.spec <- fr.model1.correct.rejections/
+  (fr.model1.false.alarms + fr.model1.correct.rejections)
+
+fr.model1.bacc <- fr.model1.sens*0.5 + fr.model1.spec*0.5
+
+###########
+
+fr.model2.acc <- (fr.model2.hits + fr.model2.correct.rejections)/
+  (fr.model2.hits + fr.model2.false.alarms + 
+     fr.model2.misses + fr.model2.correct.rejections)
+
+fr.model2.sens <- fr.model2.hits/
+  (fr.model2.hits + fr.model2.misses)
+
+fr.model2.spec <- fr.model2.correct.rejections/
+  (fr.model2.false.alarms + fr.model2.correct.rejections)
+
+fr.model2.bacc <- fr.model2.sens*0.5 + fr.model2.spec*0.5
+
+```
+
+| **Cut-Off Value** $p=0.5$ | **Model 1** | **Model 2** |  $\Delta$  |
+|:-------------------------:|:-----------:|:-----------:|:----------:|
+|       **Accuracy**        |  0.7729592  |  0.7831633  | 0.0102041  |
+|      **Sensitivity**      |  0.5307692  |  0.5692308  | 0.0384616  |
+|      **Specificity**      |  0.8931298  |  0.889313   | -0.0038168 |
+|   **Balanced Accuracy**   |  0.7119495  |  0.7292719  | 0.0173224  |
+
+##### Bayesian Approach to MLR {#bdt-problem-given-bayMLR}
+
+###### Model 1: Diabetes Diagnosis \~ Glucose Level + BMI {#bdt-problem-given-bayMLR-m1}
+
+```{r}
+#| label: bdt-bayesian-logreg-model1.1-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+options(mc.cores = parallel::detectCores())
+
+t_prior <- student_t(df = 7, location = 0, scale = 2.5)
+
+post.model1.1 <- stan_glm(outcome ~ glucose + bmi, 
+                        data = diab,
+                        family = binomial(link = "logit"), 
+                        prior = t_prior, 
+                        prior_intercept = t_prior, QR=TRUE,
+                        seed = 77)
+
+```
+
+```{r}
+#| label: bdt-bayesian-logreg-model1.1-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+mcmc_trace(post.model1.1)
+mcmc_dens_overlay(post.model1.1)
+mcmc_acf(post.model1.1)
+
+```
+
+```{r}
+#| label: bdt-bayesian-logreg-model1.1-3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pp.diab.model1.1 <- posterior_predict(post.model1.1,
+                                      newdata=diab,
+                                      seed=77)
+
+diabetes.predictions.model1.1 <- diab %>%
+  mutate(probability.pos.diab.diagnosis = colMeans(pp.diab.model1.1),
+         probability.neg.diab.diagnosis = 1-colMeans(pp.diab.model1.1),
+         classification.cutoff0.5 = as.numeric(
+           probability.pos.diab.diagnosis >= 0.5)) %>% 
+  select(glucose, bmi, probability.pos.diab.diagnosis,
+         probability.neg.diab.diagnosis,classification.cutoff0.5,
+         outcome)
+
+diab.plot$prob.pred.1.1.bay <-
+  diabetes.predictions.model1.1$probability.pos.diab.diagnosis
+
+```
+
+```{r}
+#| label: bdt-fre-bay-logreg-model1.1-plot
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+model1.1.plot2 <- model1.1.plot
+model1.1.plot2 <- model1.1.plot2 %>% 
+  add_trace(diab.plot, x = ~glucose, y = ~bmi, z = diab.plot$prob.pred.1.1.bay,
+            type="scatter3d", mode="markers",
+            name="Predicted Propability\nof Diabetes Diagnosis\n(Bayesian Approach)",
+            marker = list(size = 3, color='#e68d8d'))
+
+```
+
+###### Model 2: Diabetes Diagnosis \~ Glucose Level + Age {#bdt-problem-given-bayMLR-m2}
+
+```{r}
+#| label: bdt-bayesian-logreg-model2.1-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+#| cache: true
+
+options(mc.cores = parallel::detectCores())
+
+post.model2.1 <- stan_glm(outcome ~ glucose + age, 
+                        data = diab,
+                        family = binomial(link = "logit"), 
+                        prior = t_prior, 
+                        prior_intercept = t_prior, QR=TRUE,
+                        seed = 77)
+
+```
+
+```{r}
+#| label: bdt-bayesian-logreg-model2.1-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+mcmc_trace(post.model2.1)
+mcmc_dens_overlay(post.model2.1)
+mcmc_acf(post.model2.1)
+
+```
+
+```{r}
+#| label: bdt-bayesian-logreg-model2.1-3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pp.diab.model2.1 <- posterior_predict(post.model2.1,
+                                      newdata=diab,
+                                      seed=77)
+
+diabetes.predictions.model2.1 <- diab %>%
+  mutate(probability.pos.diab.diagnosis = colMeans(pp.diab.model2.1),
+         probability.neg.diab.diagnosis = 1-colMeans(pp.diab.model2.1),
+         classification.cutoff0.5 = as.numeric(
+           probability.pos.diab.diagnosis >= 0.5)) %>% 
+  select(glucose, insulin, probability.pos.diab.diagnosis,
+         probability.neg.diab.diagnosis, classification.cutoff0.5,
+         outcome)
+
+diab.plot$prob.pred.2.1.bay <-
+  diabetes.predictions.model2.1$probability.pos.diab.diagnosis
+
+```
+
+```{r}
+#| label: bdt-fre-bay-logreg-model2.1-plot
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+model2.1.plot2 <- model2.1.plot
+model2.1.plot2 <- model2.1.plot2 %>% 
+  add_trace(diab.plot, x = ~glucose, y = ~age, z = diab.plot$prob.pred.2.1.bay,
+            type="scatter3d", mode="markers",
+            name="Predicted Propability\nof Diabetes Diagnosis\n(Bayesian Approach)",
+            marker = list(size = 3, color='#8ab3cd'))
+
+```
+
+###### Results of MLR Analyses {#bdt-problem-given-bayMLR-res}
+
+####### **Model 1: Posterior Distributions for Parameters**
+
+```{r}
+#| label: bdt-bayesian-comp-model1&2-1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pplot1.1<-plot(post.model1.1, "areas", prob = 0.95, prob_outer = 1)
+pplot1.1 + geom_vline(xintercept = 0)
+
+posterior_interval(post.model1.1, prob = 0.95)
+
+```
+
+####### **Model 1: Summary Statistics and Plot of Predicted Values**
+
+```{r bay comp model1&2 2}
+#| label: bdt-bayesian-comp-model1&2-2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+summary(post.model1.1)
+model1.1.plot2
+
+```
+
+####### **Model 2: Posterior Distributions for Parameters**
+
+```{r}
+#| label: bdt-bayesian-comp-model1&2-3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pplot2.1<-plot(post.model2.1, "areas", prob = 0.95, prob_outer = 1)
+pplot2.1 + geom_vline(xintercept = 0)
+
+posterior_interval(post.model2.1, prob = 0.95)
+
+```
+
+####### **Model 2: Summary Statistics and Plot of Predicted Values**
+
+```{r}
+#| label: bdt-bayesian-comp-model1&2-4
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+summary(post.model2.1)
+model2.1.plot2
+
+```
+
+###### Confusion Matrices **- Cut-Off Value for Classification** $p=0.5$ {#bdt-problem-given-bayMLR-conf}
+
+```{r}
+#| label: bdt-bayesian-confusion-matrices-co0.5
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+model1.co0.5.pred.pos.rec.pos <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.cutoff0.5 == 1
+    & diabetes.predictions.model1.1$outcome == '1', ])
+
+model1.co0.5.pred.neg.rec.pos <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.cutoff0.5 == 0
+    & diabetes.predictions.model1.1$outcome == '1', ])
+
+model1.co0.5.pred.pos.rec.neg <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.cutoff0.5 == 1
+    & diabetes.predictions.model1.1$outcome == '0', ])
+
+model1.co0.5.pred.neg.rec.neg <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.cutoff0.5 == 0
+    & diabetes.predictions.model1.1$outcome == '0', ])
+
+model1.co0.5.hits <- model1.co0.5.pred.pos.rec.pos
+model1.co0.5.misses <- model1.co0.5.pred.neg.rec.pos
+model1.co0.5.false.alarms <- model1.co0.5.pred.pos.rec.neg
+model1.co0.5.correct.rejections <- model1.co0.5.pred.neg.rec.neg
+
+
+###########
+
+model2.co0.5.pred.pos.rec.pos <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.cutoff0.5 == 1
+    & diabetes.predictions.model2.1$outcome == '1', ])
+
+model2.co0.5.pred.neg.rec.pos <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.cutoff0.5 == 0
+    & diabetes.predictions.model2.1$outcome == '1', ])
+
+model2.co0.5.pred.pos.rec.neg <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.cutoff0.5 == 1
+    & diabetes.predictions.model2.1$outcome == '0', ])
+
+model2.co0.5.pred.neg.rec.neg <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.cutoff0.5 == 0
+    & diabetes.predictions.model2.1$outcome == '0', ])
+
+model2.co0.5.hits <- model2.co0.5.pred.pos.rec.pos
+model2.co0.5.misses <- model2.co0.5.pred.neg.rec.pos
+model2.co0.5.false.alarms <- model2.co0.5.pred.pos.rec.neg
+model2.co0.5.correct.rejections <- model2.co0.5.pred.neg.rec.neg
+
+```
+
+|             Model 1              | **Recorded Diagnosis POSITIVE** | **Recorded Diagnosis NEGATIVE** |
+|:-------------------------:|:---------------------:|:---------------------:|
+| **Predicted Diagnosis POSITIVE** |             69 Hits             |         28 False Alarms         |
+| **Predicted Diagnosis NEGATIVE** |            61 Misses            |     234 Correct Rejections      |
+
+|             Model 2              | **Recorded Diagnosis POSITIVE** | **Recorded Diagnosis NEGATIVE** |
+|:-------------------------:|:---------------------:|:---------------------:|
+| **Predicted Diagnosis POSITIVE** |             74 Hits             |         28 False Alarms         |
+| **Predicted Diagnosis NEGATIVE** |            56 Misses            |     234 Correct Rejections      |
+
+###### Accuracy Statistics {#bdt-problem-given-bayMLR-acc}
+
+```{r}
+#| label: bdt-bayesian-accuracy-statistics-co0.5
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+model1.co0.5.acc <- (model1.co0.5.hits + model1.co0.5.correct.rejections)/
+  (model1.co0.5.hits + model1.co0.5.false.alarms + 
+     model1.co0.5.misses + model1.co0.5.correct.rejections)
+
+model1.co0.5.sens <- model1.co0.5.hits/
+  (model1.co0.5.hits + model1.co0.5.misses)
+
+model1.co0.5.spec <- model1.co0.5.correct.rejections/
+  (model1.co0.5.false.alarms + model1.co0.5.correct.rejections)
+
+model1.co0.5.bacc <- model1.co0.5.sens*0.5 + model1.co0.5.spec*0.5
+
+###########
+
+model2.co0.5.acc <- (model2.co0.5.hits + model2.co0.5.correct.rejections)/
+  (model2.co0.5.hits + model2.co0.5.false.alarms + 
+     model2.co0.5.misses + model2.co0.5.correct.rejections)
+
+model2.co0.5.sens <- model2.co0.5.hits/
+  (model2.co0.5.hits + model2.co0.5.misses)
+
+model2.co0.5.spec <- model2.co0.5.correct.rejections/
+  (model2.co0.5.false.alarms + model2.co0.5.correct.rejections)
+
+model2.co0.5.bacc <- model2.co0.5.sens*0.5 + model2.co0.5.spec*0.5
+
+```
+
+| **Cut-Off Value** $p=0.5$ | **Model 1** | **Model 2** | $\Delta$  |
+|:-------------------------:|:-----------:|:-----------:|:---------:|
+|       **Accuracy**        |  0.7729592  |  0.7857143  | 0.0127551 |
+|      **Sensitivity**      |  0.5307692  |  0.5692308  | 0.0384616 |
+|      **Specificity**      |  0.8931298  |  0.8931298  |     0     |
+|   **Balanced Accuracy**   |  0.7119495  |  0.7311803  | 0.0192308 |
+
+### Model Selection based on Accuracy Statistics {#bdt-problem-mselection}
+
+| **Cut-Off Value** $p=0.5$ | **M1~F~** | **M2~F~** |   $\Delta_F$   | **M1**~B~ | **M2**~B~ |  $\Delta_B$   |
+|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|:---------:|
+|          **Acc**          | 0.7729592 | 0.7831633 | **0.0102041**  | 0.7729592 | 0.7857143 | **0.0127551** |
+|         **Sens**          | 0.5307692 | 0.5692308 | **0.0384616**  | 0.5307692 | 0.5692308 | **0.0384616** |
+|         **Spec**          | 0.8931298 | 0.889313  | **-0.0038168** | 0.8931298 | 0.8931298 |     **0**     |
+|         **Bacc**          | 0.7119495 | 0.7292719 |   0.0173224    | 0.7119495 | 0.7311803 |   0.0192308   |
+
+#### Remember What We Set Out to Do! {#bdt-problem-back2p}
+
+We were tasked by our employer "Living with Diabetes" **to decide which diagnostical model LwD should use**, to decide when to prescribe insulin.
+
+Since the model, that we choose, will be used in practical setting, in which **insulin** is **not always readily available** and **often very expensive**, our decision should **minimize the number of false alarms**.
+
+Thus our decision should **favour the model with the greater specificity**.
+
+#### Which Model Should We Choose? {#bdt-problem-decide}
+
+The **accuracy statistics** (calculated based on the results of the frequentist as well as the Bayesian MLR) show, that the **first** and the **second model** both have nearly the **same specificity**. Therefore we cannot base our decision on the comparison of the specificity of the two models.
+
+Based on the assumption, that both models fit the data equally well and in the absence of further information, we would base our decision now solely on the differences in **accuracy** and **sensitive** of the two models.
+
+This would lead us to choose the **second model**, since it has a **slightly higher accuracy** (ca. $1\%$ higher probability to correctly identify any case) and a **somewhat higher sensitivity** (ca. $3\%$ higher probability to correctly identify a true positive case).
+
+#### A Truly Frustrating Result! {#bdt-problem-ohno}
+
+Initially we had hoped, that one of the models would have a **specificity** **of at least** $0.95$ ($95\%$ probability to correctly identify a true negative case). Unfortunately neither model met our expectations.
+
+A *Frequentist* would now probably report these results back to the executives at LwD and recommend, that the doctors try to come up with new models with at least the same model fit and accuracy but a higher specificity.
+
+### What is Bayesian Decision Theory? {#bdt-WhatIsBDT}
+
+Since we are *Bayesians* though, there is a another possibility: By applying Bayesian decision theory we can adapt the decisions we make based on the probabilities predicted by our models to the practical setting, in which the models shall be applied.
+
+#### Normative Decision Theory {#bdt-WhatIsBDT-NDT}
+
+Before we do that though, lets review some basic concepts of **normative decision theory** (NDT).
+
+Normative decision theory tells us how to make **rational decisions** under uncertainty. According to the NDT a decision is rational, if ...
+
+1.  **all information necessary** to reach the decision is **processed correctly**,
+
+2.  the decision was made **in accordance with** the **goal-system** of the decider and
+
+3.  the decision **maximizes utility** or **minimizes loss**.
+
+That means, that in order to make a rational decision we must first **gather all necessary data**. Having done that, we need to **processes** the **information correctly**. In cases in which we want to make a **judgement** about the **likelihood** of something, we should use **Bayes' theorem** according to NDT.
+
+Furthermore our decision needs to be made **in accordance with** our **goal-system**. In other words the decision we make must **reflect the goals**, that **we want to achieve** by making said decision.
+
+Lastly our decision must be made in such a way, that it **maximizes positive outcomes** (**utility**) or **minimizes negative outcomes** (**loss**).
+
+#### What's So Bayesian About That? {#bdt-WhatIsBDT-WhySoBay}
+
+Bayesian Decision Theory is basically the statistical application of the concepts of NDT to the problem of pattern classification, i.e. the categorization of data into distinct classes. This categorization can take the form of either the distinct labelling of data (e.g. "diabetic" vs "non-diabetic"), the division of data into a number of classes (e.g. "Iris setosa" vs "Iris versicolor" vs "Iris virginica"), the selection of the most significant feature(s) of data or some combination of one or more of these tasks.
+
+#### What Do We Do Now? {#bdt-WhatIsBDT-What2Do}
+
+Before we continue, let us recap what we have done so far:
+
+1.  We have gathered the necessary information (see dataset) and processed it correctly (Bayesian MLR Analysis).
+
+2.  We have defined our goal: Classify patients as "diabetic" or "non-diabetic" based on our models in a way, that minimizes the number of false alarms.
+
+Now all we have to do is to find a way to reach our goal and we do that by creating and applying appropriate **loss functions**.
+
+#### Loss Functions {#bdt-WhatIsBDT-LossFunc}
+
+Loss functions are simple mathematical functions that formalize the relationship between a decision and its loss depending on whether the decision is correct or false. In this context loss can be understood as the penalty we assign to the deviation of our decision from the correct decision. If our decision is correct though the loss is zero.
+
+In order to illustrate how loss functions work let us consider the following example in which one wants to make a point estimate of an unknown parameter.
+
+##### Guessing Future Sales of TacBook Pro Laptops {#bdt-WhatIsBDT-LossFunc-guess}
+
+> Max works in an Pear Store. Due to the ongoing recession their boss is concerned about future sales and wants to know exactly how many TacBook Pro laptops will be sold per month. Recently a consultant was tasked with analysing past sales of high-priced items. Said analyst provided Max with a distribution of the number of TacBook Pro laptops the Pear Store will sell per month (posterior distribution). Since their Boss does not understand Bayesian statistics at all they want them to report a single number for the number of TacBook Pro laptops the Pear Store will sell per month.
+
+A histogram as well as a violin plot of the aforementioned posterior distribution is shown below.
+
+```{r}
+#| label: bdt-loss-func-example1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pd.id <- c(1:51)
+tacbp.sales <- c(4,19,20,23,23,25,25,26,27,28,28,28,29,30,32,32,32,32,32,
+                 33,33,33,33,34,34,34,35,35,35,35,35,35,36,36,36,36,37,37,
+                 37,38,38,39,40,40,41,41,45,47,47,47,49)
+
+pear.store.sales <- data.frame(pd.id, tacbp.sales)
+
+pear.mean <- mean(pear.store.sales$tacbp.sales)
+pear.median <- median(pear.store.sales$tacbp.sales)
+pear.mode <- 35
+
+pear.hist <- plot_ly(pear.store.sales, x = ~tacbp.sales,
+                     type = "histogram", nbinsx = 50,
+                     marker = list(color = "#f4cccc",
+                                   line = list(color = "#e68d8d",
+                                               width = 2)),
+                     hovertemplate = 
+                       paste('<b>Predicted Sales</b>: %{x}',
+                             '<br><b>Occurences</b>: %{y}',
+                             '<extra></extra>'),
+                      name = "H") %>%
+  layout(title = "Posterior Distribution - Pear Store Sales",
+         xaxis = list(title='Number of TacBook Pro Laptops Sold',
+                      nticks = 11, range = c(0,50)), 
+         yaxis = list(title = "Number of Occurences",
+                      zeroline = FALSE, nticks = 8, range = c(0,7)))
+
+pear.violin <- plot_ly(pear.store.sales, x = ~tacbp.sales,
+                       type = 'violin', name = "VP",
+                       box = list(visible = T), 
+                       meanline = list(visible = T), 
+                       marker = list(color = "#e68d8d"),
+                       fillcolor = "#c0d6e4",
+                       line = list(color = "#8ab3cd"), 
+                       box = list(fillcolor = "#c0d6e4",
+                                  line = list(color = "#8ab3cd")))
+
+pear.subp <- subplot(pear.violin, pear.hist, 
+                      nrows = 2, heights = c(0.4, 0.6),
+                      shareX = TRUE, titleX = TRUE, titleY = TRUE,
+                      margin = 0.01) %>%
+  layout(showlegend = FALSE,
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+pear.subp
+
+```
+
+Seeing a visualization of the posterior distribution Max makes an (somewhat educated) guess regarding future sales and tell their boss, that they will sell **34 TacBook Pro Laptops per month** ($g = 34$).
+
+In order to find out though, if Max' guess was actually the best one, we have to follow these three steps:
+
+1.  Choose an appropriate loss function.
+
+2.  Calculate the loss for the guess Max has made ($L(34)$).
+
+3.  Compare said loss $L(34)$ to the losses for all other reasonable guesses.
+
+##### The Appropriate Loss Function {#bdt-WhatIsBDT-LossFunc-guess-AppLF}
+
+Before deciding on which loss function to use, let me first introduce **three very popular loss functions**, that are used in a wide variety of contexts.
+
+###### The 0/1 Loss Function {#bdt-WhatIsBDT-LossFunc-guess-AppLF1}
+
+$$
+L_{0,i}(0,g)=
+\begin{cases}
+  0 &\text{if $g=x_i$}\\
+  1 &\text{otherwise}
+\end{cases}
+$$
+
+The **0/1 loss function** ($L_0$) assigns the same loss to every incorrect decision or guess. It does not matter how much the incorrect decision deviates from the correct one, the loss is the same. This loss function is appropriate in cases in which only the correct decision is acceptable. An example would be guessing, whether there is a bomb in a suitcase or not. Only the correct guess is an acceptable one.
+
+###### The Quadratic Loss Function {#bdt-WhatIsBDT-LossFunc-guess-AppLF2}
+
+$$
+L_2(g) = \sum_{i=1}^n (x_i-g)^2
+$$
+
+The quadratic loss function ($L_2$) should look very familiar, since it uses the **sum of squared errors** to calculate the the loss of a decision or guess. It is exactly that term, whose value we try to minimize, when performing a linear regression analysis. This loss function heavily penalizes large deviations from the correct decision. For this reason one could for example easily imagine using the $L_2$ when estimating the life expectancy of a terminally ill patient.
+
+###### The Linear Loss Function {#bdt-WhatIsBDT-LossFunc-guess-AppLF3}
+
+$$
+L_1(g) = \sum_{i=1}^n |x_i-g|
+$$ The **linear loss function** ($L_1$) assumes a linear relationship between the degree of deviation of incorrect decisions and their losses. Imagine the following scenario: A person participates in a contest in which they are given 100 Euros. Said person is now asked to guess the number of red jelly beans in a jar filled with jelly beans of all different colours. If they guess the correct number (50), they get to keep their money. If their guess is off by 10 though, they loose 10 Euro. If their guess is off by 20, they loose 20 Euro. In this example a guess, that differs twice as much from the correct answer as another guess, results in the loss of twice as much money.
+
+Since the degree of deviation of Max' guess does matter, it is not advisable in my opinion to use $L_0$ in the aforementioned scenario. Furthermore I do not think it reasonable to use the $L_2$ in this context, since it would penalize larger deviations too heavily. Therefore we shall use the **linear loss function** ($L_1$) to calculate the loss of Max' guess.
+
+##### Calculating the Loss of Max' Guess {#bdt-WhatIsBDT-LossFunc-guess-LCalc}
+
+In order to calculate the total loss of Max' guess using the $L_1$ we simply sum up the absolute deviations of their guess from each and every value in the posterior distribution.
+
+```{r}
+#| label: bdt-loss-func-example2
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+pear.store.sales <- pear.store.sales %>%
+  add_column(MaxL1g34 = NA, .after="tacbp.sales")
+
+for (i in 1:length(pear.store.sales$pd.id)) {
+  pear.store.sales$MaxL1g34[i] <- 
+    abs(pear.store.sales$tacbp.sales[i]-34)
+}
+
+MaxTL1g34 <- sum(pear.store.sales$MaxL1g34)
+MaxTL1g34
+
+```
+
+##### Comparing Losses {#bdt-WhatIsBDT-LossFunc-guess-LComp}
+
+```{r}
+#| label: bdt-loss-func-example3
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+j <- c(0:50)
+j.names <- paste0("g", 0:50)
+a <- rep(NA, 51)
+all.guesses.all.losses <- data.frame(a)
+all.guesses.all.losses[,j.names] <- NA
+all.guesses.all.losses <- all.guesses.all.losses[,-1]
+
+for (k in 1:length(all.guesses.all.losses$g0)) {
+  for (i in 1:length(all.guesses.all.losses$g0)) {
+    all.guesses.all.losses[i,k] <- 
+    abs(pear.store.sales$tacbp.sales[i] - j[k])
+  }
+}
+
+guess <- 0:50
+total.losses <- as.numeric(mapply(sum, all.guesses.all.losses[,1:51]))
+losses <- data.frame(guess, total.losses)
+
+losses.plot <- plot_ly(losses, x = ~guess, y = ~total.losses, 
+                       type = 'scatter', mode = 'lines+markers',
+                       hovertemplate = paste('<b>Guess</b>: %{x}',
+                                            '<br><b>Loss</b>: %{y}',
+                                            '<extra></extra>'),
+                       line = list(color = '#c0d6e4'),
+                       marker = list(color = "#8ab3cd"),
+                       name = "L") %>%
+  layout(yaxis = list(title = "Loss - <i>L<sub>1</sub></i>",
+                      zeroline = FALSE, nticks = 4, range = c(200,1600)))
+
+
+pear.subp2 <- subplot(pear.violin, losses.plot, pear.hist, 
+                      nrows = 3, heights = c(0.3, 0.3, 0.4),
+                      shareX = TRUE, titleX = TRUE, titleY = TRUE,
+                      margin = 0.01) %>%
+  layout(showlegend = FALSE,
+         margin = list(l = 75, r = 75, b = 75, t = 75))
+
+pear.subp2
+
+```
+
+##### Congratulations to Max {#bdt-WhatIsBDT-LossFunc-guess-congrats}
+
+We see that when using the **linear loss function** $L_1$ the total loss is smallest for a point estimate of 34 $g=34$:
+
+$$
+L_1(34) = \sum_{i=1}^{50} |x_i-34| = 282
+$$
+
+We can of course only guess why Max made this particular guess, but it might be because they had some knowledge about Bayesian statistics. Maybe they knew that the $L_1$ might arguably the best choice in this scenario. Maybe they knew as well, that the $L_1$ always favours the median of a distribution and chose the a point estimate of 34, precisely because it is the median of the distribution.
+
+##### Good to Know {#bdt-WhatIsBDT-LossFunc-guess-g2k}
+
+**Different loss functions favour different distribution parameters.**
+
+-   The **0/1 loss function** ($L_0$) favours the **mode** of the distribution.
+
+-   The **quadratic loss function** ($L_2$) favours the **mean** of the distribution.
+
+-   The **linear loss function** ($L_1$) favours the **median** of the distribution.
+
+### Creating the Appropriate Loss Functions {#bdt-problem-AppL}
+
+Now that we understand how loss functions work let us get back to the problem at hand.
+
+We know that we need to find or create a loss function, that reduces the number of false alarms considerably, when classifying patients as either "diabetic" or "non-diabetic". Unlike in our example though, where Max made one guess (point estimation) or **one decision**, we now have to weigh **two decisions** against each other.
+
+#### Possible Decisions {#bdt-problem-AppL-pD}
+
+-   $d_1$: Accept $H_1$ (Patient is diabetic) - Decide that patient has diabetes
+
+-   $d_2$: Accept $H_2$ (Patient is not diabetic)- Decide that patient does not have diabetes
+
+Since we have two weigh these two decisions against each other, we create a loss function for $d_1$ as well as for $d_2$.
+
+#### Loss Functions for $d_1$ and $d_2$ {#bdt-problem-AppL-LFd1d2}
+
+$$
+L(d_1)=
+\begin{cases}
+  loss_{Hit}         &\text{if $d_1$ is right}\\
+  loss_{False~Alarm} &\text{if $d_1$ is wrong}
+\end{cases}
+$$
+
+$$
+L(d_2)=
+\begin{cases}
+  loss_{Correct~Rejection} &\text{if $d_2$ is right}\\
+  loss_{Miss}              &\text{if $d_2$ is wrong}
+\end{cases}
+$$
+
+#### Defining Losses {#bdt-problem-AppL-LDef}
+
+Having done that, we can now assign values to $loss_{Hit}$, $loss_{False~Alarm}$, $loss_{Correct~Rejection}$ and $loss_{Miss}$. We do not want to penalize correct decisions - *hits* and *correct rejections* - and therefore do not assign any loss to them. On the other hand though, we want to penalize incorrect decisions - *false alarms* and *misses*. Thus we assign non-zero values to $loss_{False~Alarm}$ and $loss_{Miss}$. Since we want to penalize *false alarms* more heavily than *misses* we assign a value to $loss_{False~Alarm}$, that is greater than the value, which we assign to $loss_{Miss}$.
+
+-   $Loss_{False~Alarm} = f = 20$
+-   $Loss_{Correct~Rejection} = 0$
+-   $Loss_{Hit} = 0$
+-   $Loss_{Miss} = m = 10$
+
+The resulting loss functions are shown below: $$
+L(d_1)=
+\begin{cases}
+  0 &\text{if $d_1$ is right}\\
+  f = 20 &\text{if $d_1$ is wrong}
+\end{cases}
+$$
+
+$$
+L(d_2)=
+\begin{cases}
+  0 &\text{if $d_2$ is right}\\
+  m = 10 &\text{if $d_2$ is wrong}
+\end{cases}
+$$
+
+### Calculating the Expected Losses for $d_1$ and $d_2$ {#bdt-problem-LCalc}
+
+Having defined the loss functions for $d_1$ and $d_2$, we can now calculate the **expected losses** for these two decisions for the first and the second model.
+
+In order to calculate the **expected loss** for the **decision**, that a **patient has diabetes** ($E[L(d_1)]$), we add the product of $loss_{Hit}$ and the probability of $H_1$ given our data and the the product of $loss_{False~Alarm}$ and the probability of $H_2$ given our data together. Since $loss_{Hit} = 0$, $E[L(d_1)]$ equals the product of $loss_{False~Alarm}$ and the probability of $H_2$ given our data. $$
+E[L(d_1)] =  0 \times P(H_1|x) + f \times P(H_2|x) = f \times P(H_2|x) = 20 \times P(H_2|x) 
+$$
+
+In order to calculate the **expected loss** for the **decision**, that a **patient does not have diabetes** ($E[L(d_2)]$), we add the product of $loss_{Miss}$ and the probability of $H_1$ given our data and the the product of $loss_{Correct~Rejection}$ and the probability of $H_2$ given our data together. Since $loss_{Correct~Rejection} = 0$, $E[L(d_2)]$ equals the product of $loss_{Miss}$ and the probability of $H_2$ given our data. $$
+E[L(d_2)] =  m \times P(H_1|x) + 0 \times P(H_2|x) = m \times P(H_1|x) = 10 \times P(H_1|x)
+$$
+
+Note that the the probability of $H_1$ given our data - $P(H_1|x)$ - can be obtained by calculating the column mean of the posterior distribution implied by the respective model (see line 661 for model 1 and line 715 for model 2). Accordingly the probability of $H_2$ given our data - $P(H_2|x)$ - can be obtained by subtracting $P(H_1|x)$ from one (see line 662 for model 1 and line 716 for model 2).
+
+Let us now calculate $E[L(d_1)]$ and $E[L(d_2)]$ based on both our models for every participant of the original study.
+
+#### Model 1: Diabetes Diagnosis \~ Glucose Level + BMI {#bdt-problem-LCalc-m1}
+
+```{r}
+#| label: bdt-bayesian-logreg-model1-losscalc
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diabetes.predictions.model1.1 <- diabetes.predictions.model1.1 %>%
+  add_column(ELd1 = NA, .after="probability.neg.diab.diagnosis")
+diabetes.predictions.model1.1 <- diabetes.predictions.model1.1 %>%
+  add_column(ELd2 = NA, .after="ELd1")
+diabetes.predictions.model1.1 <- diabetes.predictions.model1.1 %>%
+  add_column(classification.decision = NA, .after="ELd2")
+
+for (i in 1:length(diabetes.predictions.model1.1$outcome)) {
+  diabetes.predictions.model1.1$ELd1[i] <- 
+    20*diabetes.predictions.model1.1$probability.neg.diab.diagnosis[i]
+}
+
+for (i in 1:length(diabetes.predictions.model1.1$outcome)) {
+  diabetes.predictions.model1.1$ELd2[i] <- 
+    10*diabetes.predictions.model1.1$probability.pos.diab.diagnosis[i]
+}
+
+```
+
+```{r Bayesian logreg model1 loss plots1}
+#| label: bdt-bayesian-logreg-model1-lossplots1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diab.plot$model1.ELd1 <- diabetes.predictions.model1.1$ELd1
+diab.plot$model1.ELd2 <- diabetes.predictions.model1.1$ELd2
+
+model1.1.loss.plot <- plot_ly(diab.plot, 
+                              x = ~glucose, y = ~bmi, z = ~model1.ELd1,
+            type="scatter3d", mode="markers",
+            name="Expected Loss for\nDecision 1",
+            marker = list(size = 3, color='#f4cccc'))
+
+model1.1.loss.plot <- model1.1.loss.plot %>% 
+  add_trace(diab.plot, x = ~glucose, y = ~bmi, z = ~model1.ELd2,
+            type="scatter3d", mode="markers",
+            name="Expected Loss for\nDecision 2",
+            marker = list(size = 3, color='#e68d8d'))
+
+model1.1.loss.plot <- model1.1.loss.plot %>% 
+  layout(title = list(text='Model 1: Diabetes Diagnosis ~ Glucose Level + BMI', y = 0.95),
+         scene = list(xaxis = list(title = 'Glucose Level [scaled]'),
+                      yaxis = list(title = 'Body Mass Index [scaled]'),
+                      zaxis = list(title = 'Expected Loss')),
+         legend = list(y = 0.05))
+
+model1.1.loss.plot
+
+```
+
+#### Model 2: Diabetes Diagnosis \~ Glucose Level + Age {#bdt-problem-LCalc-m2}
+
+```{r}
+#| label: bdt-bayesian-logreg-model2-losscalc
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diabetes.predictions.model2.1 <- diabetes.predictions.model2.1 %>%
+  add_column(ELd1 = NA, .after="probability.neg.diab.diagnosis")
+diabetes.predictions.model2.1 <- diabetes.predictions.model2.1 %>%
+  add_column(ELd2 = NA, .after="ELd1")
+diabetes.predictions.model2.1 <- diabetes.predictions.model2.1 %>%
+  add_column(classification.decision = NA, .after="ELd2")
+
+for (i in 1:length(diabetes.predictions.model2.1$outcome)) {
+  diabetes.predictions.model2.1$ELd1[i] <- 
+    20*diabetes.predictions.model2.1$probability.neg.diab.diagnosis[i]
+}
+
+for (i in 1:length(diabetes.predictions.model2.1$outcome)) {
+  diabetes.predictions.model2.1$ELd2[i] <- 
+    10*diabetes.predictions.model2.1$probability.pos.diab.diagnosis[i]
+}
+
+```
+
+```{r}
+#| label: bdt-bayesian-logreg-model2-lossplots1
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+diab.plot$model2.ELd1 <- diabetes.predictions.model2.1$ELd1
+diab.plot$model2.ELd2 <- diabetes.predictions.model2.1$ELd2
+
+model2.1.loss.plot <- plot_ly(diab.plot, 
+                              x = ~glucose, y = ~age, z = ~model2.ELd1,
+            type="scatter3d", mode="markers",
+            name="Expected Loss for\nDecision 1",
+            marker = list(size = 3, color='#C0D6E4'))
+
+model2.1.loss.plot <- model2.1.loss.plot %>% 
+  add_trace(diab.plot, x = ~glucose, y = ~age, z = ~model2.ELd2,
+            type="scatter3d", mode="markers",
+            name="Expected Loss for\nDecision 2",
+            marker = list(size = 3, color='#8ab3cd'))
+
+model2.1.loss.plot <- model2.1.loss.plot %>% 
+  layout(title = list(text='Model 2: Diabetes Diagnosis ~ Glucose Level + Age', y = 0.95),
+         scene = list(xaxis = list(title = 'Glucose Level [scaled]'),
+                      yaxis = list(title = 'Age [scaled]'),
+                      zaxis = list(title = 'Expected Loss')),
+         legend = list(y = 0.05))
+
+model2.1.loss.plot
+
+```
+
+### Making Decisions based on Expected Losses
+
+Now that we have calculated $E[L(d_1)]$ and $E[L(d_2)]$ based on both our models we can classify the participants in the study as either "diabetic" or "non-diabetic" by comparing $E[L(d_1)]$ and $E[L(d_2)]$:
+
+-   If $E[L(d_1)] < E[L(d_2)]$ we classify the participant as "diabetic".
+-   If $E[L(d_1)] > E[L(d_2)]$ we classify the participant as "non-diabetic".
+
+```{r}
+#| label: bdt-bayesian-logreg-model1-lossdecision
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+for (i in 1:length(diabetes.predictions.model1.1$outcome)) {
+  if(diabetes.predictions.model1.1$ELd1[i] < 
+     diabetes.predictions.model1.1$ELd2[i]){
+    diabetes.predictions.model1.1$classification.decision[i] <- 
+      "diabetic"
+  } else if(diabetes.predictions.model1.1$ELd1[i] > 
+            diabetes.predictions.model1.1$ELd2[i]){
+    diabetes.predictions.model1.1$classification.decision[i] <- 
+      "non-diabetic"
+  }
+}
+
+###########
+
+for (i in 1:length(diabetes.predictions.model2.1$outcome)) {
+  if(diabetes.predictions.model2.1$ELd1[i] < 
+     diabetes.predictions.model2.1$ELd2[i]){
+    diabetes.predictions.model2.1$classification.decision[i] <- 
+      "diabetic"
+  } else if(diabetes.predictions.model2.1$ELd1[i] > 
+            diabetes.predictions.model2.1$ELd2[i]){
+    diabetes.predictions.model2.1$classification.decision[i] <- 
+      "non-diabetic"
+  }
+}
+
+```
+
+### Look what we did! {#bdt-problem-res}
+
+Next we inspect the results of the application of our loss functions by creating some confusion matrices and calculating the accuracy statistics.
+
+#### Confusion Matrices **- Cut-Off Value based on** $E[L(d_1)]$ and $E[L(d_2)]$ {#bdt-problem-res-conf}
+
+```{r}
+#| label: bdt-bayesian-confusion-matrices-ELd
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+model1.ELd.pred.pos.rec.pos <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.decision == "diabetic"
+    & diabetes.predictions.model1.1$outcome == '1', ])
+
+model1.ELd.pred.neg.rec.pos <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.decision == "non-diabetic"
+    & diabetes.predictions.model1.1$outcome == '1', ])
+
+model1.ELd.pred.pos.rec.neg <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.decision == "diabetic"
+    & diabetes.predictions.model1.1$outcome == '0', ])
+
+model1.ELd.pred.neg.rec.neg <- 
+  nrow(diabetes.predictions.model1.1[
+    diabetes.predictions.model1.1$classification.decision == "non-diabetic"
+    & diabetes.predictions.model1.1$outcome == '0', ])
+
+model1.ELd.hits <- model1.ELd.pred.pos.rec.pos
+model1.ELd.misses <- model1.ELd.pred.neg.rec.pos
+model1.ELd.false.alarms <- model1.ELd.pred.pos.rec.neg
+model1.ELd.correct.rejections <- model1.ELd.pred.neg.rec.neg
+
+###########
+
+model2.ELd.pred.pos.rec.pos <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.decision == "diabetic"
+    & diabetes.predictions.model2.1$outcome == '1', ])
+
+model2.ELd.pred.neg.rec.pos <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.decision == "non-diabetic"
+    & diabetes.predictions.model2.1$outcome == '1', ])
+
+model2.ELd.pred.pos.rec.neg <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.decision == "diabetic"
+    & diabetes.predictions.model2.1$outcome == '0', ])
+
+model2.ELd.pred.neg.rec.neg <- 
+  nrow(diabetes.predictions.model2.1[
+    diabetes.predictions.model2.1$classification.decision == "non-diabetic"
+    & diabetes.predictions.model2.1$outcome == '0', ])
+
+model2.ELd.hits <- model2.ELd.pred.pos.rec.pos
+model2.ELd.misses <- model2.ELd.pred.neg.rec.pos
+model2.ELd.false.alarms <- model2.ELd.pred.pos.rec.neg
+model2.ELd.correct.rejections <- model2.ELd.pred.neg.rec.neg
+
+```
+
+|             Model 1              | **Recorded Diagnosis POSITIVE** | **Recorded Diagnosis NEGATIVE** |
+|:-------------------------:|:---------------------:|:---------------------:|
+| **Predicted Diagnosis POSITIVE** |             48 Hits             |         16 False Alarms         |
+| **Predicted Diagnosis NEGATIVE** |            82 Misses            |     246 Correct Rejections      |
+
+|             Model 2              | **Recorded Diagnosis POSITIVE** | **Recorded Diagnosis NEGATIVE** |
+|:-------------------------:|:---------------------:|:---------------------:|
+| **Predicted Diagnosis POSITIVE** |             51 Hits             |         14 False Alarms         |
+| **Predicted Diagnosis NEGATIVE** |            79 Misses            |     248 Correct Rejections      |
+
+#### Accuracy Statistics {#bdt-problem-res-acc}
+
+```{r}
+#| label: bdt-bayesian-accuracy-statistics-ELd
+#| tidy: true
+#| tidy-opts: 
+#|   - width.cutoff=60
+#| warning: false
+#| message: false
+
+model1.ELd.acc <- (model1.ELd.hits + model1.ELd.correct.rejections)/
+  (model1.ELd.hits + model1.ELd.false.alarms + 
+     model1.ELd.misses + model1.ELd.correct.rejections)
+
+model1.ELd.sens <- model1.ELd.hits/
+  (model1.ELd.hits + model1.ELd.misses)
+
+model1.ELd.spec <- model1.ELd.correct.rejections/
+  (model1.ELd.false.alarms + model1.ELd.correct.rejections)
+
+model1.ELd.bacc <- model1.ELd.sens*0.5 + model1.ELd.spec*0.5
+
+###########
+
+model2.ELd.acc <- (model2.ELd.hits + model2.ELd.correct.rejections)/
+  (model2.ELd.hits + model2.ELd.false.alarms + 
+     model2.ELd.misses + model2.ELd.correct.rejections)
+
+model2.ELd.sens <- model2.ELd.hits/
+  (model2.ELd.hits + model2.ELd.misses)
+
+model2.ELd.spec <- model2.ELd.correct.rejections/
+  (model2.ELd.false.alarms + model2.ELd.correct.rejections)
+
+model2.ELd.bacc <- model2.ELd.sens*0.5 + model2.ELd.spec*0.5
+
+```
+
+|        Model 1        | **Cut-Off Value** $p=0.5$ | **Classification based on** $E[L(d_1)]$ & $E[L(d_2)]$ |  $\Delta$  |
+|:-----------------:|:----------------:|:----------------:|:----------------:|
+|     **Accuracy**      |         0.7729592         |                         0.75                          | -0.0229592 |
+|    **Sensitivity**    |         0.5307692         |                       0.3692308                       | -0.1615384 |
+|    **Specificity**    |         0.8931298         |                       0.9389313                       | 0.0458015  |
+| **Balanced Accuracy** |         0.7119495         |                       0.654081                        | -0.0578685 |
+
+|        Model 2        | **Cut-Off Value** $p=0.5$ | **Classification based on** $E[L(d_1)]$ & $E[L(d_2)]$ |  $\Delta$  |
+|:-----------------:|:----------------:|:----------------:|:----------------:|
+|     **Accuracy**      |         0.7857143         |                       0.7627551                       | -0.0229592 |
+|    **Sensitivity**    |         0.5692308         |                       0.3923077                       | -0.1769231 |
+|    **Specificity**    |         0.8931298         |                       0.9465649                       | 0.0534351  |
+| **Balanced Accuracy** |         0.7311803         |                       0.6694363                       | -0.061744  |
+
+| **Cut-Off Value** $p=0.5$ | **Model 1** | **Model 2** | $\Delta$  |
+|:-------------------------:|:-----------:|:-----------:|:---------:|
+|       **Accuracy**        |  0.7729592  |  0.7857143  | 0.0127551 |
+|      **Sensitivity**      |  0.5307692  |  0.5692308  | 0.0384616 |
+|      **Specificity**      |  0.8931298  |  0.8931298  |     0     |
+|   **Balanced Accuracy**   |  0.7119495  |  0.7311803  | 0.0192308 |
+
+| **Classification based on** $E[L(d_1)]$ & $E[L(d_2)]$ |  Model 1  |  Model 2  | $\Delta$  |
+|:-----------------:|:----------------:|:----------------:|:----------------:|
+|                     **Accuracy**                      |   0.75    | 0.7627551 | 0.0127551 |
+|                    **Sensitivity**                    | 0.3692308 | 0.3923077 | 0.0230769 |
+|                    **Specificity**                    | 0.9389313 | 0.9465649 | 0.0076336 |
+|                 **Balanced Accuracy**                 | 0.654081  | 0.6694363 | 0.0153553 |
+
+### Conclusion {#bdt-problem-conclusion}
+
+One can clearly see, that we managed to increase the **specificity** of the first as well as the second model by applying our loss functions. When using the first model the **specificity** of our decision process increases by $0.0458015$ when we base our classification decision on the comparison of $E[L(d_1)]$ and $E[L(d_2)]$ instead of using the usual cut-off value $p=0.5$ for the probability of $H_1$ and $H_2$ given our data. When using the second model said increase in the **specificity** of our decision process is even higher ($0.0534351$).
+
+Although the application of our loss functions does not greatly diminish the **accuracy** of our decision process, when using either model, we do see a rather large decrease in **sensitivity** (model 1: $-0.1615384$ - model 2: $-0.1769231$).
+
+Since the second model compared to the first model has the higher **accuracy**, **sensitivity** and **specificity** - as expected even when applying our loss functions to our decision process - I would recommend to "Living with Diabetes" to use the second model while applying our loss functions to their decision process.
+
+### Further Reading
+
+These are the resources I used to create the subchapter **Bayesian Decision Theory**:
+
+-   *Bayes Factors for Forensic Decision Analyses with R* by Bozza et al. [-@Bozza2022]
+
+-   *An Introduction to Bayesian Thinking* by Clyde et al. [-@Clyde2022]
+
+-   *Introduction to Bayesian Inference for Psychology* by Etz and Vandekerckhove [-@Etz2018]
+
+-   *Normative Theories of Decision Making Under Risk and Under Uncertainty* by Fishburn [-@Fishburn1988]
+
+-   *Bayes rules: an introduction to Bayesian modeling* by Johnson et al. [-@Johnson2022]
+
+-   *The Bayesian Choice: From Decision-Theoretic Foundations to Computational Implementation* by Robert [-@Robert2007]
+
+-   *Bayesian Logistic Regression with rstanarm* by Vehtari at al. [-@Vehtari2022]
