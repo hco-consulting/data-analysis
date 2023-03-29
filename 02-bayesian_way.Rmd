@@ -246,7 +246,6 @@ This example is based on a paper by [@Winter2021].
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 # load and wrangle data
 ## load dataset
@@ -754,7 +753,6 @@ The following functions enable us to perform the actual analysis using the MCMC 
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 # define MCMC simulation to estimate value x
 ## code function to define target distribution
@@ -776,7 +774,6 @@ def target_fun(X, theta):
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
   
 ## code function to define proposal distribution 
 def proposal_fun(theta_curr):
@@ -795,7 +792,6 @@ def proposal_fun(theta_curr):
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
   
 def proposal_func_prob(x1, x2):
   # for calculation of weighing matrix: q(theta_1|theta_2)
@@ -812,7 +808,6 @@ def proposal_func_prob(x1, x2):
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 ## code function to estimate posterior distribution
 def mcmc_mh_posterior(X, theta_init, target_fun, proposal_fun, proposal_func_prob, n_iter=1000):
@@ -975,7 +970,6 @@ rplotly_mcmcres <- function(data, burn_in, colourplt = c('#c0d6e4', '#8ab3cd', '
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 ## code function to calculate highest probability density region
 def hpd(trace, mass_frac) :
@@ -1024,7 +1018,7 @@ def hpd(trace, mass_frac) :
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
+
 
 ## code function to return further results of mcmc analysis
 def mcmc_overview(thetas, burn_in):
@@ -1060,7 +1054,6 @@ def mcmc_overview(thetas, burn_in):
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 # conduct main analysis
 burn_in_RQ1 = 500
@@ -1117,7 +1110,6 @@ M_avg_mcmc_plots$`Autocorrelation Plot`
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 # conduct main analysis
 ## run MCMC simulation
@@ -1171,7 +1163,6 @@ N_avg_mcmc_plots$`Autocorrelation Plot`
 #|   - width.cutoff=60
 #| warning: false
 #| message: false
-#| cache: true
 
 
 # conduct main analysis
