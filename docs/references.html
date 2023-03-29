@@ -23,14 +23,14 @@
 <meta name="author" content="Hamilkar Constantin Oueslati" />
 
 
-<meta name="date" content="2022-11-28" />
+<meta name="date" content="2023-03-29" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="decision-trees.html"/>
+<link rel="prev" href="supervised-learning.html"/>
 
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -53,12 +53,12 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -161,24 +161,51 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Advanced Data Analysis in R and Python</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#contact-the-author"><i class="fa fa-check"></i>Contact the Author</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#load-r-packages"><i class="fa fa-check"></i><b>1.1</b> Load R Packages</a></li>
-<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#load-python-version-3.10.8"><i class="fa fa-check"></i><b>1.2</b> Load Python Version 3.10.8</a></li>
-<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#import-python-modules"><i class="fa fa-check"></i><b>1.3</b> Import Python Modules</a></li>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#system-information"><i class="fa fa-check"></i><b>1.1</b> System Information</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#configure-chunk-options"><i class="fa fa-check"></i><b>1.2</b> Configure Chunk Options</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#load-r-packages"><i class="fa fa-check"></i><b>1.3</b> Load R Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="prerequisites.html"><a href="prerequisites.html#load-python"><i class="fa fa-check"></i><b>1.4</b> Load Python</a></li>
+<li class="chapter" data-level="1.5" data-path="prerequisites.html"><a href="prerequisites.html#import-python-modules"><i class="fa fa-check"></i><b>1.5</b> Import Python Modules</a></li>
+<li class="chapter" data-level="1.6" data-path="prerequisites.html"><a href="prerequisites.html#manage-references"><i class="fa fa-check"></i><b>1.6</b> Manage References</a></li>
+<li class="chapter" data-level="1.7" data-path="prerequisites.html"><a href="prerequisites.html#pandoc-filters"><i class="fa fa-check"></i><b>1.7</b> Pandoc Filters</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="prerequisites.html"><a href="prerequisites.html#enable-multiple-bibliographies"><i class="fa fa-check"></i><b>1.7.1</b> Enable Multiple Bibliographies</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html"><i class="fa fa-check"></i><b>2</b> Brushing Up on the Basics</a>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html"><i class="fa fa-check"></i><b>2</b> Bayesian Statistics</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#mixed-anova-r"><i class="fa fa-check"></i><b>2.1</b> Mixed ANOVA <em>R</em></a>
+<li class="chapter" data-level="2.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-basics"><i class="fa fa-check"></i><b>2.1</b> Bayesian Basics</a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#preperation-of-dataset-iris-r"><i class="fa fa-check"></i><b>2.1.1</b> Preperation of Dataset <code>iris</code> <em>R</em></a></li>
-<li class="chapter" data-level="2.1.2" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#creating-the-anova-model"><i class="fa fa-check"></i><b>2.1.2</b> Creating the ANOVA Model</a></li>
-<li class="chapter" data-level="2.1.3" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#testing-assumptions-anova-r"><i class="fa fa-check"></i><b>2.1.3</b> Testing Assumptions of the ANOVA <em>R</em></a></li>
-<li class="chapter" data-level="2.1.4" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#results-mixed-anova"><i class="fa fa-check"></i><b>2.1.4</b> Results of Mixed ANOVA</a></li>
+<li class="chapter" data-level="2.1.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-binomial-test"><i class="fa fa-check"></i><b>2.1.1</b> Binomial Test</a></li>
+<li class="chapter" data-level="2.1.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-t-test"><i class="fa fa-check"></i><b>2.1.2</b> Independent t-Test</a></li>
+<li class="chapter" data-level="2.1.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-anova"><i class="fa fa-check"></i><b>2.1.3</b> One-Way ANOVA</a></li>
+<li class="chapter" data-level="2.1.4" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-regression"><i class="fa fa-check"></i><b>2.1.4</b> Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#mcmc"><i class="fa fa-check"></i><b>2.2</b> Markov Chain Monte Carlo Methods</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#mcmc-basics"><i class="fa fa-check"></i><b>2.2.1</b> Understanding the Basics</a></li>
+<li class="chapter" data-level="2.2.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#mcmc-irl"><i class="fa fa-check"></i><b>2.2.2</b> Real World Application</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt"><i class="fa fa-check"></i><b>2.3</b> Bayesian Decision Theory</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem"><i class="fa fa-check"></i><b>2.3.1</b> The Problem at Hand</a></li>
+<li class="chapter" data-level="2.3.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-mselection"><i class="fa fa-check"></i><b>2.3.2</b> Model Selection based on Accuracy Statistics</a></li>
+<li class="chapter" data-level="2.3.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-WhatIsBDT"><i class="fa fa-check"></i><b>2.3.3</b> What is Bayesian Decision Theory?</a></li>
+<li class="chapter" data-level="2.3.4" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-AppL"><i class="fa fa-check"></i><b>2.3.4</b> Creating the Appropriate Loss Functions</a></li>
+<li class="chapter" data-level="2.3.5" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-LCalc"><i class="fa fa-check"></i><b>2.3.5</b> Calculating the Expected Losses for <span class="math inline">\(d_1\)</span> and <span class="math inline">\(d_2\)</span></a></li>
+<li class="chapter" data-level="2.3.6" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#making-decisions-based-on-expected-losses"><i class="fa fa-check"></i><b>2.3.6</b> Making Decisions based on Expected Losses</a></li>
+<li class="chapter" data-level="2.3.7" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-res"><i class="fa fa-check"></i><b>2.3.7</b> Look what we did!</a></li>
+<li class="chapter" data-level="2.3.8" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-conclusion"><i class="fa fa-check"></i><b>2.3.8</b> Conclusion</a></li>
+<li class="chapter" data-level="2.3.9" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#further-reading"><i class="fa fa-check"></i><b>2.3.9</b> Further Reading</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>3</b> Unsupervised Learning</a>
@@ -187,16 +214,47 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#import-dataset-iris-r"><i class="fa fa-check"></i><b>3.1.1</b> Import Dataset <code>iris</code> <em>R</em></a></li>
 <li class="chapter" data-level="3.1.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering-k-means-algorithm"><i class="fa fa-check"></i><b>3.1.2</b> Clustering Using a <em>k</em>-means Algorithm</a></li>
+<li class="chapter" data-level="3.1.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#visualization-results-clustering-r"><i class="fa fa-check"></i><b>3.1.3</b> Visualization of Results of Clustering <em>R</em></a></li>
 </ul></li>
 <li class="chapter" data-level="3.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#non-hierarchical-clustering-python"><i class="fa fa-check"></i><b>3.2</b> Non-Hierarchical Clustering <em>Python</em></a>
 <ul>
 <li class="chapter" data-level="3.2.1" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#import-dataset-iris-python"><i class="fa fa-check"></i><b>3.2.1</b> Import Dataset <code>iris</code> <em>Python</em></a></li>
 <li class="chapter" data-level="3.2.2" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#preprocessing-of-data"><i class="fa fa-check"></i><b>3.2.2</b> Preprocessing of Data</a></li>
 <li class="chapter" data-level="3.2.3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#clustering-using-a-k-means-algorithm"><i class="fa fa-check"></i><b>3.2.3</b> Clustering Using a <em>k</em>-means Algorithm</a></li>
+<li class="chapter" data-level="3.2.4" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#visualization-results-clustering-python"><i class="fa fa-check"></i><b>3.2.4</b> Visualization of Results of Clustering <em>Python</em></a></li>
+<li class="chapter" data-level="3.2.5" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html#conclusion-k-means"><i class="fa fa-check"></i><b>3.2.5</b> Conclusion</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="decision-trees.html"><a href="decision-trees.html"><i class="fa fa-check"></i><b>4</b> Decision Trees</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="4" data-path="supervised-learning.html"><a href="supervised-learning.html"><i class="fa fa-check"></i><b>4</b> Supervised Learning</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="supervised-learning.html"><a href="supervised-learning.html#into-decision-trees"><i class="fa fa-check"></i><b>4.1</b> Introduction to Decision Trees</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="supervised-learning.html"><a href="supervised-learning.html#what-dt"><i class="fa fa-check"></i><b>4.1.1</b> What are Decision Trees?</a></li>
+<li class="chapter" data-level="4.1.2" data-path="supervised-learning.html"><a href="supervised-learning.html#concept-dt"><i class="fa fa-check"></i><b>4.1.2</b> Basic Concepts of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.3" data-path="supervised-learning.html"><a href="supervised-learning.html#history-dt"><i class="fa fa-check"></i><b>4.1.3</b> A Short History of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.4" data-path="supervised-learning.html"><a href="supervised-learning.html#terminology-dt"><i class="fa fa-check"></i><b>4.1.4</b> Basic Terminology of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.5" data-path="supervised-learning.html"><a href="supervised-learning.html#eg-dt-python"><i class="fa fa-check"></i><b>4.1.5</b> An Example of Creating a Decision Tree with <em>Python</em></a></li>
+<li class="chapter" data-level="4.1.6" data-path="supervised-learning.html"><a href="supervised-learning.html#eg-dt-r"><i class="fa fa-check"></i><b>4.1.6</b> An Example of Creating a Decision Tree with <em>R</em></a></li>
+<li class="chapter" data-level="4.1.7" data-path="supervised-learning.html"><a href="supervised-learning.html#adv-disadv-dt"><i class="fa fa-check"></i><b>4.1.7</b> Advantages and Disadvantages of Decision Trees</a></li>
+<li class="chapter" data-level="4.1.8" data-path="supervised-learning.html"><a href="supervised-learning.html#fft"><i class="fa fa-check"></i><b>4.1.8</b> Fast-and-Frugal Trees</a></li>
+<li class="chapter" data-level="4.1.9" data-path="supervised-learning.html"><a href="supervised-learning.html#fft-creation"><i class="fa fa-check"></i><b>4.1.9</b> Creating a FFT with <code>FFTrees</code></a></li>
+<li class="chapter" data-level="4.1.10" data-path="supervised-learning.html"><a href="supervised-learning.html#dt-conclusion"><i class="fa fa-check"></i><b>4.1.10</b> Conclusion</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a>
+<ul>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#software"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#r-packages"><i class="fa fa-check"></i>R Packages</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#python"><i class="fa fa-check"></i>Python</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#python-packages"><i class="fa fa-check"></i>Python Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#bibliography"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -216,22 +274,414 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="references" class="section level1 unnumbered hasAnchor">
 <h1>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="refs" class="references csl-bib-body hanging-indent" line-spacing="2">
-<div class="csl-entry">
+<div id="software" class="section level2 unnumbered hasAnchor">
+<h2>Software<a href="references.html#software" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="r-and-rstudio" class="section level3 unnumbered hasAnchor">
+<h3>R and RStudio<a href="references.html#r-and-rstudio" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="references.html#cb229-1" tabindex="-1"></a><span class="fu">cite_r_rstudio</span>(<span class="at">cat_output =</span> <span class="cn">TRUE</span>, <span class="at">write_bib_file =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## --------------------------------------------------
+## R Version: 4.2.1 (2022-06-23)
+## --------------------------------------------------
+## RStudio Version: Cherry Blossom - 2023.03.0+386
+## --------------------------------------------------</code></pre>
+<div id="refs_rrstudio" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-2023rstudio" class="csl-entry">
+Posit team. (2023). <em>RStudio: Integrated development environment for r</em>. Posit Software, PBC. <a href="http://www.posit.co/">http://www.posit.co/</a>
+</div>
+<div id="ref-2022language" class="csl-entry">
+R Core Team. (2022). <em>R: A language and environment for statistical computing</em>. R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>
+</div>
+</div>
+</div>
+<div id="r-packages" class="section level3 unnumbered hasAnchor">
+<h3>R Packages<a href="references.html#r-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs_rpackages" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-R-rmarkdown" class="csl-entry">
+Allaire, J., Xie, Y., McPherson, J., Luraschi, J., Ushey, K., Atkins, A., Wickham, H., Cheng, J., Chang, W., &amp; Iannone, R. (2022). <em>Rmarkdown: Dynamic documents for r</em>. <a href="https://CRAN.R-project.org/package=rmarkdown">https://CRAN.R-project.org/package=rmarkdown</a>
+</div>
+<div id="ref-qqplotr2018" class="csl-entry">
+Almeida, A., Loy, A., &amp; Hofmann, H. (2018). <span class="nocase">ggplot2</span> compatible quantile-quantile plots in r. In <em>The R Journal</em> (No. 2; Vol. 10, pp. 248–261). <a href="https://doi.org/10.32614/RJ-2018-051">https://doi.org/10.32614/RJ-2018-051</a>
+</div>
+<div id="ref-R-qqplotr" class="csl-entry">
+Almeida, A., Loy, A., &amp; Hofmann, H. (2021). <em>Qqplotr: Quantile-quantile plot extensions for ggplot2</em>. <a href="https://github.com/aloy/qqplotr">https://github.com/aloy/qqplotr</a>
+</div>
+<div id="ref-R-gridExtra" class="csl-entry">
+Auguie, B. (2017). <em>gridExtra: Miscellaneous functions for "grid" graphics</em>. <a href="https://CRAN.R-project.org/package=gridExtra">https://CRAN.R-project.org/package=gridExtra</a>
+</div>
+<div id="ref-BayesianFirstAid2013" class="csl-entry">
+Bååth, R. (2013). Bayesian first aid. <em>Tba</em>. <a href="https://tba">tba</a>
+</div>
+<div id="ref-R-BayesianFirstAid" class="csl-entry">
+Bååth, R. (2023). <em>BayesianFirstAid: Bayesian replacements for the most commonly used statistical tests in r.</em> <a href="http://www.sumsar.net">http://www.sumsar.net</a>
+</div>
+<div id="ref-lme42015" class="csl-entry">
+Bates, D., Mächler, M., Bolker, B., &amp; Walker, S. (2015). Fitting linear mixed-effects models using <span class="nocase">lme4</span>. <em>Journal of Statistical Software</em>, <em>67</em>(1), 1–48. <a href="https://doi.org/10.18637/jss.v067.i01">https://doi.org/10.18637/jss.v067.i01</a>
+</div>
+<div id="ref-R-lme4" class="csl-entry">
+Bates, D., Maechler, M., Bolker, B., &amp; Walker, S. (2023). <em>lme4: Linear mixed-effects models using eigen and S4</em>. <a href="https://github.com/lme4/lme4/">https://github.com/lme4/lme4/</a>
+</div>
+<div id="ref-R-Matrix" class="csl-entry">
+Bates, D., Maechler, M., &amp; Jagan, M. (2022). <em>Matrix: Sparse and dense matrix classes and methods</em>. <a href="https://CRAN.R-project.org/package=Matrix">https://CRAN.R-project.org/package=Matrix</a>
+</div>
+<div id="ref-R-broom.mixed" class="csl-entry">
+Bolker, B., &amp; Robinson, D. (2022). <em>Broom.mixed: Tidying methods for mixed models</em>. <a href="https://github.com/bbolker/broom.mixed">https://github.com/bbolker/broom.mixed</a>
+</div>
+<div id="ref-rstanarm2018" class="csl-entry">
+Brilleman, S., Crowther, M., Moreno-Betancur, M., Buros Novik, J., &amp; Wolfe, R. (2018). <em>Joint longitudinal and time-to-event models via <span>Stan</span>.</em> <a href="https://github.com/stan-dev/stancon_talks/">https://github.com/stan-dev/stancon_talks/</a>
+</div>
+<div id="ref-brms2017" class="csl-entry">
+Bürkner, P.-C. (2017). <span class="nocase">brms</span>: An <span>R</span> package for <span>Bayesian</span> multilevel models using <span>Stan</span>. <em>Journal of Statistical Software</em>, <em>80</em>(1), 1–28. <a href="https://doi.org/10.18637/jss.v080.i01">https://doi.org/10.18637/jss.v080.i01</a>
+</div>
+<div id="ref-brms2018" class="csl-entry">
+Bürkner, P.-C. (2018). Advanced <span>Bayesian</span> multilevel modeling with the <span>R</span> package <span class="nocase">brms</span>. <em>The R Journal</em>, <em>10</em>(1), 395–411. <a href="https://doi.org/10.32614/RJ-2018-017">https://doi.org/10.32614/RJ-2018-017</a>
+</div>
+<div id="ref-brms2021" class="csl-entry">
+Bürkner, P.-C. (2021). Bayesian item response modeling in <span>R</span> with <span class="nocase">brms</span> and <span>Stan</span>. <em>Journal of Statistical Software</em>, <em>100</em>(5), 1–54. <a href="https://doi.org/10.18637/jss.v100.i05">https://doi.org/10.18637/jss.v100.i05</a>
+</div>
+<div id="ref-R-brms" class="csl-entry">
+Bürkner, P.-C. (2023). <em>Brms: Bayesian regression models using stan</em>. <a href="https://CRAN.R-project.org/package=brms">https://CRAN.R-project.org/package=brms</a>
+</div>
+<div id="ref-R-processx" class="csl-entry">
+Csárdi, G., &amp; Chang, W. (2022). <em>Processx: Execute and control system processes</em>. <a href="https://CRAN.R-project.org/package=processx">https://CRAN.R-project.org/package=processx</a>
+</div>
+<div id="ref-R-remotes" class="csl-entry">
+Csárdi, G., Hester, J., Wickham, H., Chang, W., Morgan, M., &amp; Tenenbaum, D. (2021). <em>Remotes: R package installation from remote repositories, including GitHub</em>. <a href="https://CRAN.R-project.org/package=remotes">https://CRAN.R-project.org/package=remotes</a>
+</div>
+<div id="ref-R-bayesrules" class="csl-entry">
+Dogucu, M., Johnson, A., &amp; Ott, M. (2021). <em>Bayesrules: Datasets and supplemental functions from bayes rules! book</em>. <a href="https://CRAN.R-project.org/package=bayesrules">https://CRAN.R-project.org/package=bayesrules</a>
+</div>
+<div id="ref-R-binom" class="csl-entry">
+Dorai-Raj, S. (2022). <em>Binom: Binomial confidence intervals for several parameterizations</em>. <a href="https://CRAN.R-project.org/package=binom">https://CRAN.R-project.org/package=binom</a>
+</div>
+<div id="ref-Rcpp2013" class="csl-entry">
+Eddelbuettel, D. (2013). <em>Seamless <span>R</span> and <span>C++</span> integration with <span>Rcpp</span></em>. Springer. <a href="https://doi.org/10.1007/978-1-4614-6868-4">https://doi.org/10.1007/978-1-4614-6868-4</a>
+</div>
+<div id="ref-Rcpp2018" class="csl-entry">
+Eddelbuettel, D., &amp; Balamuta, J. J. (2018). <span class="nocase">Extending extit<span>R</span> with extit<span>C++</span>: A Brief Introduction to extit<span>Rcpp</span></span>. <em>The American Statistician</em>, <em>72</em>(1), 28–36. <a href="https://doi.org/10.1080/00031305.2017.1375990">https://doi.org/10.1080/00031305.2017.1375990</a>
+</div>
+<div id="ref-R-Rcpp" class="csl-entry">
+Eddelbuettel, D., Francois, R., Allaire, J., Ushey, K., Kou, Q., Russell, N., Ucar, I., Bates, D., &amp; Chambers, J. (2023). <em>Rcpp: Seamless r and c++ integration</em>. <a href="https://CRAN.R-project.org/package=Rcpp">https://CRAN.R-project.org/package=Rcpp</a>
+</div>
+<div id="ref-Rcpp2011" class="csl-entry">
+Eddelbuettel, D., &amp; François, R. (2011). <span>Rcpp</span>: Seamless <span>R</span> and <span>C++</span> integration. <em>Journal of Statistical Software</em>, <em>40</em>(8), 1–18. <a href="https://doi.org/10.18637/jss.v040.i08">https://doi.org/10.18637/jss.v040.i08</a>
+</div>
+<div id="ref-R-janitor" class="csl-entry">
+Firke, S. (2021). <em>Janitor: Simple tools for examining and cleaning dirty data</em>. <a href="https://github.com/sfirke/janitor">https://github.com/sfirke/janitor</a>
+</div>
+<div id="ref-R-mclust" class="csl-entry">
+Fraley, C., Raftery, A. E., &amp; Scrucca, L. (2022). <em>Mclust: Gaussian mixture modelling for model-based clustering, classification, and density estimation</em>. <a href="https://mclust-org.github.io/mclust/">https://mclust-org.github.io/mclust/</a>
+</div>
+<div id="ref-R-rstanarm" class="csl-entry">
+Gabry, J., &amp; Goodrich, B. (2022). <em>Rstanarm: Bayesian applied regression modeling via stan</em>. <a href="https://CRAN.R-project.org/package=rstanarm">https://CRAN.R-project.org/package=rstanarm</a>
+</div>
+<div id="ref-R-bayesplot" class="csl-entry">
+Gabry, J., &amp; Mahr, T. (2022). <em>Bayesplot: Plotting for bayesian models</em>. <a href="https://mc-stan.org/bayesplot/">https://mc-stan.org/bayesplot/</a>
+</div>
+<div id="ref-bayesplot2019" class="csl-entry">
+Gabry, J., Simpson, D., Vehtari, A., Betancourt, M., &amp; Gelman, A. (2019). Visualization in bayesian workflow. <em>J. R. Stat. Soc. A</em>, <em>182</em>, 389–402. <a href="https://doi.org/10.1111/rssa.12378">https://doi.org/10.1111/rssa.12378</a>
+</div>
+<div id="ref-R-StanHeaders" class="csl-entry">
+Goodrich, B., Gelman, A., Carpenter, B., Hoffman, M., Lee, D., Betancourt, M., Brubaker, M., Guo, J., Li, P., Riddell, A., Inacio, M., Morris, M., Arnold, J., Goedman, R., Lau, B., Trangucci, R., Gabry, J., Kucukelbir, A., Grant, R., … Gao, Y. (2020). <em>StanHeaders: C++ header files for stan</em>. <a href="https://mc-stan.org/">https://mc-stan.org/</a>
+</div>
+<div id="ref-R-rstan" class="csl-entry">
+Guo, J., Gabry, J., Goodrich, B., &amp; Weber, S. (2023). <em>Rstan: R interface to stan</em>. <a href="https://CRAN.R-project.org/package=rstan">https://CRAN.R-project.org/package=rstan</a>
+</div>
+<div id="ref-R-cat" class="csl-entry">
+Harding, T., Tusell, F., &amp; Schafer, J. L. (2022). <em>Cat: Analysis and imputation of categorical-variable datasets with missing values</em>. <a href="https://CRAN.R-project.org/package=cat">https://CRAN.R-project.org/package=cat</a>
+</div>
+<div id="ref-R-glue" class="csl-entry">
+Hester, J., &amp; Bryan, J. (2022). <em>Glue: Interpreted string literals</em>. <a href="https://CRAN.R-project.org/package=glue">https://CRAN.R-project.org/package=glue</a>
+</div>
+<div id="ref-R-DiagrammeR" class="csl-entry">
+Iannone, R. (2022). <em>DiagrammeR: Graph/network visualization</em>. <a href="https://github.com/rich-iannone/DiagrammeR">https://github.com/rich-iannone/DiagrammeR</a>
+</div>
+<div id="ref-R-ggpubr" class="csl-entry">
+Kassambara, A. (2023a). <em>Ggpubr: ggplot2 based publication ready plots</em>. <a href="https://rpkgs.datanovia.com/ggpubr/">https://rpkgs.datanovia.com/ggpubr/</a>
+</div>
+<div id="ref-R-rstatix" class="csl-entry">
+Kassambara, A. (2023b). <em>Rstatix: Pipe-friendly framework for basic statistical tests</em>. <a href="https://rpkgs.datanovia.com/rstatix/">https://rpkgs.datanovia.com/rstatix/</a>
+</div>
+<div id="ref-R-tidybayes" class="csl-entry">
+Kay, M. (2022). <em>Tidybayes: Tidy data and geoms for bayesian models</em>. <a href="https://CRAN.R-project.org/package=tidybayes">https://CRAN.R-project.org/package=tidybayes</a>
+</div>
+<div id="ref-R-caret" class="csl-entry">
+Kuhn, M. (2022). <em>Caret: Classification and regression training</em>. <a href="https://github.com/topepo/caret/">https://github.com/topepo/caret/</a>
+</div>
+<div id="ref-R-emmeans" class="csl-entry">
+Lenth, R. V. (2023). <em>Emmeans: Estimated marginal means, aka least-squares means</em>. <a href="https://github.com/rvlenth/emmeans">https://github.com/rvlenth/emmeans</a>
+</div>
+<div id="ref-performance2021" class="csl-entry">
+Lüdecke, D., Ben-Shachar, M. S., Patil, I., Waggoner, P., &amp; Makowski, D. (2021). <span class="nocase">performance</span>: An <span>R</span> package for assessment, comparison and testing of statistical models. <em>Journal of Open Source Software</em>, <em>6</em>(60), 3139. <a href="https://doi.org/10.21105/joss.03139">https://doi.org/10.21105/joss.03139</a>
+</div>
+<div id="ref-R-performance" class="csl-entry">
+Lüdecke, D., Makowski, D., Ben-Shachar, M. S., Patil, I., Waggoner, P., &amp; Wiernik, B. M. (2022). <em>Performance: Assessment of regression models performance</em>. <a href="https://easystats.github.io/performance/">https://easystats.github.io/performance/</a>
+</div>
+<div id="ref-R-AICcmodavg" class="csl-entry">
+Mazerolle, M. J. (2023). <em>AICcmodavg: Model selection and multimodel inference based on (q)AIC(c)</em>. <a href="https://CRAN.R-project.org/package=AICcmodavg">https://CRAN.R-project.org/package=AICcmodavg</a>
+</div>
+<div id="ref-RefManageR2014" class="csl-entry">
+McLean, M. W. (2014). <em>Straightforward bibliography management in r using the RefManager package</em>. <a href="https://arxiv.org/abs/1403.2036">https://arxiv.org/abs/1403.2036</a>
+</div>
+<div id="ref-RefManageR2017" class="csl-entry">
+McLean, M. W. (2017). RefManageR: Import and manage BibTeX and BibLaTeX references in r. <em>The Journal of Open Source Software</em>. <a href="https://doi.org/10.21105/joss.00338">https://doi.org/10.21105/joss.00338</a>
+</div>
+<div id="ref-R-RefManageR" class="csl-entry">
+McLean, M. W. (2022). <em>RefManageR: Straightforward BibTeX and BibLaTeX bibliography management</em>. <a href="https://github.com/ropensci/RefManageR/">https://github.com/ropensci/RefManageR/</a>
+</div>
+<div id="ref-R-rpart.plot" class="csl-entry">
+Milborrow, S. (2022). <em>Rpart.plot: Plot rpart models: An enhanced version of plot.rpart</em>. <a href="http://www.milbo.org/rpart-plot/index.html">http://www.milbo.org/rpart-plot/index.html</a>
+</div>
+<div id="ref-R-BayesFactor" class="csl-entry">
+Morey, R. D., &amp; Rouder, J. N. (2022). <em>BayesFactor: Computation of bayes factors for common designs</em>. <a href="https://richarddmorey.github.io/BayesFactor/">https://richarddmorey.github.io/BayesFactor/</a>
+</div>
+<div id="ref-R-tibble" class="csl-entry">
+Müller, K., &amp; Wickham, H. (2023). <em>Tibble: Simple data frames</em>. <a href="https://CRAN.R-project.org/package=tibble">https://CRAN.R-project.org/package=tibble</a>
+</div>
+<div id="ref-FFTrees2017" class="csl-entry">
+Phillips, N. D., Neth, H., Woike, J. K., &amp; Gaissmaier, W. (2017). FFTrees: A toolbox to create, visualize, and evaluate fast-and-frugal decision trees. <em>Judgment and Decision Making</em>, <em>12</em>(4), 344–368. <a href="https://CRAN.R-project.org/package=FFTrees">https://CRAN.R-project.org/package=FFTrees</a>
+</div>
+<div id="ref-R-FFTrees" class="csl-entry">
+Phillips, N., Neth, H., Woike, J., &amp; Gaissmaier, W. (2022). <em>FFTrees: Generate, visualise, and evaluate fast-and-frugal decision trees</em>. <a href="https://CRAN.R-project.org/package=FFTrees">https://CRAN.R-project.org/package=FFTrees</a>
+</div>
+<div id="ref-R-rjags" class="csl-entry">
+Plummer, M. (2022). <em>Rjags: Bayesian graphical models using MCMC</em>. <a href="https://mcmc-jags.sourceforge.io">https://mcmc-jags.sourceforge.io</a>
+</div>
+<div id="ref-coda2006" class="csl-entry">
+Plummer, M., Best, N., Cowles, K., &amp; Vines, K. (2006). CODA: Convergence diagnosis and output analysis for MCMC. <em>R News</em>, <em>6</em>(1), 7–11. <a href="https://journal.r-project.org/archive/">https://journal.r-project.org/archive/</a>
+</div>
+<div id="ref-R-coda" class="csl-entry">
+Plummer, M., Best, N., Cowles, K., Vines, K., Sarkar, D., Bates, D., Almond, R., &amp; Magnusson, A. (2020). <em>Coda: Output analysis and diagnostics for MCMC</em>. <a href="https://CRAN.R-project.org/package=coda">https://CRAN.R-project.org/package=coda</a>
+</div>
+<div id="ref-R-base" class="csl-entry">
+R Core Team. (2022). <em>R: A language and environment for statistical computing</em>. R Foundation for Statistical Computing. <a href="https://www.R-project.org/">https://www.R-project.org/</a>
+</div>
+<div id="ref-R-psych" class="csl-entry">
+Revelle, W. (2022). <em>Psych: Procedures for psychological, psychometric, and personality research</em>. <a href="https://personality-project.org/r/psych/
+https://personality-project.org/r/psych-manual.pdf">https://personality-project.org/r/psych/
+https://personality-project.org/r/psych-manual.pdf</a>
+</div>
+<div id="ref-R-broom" class="csl-entry">
+Robinson, D., Hayes, A., &amp; Couch, S. (2022). <em>Broom: Convert statistical objects into tidy tibbles</em>. <a href="https://CRAN.R-project.org/package=broom">https://CRAN.R-project.org/package=broom</a>
+</div>
+<div id="ref-lattice2008" class="csl-entry">
+Sarkar, D. (2008). <em>Lattice: Multivariate data visualization with r</em>. Springer. <a href="http://lmdvr.r-forge.r-project.org">http://lmdvr.r-forge.r-project.org</a>
+</div>
+<div id="ref-R-lattice" class="csl-entry">
+Sarkar, D. (2021). <em>Lattice: Trellis graphics for r</em>. <a href="http://lattice.r-forge.r-project.org/">http://lattice.r-forge.r-project.org/</a>
+</div>
+<div id="ref-mclust2016" class="csl-entry">
+Scrucca, L., Fop, M., Murphy, T. B., &amp; Raftery, A. E. (2016). <span class="nocase">mclust</span> 5: Clustering, classification and density estimation using <span>G</span>aussian finite mixture models. <em>The <span>R</span> Journal</em>, <em>8</em>(1), 289–317. <a href="https://doi.org/10.32614/RJ-2016-021">https://doi.org/10.32614/RJ-2016-021</a>
+</div>
+<div id="ref-plotly2020" class="csl-entry">
+Sievert, C. (2020). <em>Interactive web-based data visualization with r, plotly, and shiny</em>. Chapman; Hall/CRC. <a href="https://plotly-r.com">https://plotly-r.com</a>
+</div>
+<div id="ref-R-plotly" class="csl-entry">
+Sievert, C., Parmer, C., Hocking, T., Chamberlain, S., Ram, K., Corvellec, M., &amp; Despouy, P. (2022). <em>Plotly: Create interactive web graphics via plotly.js</em>. <a href="https://CRAN.R-project.org/package=plotly">https://CRAN.R-project.org/package=plotly</a>
+</div>
+<div id="ref-R-stanova" class="csl-entry">
+Singmann, H. (2023). <em>Stanova: Bayesian models with categorical variables</em>.
+</div>
+<div id="ref-R-afex" class="csl-entry">
+Singmann, H., Bolker, B., Westfall, J., Aust, F., &amp; Ben-Shachar, M. S. (2022). <em>Afex: Analysis of factorial experiments</em>. <a href="https://CRAN.R-project.org/package=afex">https://CRAN.R-project.org/package=afex</a>
+</div>
+<div id="ref-R-rpart" class="csl-entry">
+Therneau, T., &amp; Atkinson, B. (2022). <em>Rpart: Recursive partitioning and regression trees</em>. <a href="https://CRAN.R-project.org/package=rpart">https://CRAN.R-project.org/package=rpart</a>
+</div>
+<div id="ref-R-reticulate" class="csl-entry">
+Ushey, K., Allaire, J., &amp; Tang, Y. (2022). <em>Reticulate: Interface to python</em>. <a href="https://CRAN.R-project.org/package=reticulate">https://CRAN.R-project.org/package=reticulate</a>
+</div>
+<div id="ref-ggplot22016" class="csl-entry">
+Wickham, H. (2016). <em>ggplot2: Elegant graphics for data analysis</em>. Springer-Verlag New York. <a href="https://ggplot2.tidyverse.org">https://ggplot2.tidyverse.org</a>
+</div>
+<div id="ref-R-forcats" class="csl-entry">
+Wickham, H. (2022a). <em>Forcats: Tools for working with categorical variables (factors)</em>. <a href="https://CRAN.R-project.org/package=forcats">https://CRAN.R-project.org/package=forcats</a>
+</div>
+<div id="ref-R-stringr" class="csl-entry">
+Wickham, H. (2022b). <em>Stringr: Simple, consistent wrappers for common string operations</em>. <a href="https://CRAN.R-project.org/package=stringr">https://CRAN.R-project.org/package=stringr</a>
+</div>
+<div id="ref-R-tidyverse" class="csl-entry">
+Wickham, H. (2022c). <em>Tidyverse: Easily install and load the tidyverse</em>. <a href="https://CRAN.R-project.org/package=tidyverse">https://CRAN.R-project.org/package=tidyverse</a>
+</div>
+<div id="ref-tidyverse2019" class="csl-entry">
+Wickham, H., Averick, M., Bryan, J., Chang, W., McGowan, L. D., François, R., Grolemund, G., Hayes, A., Henry, L., Hester, J., Kuhn, M., Pedersen, T. L., Miller, E., Bache, S. M., Müller, K., Ooms, J., Robinson, D., Seidel, D. P., Spinu, V., … Yutani, H. (2019). Welcome to the <span class="nocase">tidyverse</span>. <em>Journal of Open Source Software</em>, <em>4</em>(43), 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>
+</div>
+<div id="ref-R-usethis" class="csl-entry">
+Wickham, H., Bryan, J., &amp; Barrett, M. (2022). <em>Usethis: Automate package and project setup</em>. <a href="https://CRAN.R-project.org/package=usethis">https://CRAN.R-project.org/package=usethis</a>
+</div>
+<div id="ref-R-ggplot2" class="csl-entry">
+Wickham, H., Chang, W., Henry, L., Pedersen, T. L., Takahashi, K., Wilke, C., Woo, K., Yutani, H., &amp; Dunnington, D. (2023). <em>ggplot2: Create elegant data visualisations using the grammar of graphics</em>. <a href="https://CRAN.R-project.org/package=ggplot2">https://CRAN.R-project.org/package=ggplot2</a>
+</div>
+<div id="ref-R-dplyr" class="csl-entry">
+Wickham, H., François, R., Henry, L., &amp; Müller, K. (2022). <em>Dplyr: A grammar of data manipulation</em>. <a href="https://CRAN.R-project.org/package=dplyr">https://CRAN.R-project.org/package=dplyr</a>
+</div>
+<div id="ref-R-purrr" class="csl-entry">
+Wickham, H., &amp; Henry, L. (2023). <em>Purrr: Functional programming tools</em>. <a href="https://CRAN.R-project.org/package=purrr">https://CRAN.R-project.org/package=purrr</a>
+</div>
+<div id="ref-R-readr" class="csl-entry">
+Wickham, H., Hester, J., &amp; Bryan, J. (2022). <em>Readr: Read rectangular text data</em>. <a href="https://CRAN.R-project.org/package=readr">https://CRAN.R-project.org/package=readr</a>
+</div>
+<div id="ref-R-devtools" class="csl-entry">
+Wickham, H., Hester, J., Chang, W., &amp; Bryan, J. (2022). <em>Devtools: Tools to make developing r packages easier</em>. <a href="https://CRAN.R-project.org/package=devtools">https://CRAN.R-project.org/package=devtools</a>
+</div>
+<div id="ref-R-tidyr" class="csl-entry">
+Wickham, H., Vaughan, D., &amp; Girlich, M. (2023). <em>Tidyr: Tidy messy data</em>. <a href="https://CRAN.R-project.org/package=tidyr">https://CRAN.R-project.org/package=tidyr</a>
+</div>
+<div id="ref-knitr2014" class="csl-entry">
+Xie, Y. (2014). Knitr: A comprehensive tool for reproducible research in <span>R</span>. In V. Stodden, F. Leisch, &amp; R. D. Peng (Eds.), <em>Implementing reproducible computational research</em>. Chapman; Hall/CRC. <a href="http://www.crcpress.com/product/isbn/9781466561595">http://www.crcpress.com/product/isbn/9781466561595</a>
+</div>
+<div id="ref-knitr2015" class="csl-entry">
+Xie, Y. (2015). <em>Dynamic documents with <span>R</span> and knitr</em> (2nd ed.). Chapman; Hall/CRC. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>
+</div>
+<div id="ref-bookdown2016" class="csl-entry">
+Xie, Y. (2016). <em>Bookdown: Authoring books and technical documents with <span>R</span> markdown</em>. Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/bookdown">https://bookdown.org/yihui/bookdown</a>
+</div>
+<div id="ref-R-bookdown" class="csl-entry">
+Xie, Y. (2022a). <em>Bookdown: Authoring books and technical documents with r markdown</em>.
+</div>
+<div id="ref-R-knitr" class="csl-entry">
+Xie, Y. (2022b). <em>Knitr: A general-purpose package for dynamic report generation in r</em>. <a href="https://yihui.org/knitr/">https://yihui.org/knitr/</a>
+</div>
+<div id="ref-rmarkdown2018" class="csl-entry">
+Xie, Y., Allaire, J. J., &amp; Grolemund, G. (2018). <em>R markdown: The definitive guide</em>. Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown">https://bookdown.org/yihui/rmarkdown</a>
+</div>
+<div id="ref-rmarkdown2020" class="csl-entry">
+Xie, Y., Dervieux, C., &amp; Riederer, E. (2020). <em>R markdown cookbook</em>. Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook">https://bookdown.org/yihui/rmarkdown-cookbook</a>
+</div>
+</div>
+</div>
+<div id="python" class="section level3 unnumbered hasAnchor">
+<h3>Python<a href="references.html#python" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="references.html#cb231-1" tabindex="-1"></a><span class="fu">cite_python</span>(<span class="at">cat_output =</span> <span class="cn">TRUE</span>, <span class="at">write_bib_file =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## -------------------------
+## Python Version: 3.11.2
+## -------------------------</code></pre>
+<div id="refs_python" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-python1991" class="csl-entry">
+van Rossum, G., &amp; de Boer, J. (1991). Interactively testing remote servers using the python programming language. <em>CWI Quarterly</em>, <em>4</em>(4), 283–304.
+</div>
+</div>
+</div>
+<div id="python-packages" class="section level3 unnumbered hasAnchor">
+<h3>Python Packages<a href="references.html#python-packages" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs_pypackages" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Harris_2020" class="csl-entry">
+Harris, C. R., Millman, K. J., van der Walt, S. J., Gommers, R., Virtanen, P., Cournapeau, D., Wieser, E., Taylor, J., Berg, S., Smith, N. J., Kern, R., Picus, M., Hoyer, S., van Kerkwijk, M. H., Brett, M., Haldane, A., del Rı́o, J. F., Wiebe, M., Peterson, P., … Oliphant, T. E. (2020). Array programming with <span>NumPy</span>. <em>Nature</em>, <em>585</em>(7825), 357–362. <a href="https://doi.org/10.1038/s41586-020-2649-2">https://doi.org/10.1038/s41586-020-2649-2</a>
+</div>
+<div id="ref-Hunter_2007" class="csl-entry">
+Hunter, J. D. (2007). Matplotlib: A 2D graphics environment. <em>Computing in Science <span>&amp;</span>Amp<span class="math inline">\(\mathsemicolon\)</span> Engineering</em>, <em>9</em>(3), 90–95. <a href="https://doi.org/10.1109/mcse.2007.55">https://doi.org/10.1109/mcse.2007.55</a>
+</div>
+<div id="ref-plotly" class="csl-entry">
+Inc., P. T. (2015). <em>Collaborative data science</em>. Plotly Technologies Inc. <a href="https://plot.ly">https://plot.ly</a>
+</div>
+<div id="ref-McKinney_2010" class="csl-entry">
+McKinney, W. (2010). Data structures for statistical computing in python. <em>Proceedings of the Python in Science Conference</em>. <a href="https://doi.org/10.25080/majora-92bf1922-00a">https://doi.org/10.25080/majora-92bf1922-00a</a>
+</div>
+<div id="ref-Satopaa_2011" class="csl-entry">
+Satopaa, V., Albrecht, J., Irwin, D., &amp; Raghavan, B. (2011, June). Finding a "kneedle" in a haystack: Detecting knee points in system behavior. <em>2011 31st International Conference on Distributed Computing Systems Workshops</em>. <a href="https://doi.org/10.1109/icdcsw.2011.20">https://doi.org/10.1109/icdcsw.2011.20</a>
+</div>
+<div id="ref-scikit-learn" class="csl-entry">
+<em>Scikit-learn: Machine learning in <span>P</span>ython</em>. (n.d.).
+</div>
+<div id="ref-seabold2010statsmodels" class="csl-entry">
+Seabold, S., &amp; Perktold, J. (2010). Statsmodels: Econometric and statistical modeling with python. <em>9th Python in Science Conference</em>.
+</div>
+<div id="ref-Virtanen_2020" class="csl-entry">
+Virtanen, P., Gommers, R., Oliphant, T. E., Haberland, M., Reddy, T., Cournapeau, D., Burovski, E., Peterson, P., Weckesser, W., Bright, J., van der Walt, S. J., Brett, M., Wilson, J., Millman, K. J., Mayorov, N., Nelson, A. R. J., Jones, E., Kern, R., Larson, E., … and, Y. V.-B. (2020). <span>SciPy</span> 1.0: Fundamental algorithms for scientific computing in python. <em>Nature Methods</em>, <em>17</em>(3), 261–272. <a href="https://doi.org/10.1038/s41592-019-0686-2">https://doi.org/10.1038/s41592-019-0686-2</a>
+</div>
+<div id="ref-Waskom_2021" class="csl-entry">
+Waskom, M. (2021). Seaborn: Statistical data visualization. <em>Journal of Open Source Software</em>, <em>6</em>(60), 3021. <a href="https://doi.org/10.21105/joss.03021">https://doi.org/10.21105/joss.03021</a>
+</div>
+</div>
+</div>
+</div>
+<div id="bibliography" class="section level2 unnumbered hasAnchor">
+<h2>Bibliography<a href="references.html#bibliography" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="refs_main" class="references csl-bib-body hanging-indent" line-spacing="2">
+<div id="ref-Arvai2022" class="csl-entry">
 Arvai, K. (2022). K-means clustering in python: A practical guide. In <em>Real Python</em>. Real Python. <a href="https://realpython.com/k-means-clustering-python/#how-to-perform-k-means-clustering-in-python">https://realpython.com/k-means-clustering-python/#how-to-perform-k-means-clustering-in-python</a>
 </div>
-<div class="csl-entry">
+<div id="ref-Baumer2017" class="csl-entry">
 Baumer, D. T., Benjamin S.and Kaplan, &amp; Horton, N. J. (2017). <em>Modern data science with r</em>. CRC Press. <a href="https://doi.org/10.1201/9781315113760">https://doi.org/10.1201/9781315113760</a>
+</div>
+<div id="ref-Bozza2022" class="csl-entry">
+Bozza, S., Taroni, F., &amp; Biedermann, A. (2022). <em>Bayes factors for forensic decision analyses with r</em> (1st 2022.) [Book]. Springer International Publishing. <a href="https://doi.org/10.1007/978-3-031-09839-0">https://doi.org/10.1007/978-3-031-09839-0</a>
+</div>
+<div id="ref-Breiman1984" class="csl-entry">
+Breiman, L. (1984). <em>Classification and regression trees</em>. Wadsworth Internat. Group.
+</div>
+<div id="ref-KDChauhan2022" class="csl-entry">
+Chauhan, N. S. (2022). Decision tree algorithm, explained. In <em>KDnuggets</em>. KDnuggets. <a href="https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html">https://www.kdnuggets.com/2020/01/decision-tree-algorithm-explained.html</a>
+</div>
+<div id="ref-Clyde2022" class="csl-entry">
+Clyde, M., Çetinkaya-Rundel, M., Rundel, C., Banks, D., Chai, C., &amp; Huang, L. (2022). <em>An introduction to bayesian thinking</em> [Web Book]. <a href="https://statswithr.github.io/book/">https://statswithr.github.io/book/</a>
+</div>
+<div id="ref-scikitDT" class="csl-entry">
+Decision trees. (n.d.). In <em>scikit-learn</em>. scikit-learn. Retrieved November 30, 2022, from <a href="https://scikit-learn.org/stable/modules/tree.html">https://scikit-learn.org/stable/modules/tree.html</a>
+</div>
+<div id="ref-Etz2018" class="csl-entry">
+Etz, A., &amp; Vandekerckhove, J. (2018). Introduction to bayesian inference for psychology [Journal Article]. <em>Psychonomic Bulletin &amp; Review</em>, <em>25</em>(1), 5–34. <a href="https://doi.org/10.3758/s13423-017-1262-3">https://doi.org/10.3758/s13423-017-1262-3</a>
+</div>
+<div id="ref-Fishburn1988" class="csl-entry">
+Fishburn, P. C. (1988). Normative theories of decision making under risk and under uncertainty [Book Section]. In A. Tversky, D. E. Bell, &amp; H. Raiffa (Eds.), <em>Decision making: Descriptive, normative, and prescriptive interactions</em> (pp. 78–98). Cambridge University Press. <a href="https://doi.org/10.1017/CBO9780511598951.006">https://doi.org/10.1017/CBO9780511598951.006</a>
+</div>
+<div id="ref-Hastie2009" class="csl-entry">
+Hastie, T., Tibshirani, R., &amp; Friedman, J. H. (2009). <em>The elements of statistical learning: Data mining, inference, and prediction</em> (2. ed.). Springer.
+</div>
+<div id="ref-Hunt1966" class="csl-entry">
+Hunt, E. B., Marin, J., &amp; Stone, P. J. (1966). <em>Experiments in induction</em>. Academic Pr.
+</div>
+<div id="ref-Johnson2022" class="csl-entry">
+Johnson, A. A., Ott, M. Q., &amp; Dogucu, M. (2022). <em>Bayes rules: An introduction to bayesian modeling</em> [Book]. CRC Press Taylor &amp; Francis Group. <a href="https://go.exlibris.link/bsmRK8wq">https://go.exlibris.link/bsmRK8wq</a>
+</div>
+<div id="ref-SD32014" class="csl-entry">
+Jones, D. N., &amp; Paulhus, D. L. (2014). Introducing the short dark triad (SD3): A brief measure of dark personality traits. <em>Assessment</em>, <em>21</em>(1), 28–41. <a href="https://doi.org/10.1177/1073191113514105">https://doi.org/10.1177/1073191113514105</a>
+</div>
+<div id="ref-Neth2017" class="csl-entry">
+Phillips, N. D., Neth, H., Woike, J. K., &amp; Gaissmaier, W. (2017). FFTrees: A toolbox to create, visualize, and evaluate fast-and-frugal decision trees. <em>Judgment and Decision Making</em>, <em>12</em>(4), 344–368.
+</div>
+<div id="ref-Quinlan1986" class="csl-entry">
+Quinlan, J. R. (1986). Induction of decision trees. <em>Machine Learning</em>, <em>1</em>(1), 81–106. <a href="https://doi.org/10.1007/BF00116251">https://doi.org/10.1007/BF00116251</a>
+</div>
+<div id="ref-Quinlan2003" class="csl-entry">
+Quinlan, J. R. (2003). <em>C4.5: Programs for machine learning</em> (5. [pr.]). Morgan Kaufmann.
+</div>
+<div id="ref-MarkovChains_Ritvik2020" class="csl-entry">
+ritvikmath. (2020). Markov chains : Data science basics [YouTube Video]. In <em>YouTube</em>. <a href="https://www.youtube.com/watch?v=prZMpThbU3E">https://www.youtube.com/watch?v=prZMpThbU3E</a>
+</div>
+<div id="ref-MonteCarlo_Ritvik2021" class="csl-entry">
+ritvikmath. (2021a). Monte carlo methods : Data science basics [YouTube Video]. In <em>YouTube</em>. <a href="https://www.youtube.com/watch?v=EaR3C4e600k">https://www.youtube.com/watch?v=EaR3C4e600k</a>
+</div>
+<div id="ref-MCMC_Ritvik2021" class="csl-entry">
+ritvikmath. (2021b). Markov chain monte carlo (MCMC) : Data science concepts [YouTube Video]. In <em>YouTube</em>. <a href="https://www.youtube.com/watch?v=yApmR-c_hKU">https://www.youtube.com/watch?v=yApmR-c_hKU</a>
+</div>
+<div id="ref-Robert2007" class="csl-entry">
+Robert, C. P. (2007). <em>The bayesian choice: From decision-theoretic foundations to computational implementation</em> (2nd ed., p. 615) [Book]. Springer. <a href="https://doi.org/10.1007/0-387-71599-1">https://doi.org/10.1007/0-387-71599-1</a>
+</div>
+<div id="ref-Vehtari2022" class="csl-entry">
+Vehtari, A., Gabry, J., &amp; Goodrich, B. (2022). <em>Bayesian logistic regression with rstanarm</em> [Web Page]. Aki Vehtari: Model Selection. <a href="https://avehtari.github.io/modelselection/diabetes.html">https://avehtari.github.io/modelselection/diabetes.html</a>
+</div>
+<div id="ref-deVille2013" class="csl-entry">
+Ville, B. de. (2013). <em>WIREs Computational Statistics</em>, <em>5</em>(6), 448–455. https://doi.org/<a href="https://doi.org/10.1002/wics.1278">https://doi.org/10.1002/wics.1278</a>
+</div>
+<div id="ref-ibm" class="csl-entry">
+What is a decision tree. (n.d.). In <em>IBM</em>. IBM. Retrieved November 30, 2022, from <a href="https://www.ibm.com/topics/decision-trees">https://www.ibm.com/topics/decision-trees</a>
+</div>
+<div id="ref-Winter2021" class="csl-entry">
+Winter, B., &amp; Bürkner, P.-C. (2021). Poisson regression for linguists: A tutorial introduction to modelling count data with brms. <em>Language and Linguistics Compass</em>, <em>15</em>(11), e12439. https://doi.org/<a href="https://doi.org/10.1111/lnc3.12439">https://doi.org/10.1111/lnc3.12439</a>
+</div>
+<div id="ref-Cookbook" class="csl-entry">
+Xie, Y., Dervieux, C., &amp; Riederer, E. (2022). <em>R markdown cookbook</em>. Chapman; Hall/CRC. <a href="https://bookdown.org/yihui/rmarkdown-cookbook">https://bookdown.org/yihui/rmarkdown-cookbook</a>
 </div>
 </div>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="decision-trees.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="supervised-learning.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
@@ -262,10 +712,7 @@ gitbook.start({
 "family": "sans",
 "size": 2
 },
-"edit": {
-"link": null,
-"text": null
-},
+"edit": null,
 "history": {
 "link": null,
 "text": null
@@ -280,12 +727,27 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "subsection",
+"scroll_highlight": true
 }
 });
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

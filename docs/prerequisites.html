@@ -23,7 +23,11 @@
 <meta name="author" content="Hamilkar Constantin Oueslati" />
 
 
+<<<<<<< Updated upstream
 <meta name="date" content="2022-12-01" />
+=======
+<meta name="date" content="2023-03-29" />
+>>>>>>> Stashed changes
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,7 +35,7 @@
   
   
 <link rel="prev" href="index.html"/>
-<link rel="next" href="brushing-up-on-the-basics.html"/>
+<link rel="next" href="bayesian-statistics.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -53,12 +57,12 @@
 <link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
 <script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
 <script src="libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
-<script src="libs/plotly-binding-4.10.0/plotly.js"></script>
+<script src="libs/plotly-binding-4.10.1/plotly.js"></script>
 <script src="libs/typedarray-0.1/typedarray.min.js"></script>
 <link href="libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
 <script src="libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
-<link href="libs/plotly-htmlwidgets-css-2.5.1/plotly-htmlwidgets.css" rel="stylesheet" />
-<script src="libs/plotly-main-2.5.1/plotly-latest.min.js"></script>
+<link href="libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
 
 
 <style type="text/css">
@@ -161,24 +165,51 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
+<li><a href="./">Advanced Data Analysis in R and Python</a></li>
+
+<li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a>
 <ul>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html#contact-the-author"><i class="fa fa-check"></i>Contact the Author</a></li>
 </ul></li>
 <li class="chapter" data-level="1" data-path="prerequisites.html"><a href="prerequisites.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a>
 <ul>
-<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#load-r-packages"><i class="fa fa-check"></i><b>1.1</b> Load R Packages</a></li>
-<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#load-python-version-3.10.8"><i class="fa fa-check"></i><b>1.2</b> Load Python Version 3.10.8</a></li>
-<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#import-python-modules"><i class="fa fa-check"></i><b>1.3</b> Import Python Modules</a></li>
+<li class="chapter" data-level="1.1" data-path="prerequisites.html"><a href="prerequisites.html#system-information"><i class="fa fa-check"></i><b>1.1</b> System Information</a></li>
+<li class="chapter" data-level="1.2" data-path="prerequisites.html"><a href="prerequisites.html#configure-chunk-options"><i class="fa fa-check"></i><b>1.2</b> Configure Chunk Options</a></li>
+<li class="chapter" data-level="1.3" data-path="prerequisites.html"><a href="prerequisites.html#load-r-packages"><i class="fa fa-check"></i><b>1.3</b> Load R Packages</a></li>
+<li class="chapter" data-level="1.4" data-path="prerequisites.html"><a href="prerequisites.html#load-python"><i class="fa fa-check"></i><b>1.4</b> Load Python</a></li>
+<li class="chapter" data-level="1.5" data-path="prerequisites.html"><a href="prerequisites.html#import-python-modules"><i class="fa fa-check"></i><b>1.5</b> Import Python Modules</a></li>
+<li class="chapter" data-level="1.6" data-path="prerequisites.html"><a href="prerequisites.html#manage-references"><i class="fa fa-check"></i><b>1.6</b> Manage References</a></li>
+<li class="chapter" data-level="1.7" data-path="prerequisites.html"><a href="prerequisites.html#pandoc-filters"><i class="fa fa-check"></i><b>1.7</b> Pandoc Filters</a>
+<ul>
+<li class="chapter" data-level="1.7.1" data-path="prerequisites.html"><a href="prerequisites.html#enable-multiple-bibliographies"><i class="fa fa-check"></i><b>1.7.1</b> Enable Multiple Bibliographies</a></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html"><i class="fa fa-check"></i><b>2</b> Brushing Up on the Basics</a>
+</ul></li>
+<li class="chapter" data-level="2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html"><i class="fa fa-check"></i><b>2</b> Bayesian Statistics</a>
 <ul>
-<li class="chapter" data-level="2.1" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#mixed-anova-r"><i class="fa fa-check"></i><b>2.1</b> Mixed ANOVA <em>R</em></a>
+<li class="chapter" data-level="2.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-basics"><i class="fa fa-check"></i><b>2.1</b> Bayesian Basics</a>
 <ul>
-<li class="chapter" data-level="2.1.1" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#preperation-of-dataset-iris-r"><i class="fa fa-check"></i><b>2.1.1</b> Preperation of Dataset <code>iris</code> <em>R</em></a></li>
-<li class="chapter" data-level="2.1.2" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#creating-the-anova-model"><i class="fa fa-check"></i><b>2.1.2</b> Creating the ANOVA Model</a></li>
-<li class="chapter" data-level="2.1.3" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#testing-assumptions-anova-r"><i class="fa fa-check"></i><b>2.1.3</b> Testing Assumptions of the ANOVA <em>R</em></a></li>
-<li class="chapter" data-level="2.1.4" data-path="brushing-up-on-the-basics.html"><a href="brushing-up-on-the-basics.html#results-mixed-anova"><i class="fa fa-check"></i><b>2.1.4</b> Results of Mixed ANOVA</a></li>
+<li class="chapter" data-level="2.1.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-binomial-test"><i class="fa fa-check"></i><b>2.1.1</b> Binomial Test</a></li>
+<li class="chapter" data-level="2.1.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-t-test"><i class="fa fa-check"></i><b>2.1.2</b> Independent t-Test</a></li>
+<li class="chapter" data-level="2.1.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-anova"><i class="fa fa-check"></i><b>2.1.3</b> One-Way ANOVA</a></li>
+<li class="chapter" data-level="2.1.4" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bayesian-regression"><i class="fa fa-check"></i><b>2.1.4</b> Regression</a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#mcmc"><i class="fa fa-check"></i><b>2.2</b> Markov Chain Monte Carlo Methods</a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#mcmc-basics"><i class="fa fa-check"></i><b>2.2.1</b> Understanding the Basics</a></li>
+<li class="chapter" data-level="2.2.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#mcmc-irl"><i class="fa fa-check"></i><b>2.2.2</b> Real World Application</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt"><i class="fa fa-check"></i><b>2.3</b> Bayesian Decision Theory</a>
+<ul>
+<li class="chapter" data-level="2.3.1" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem"><i class="fa fa-check"></i><b>2.3.1</b> The Problem at Hand</a></li>
+<li class="chapter" data-level="2.3.2" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-mselection"><i class="fa fa-check"></i><b>2.3.2</b> Model Selection based on Accuracy Statistics</a></li>
+<li class="chapter" data-level="2.3.3" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-WhatIsBDT"><i class="fa fa-check"></i><b>2.3.3</b> What is Bayesian Decision Theory?</a></li>
+<li class="chapter" data-level="2.3.4" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-AppL"><i class="fa fa-check"></i><b>2.3.4</b> Creating the Appropriate Loss Functions</a></li>
+<li class="chapter" data-level="2.3.5" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-LCalc"><i class="fa fa-check"></i><b>2.3.5</b> Calculating the Expected Losses for <span class="math inline">\(d_1\)</span> and <span class="math inline">\(d_2\)</span></a></li>
+<li class="chapter" data-level="2.3.6" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#making-decisions-based-on-expected-losses"><i class="fa fa-check"></i><b>2.3.6</b> Making Decisions based on Expected Losses</a></li>
+<li class="chapter" data-level="2.3.7" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-res"><i class="fa fa-check"></i><b>2.3.7</b> Look what we did!</a></li>
+<li class="chapter" data-level="2.3.8" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#bdt-problem-conclusion"><i class="fa fa-check"></i><b>2.3.8</b> Conclusion</a></li>
+<li class="chapter" data-level="2.3.9" data-path="bayesian-statistics.html"><a href="bayesian-statistics.html#further-reading"><i class="fa fa-check"></i><b>2.3.9</b> Further Reading</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="unsupervised-learning.html"><a href="unsupervised-learning.html"><i class="fa fa-check"></i><b>3</b> Unsupervised Learning</a>
@@ -214,7 +245,20 @@ div.csl-indent {
 <li class="chapter" data-level="4.1.10" data-path="supervised-learning.html"><a href="supervised-learning.html#dt-conclusion"><i class="fa fa-check"></i><b>4.1.10</b> Conclusion</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="" data-path="works-cited.html"><a href="works-cited.html"><i class="fa fa-check"></i>Works Cited</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a>
+<ul>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#software"><i class="fa fa-check"></i>Software</a>
+<ul>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#r-and-rstudio"><i class="fa fa-check"></i>R and RStudio</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#r-packages"><i class="fa fa-check"></i>R Packages</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#python"><i class="fa fa-check"></i>Python</a></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#python-packages"><i class="fa fa-check"></i>Python Packages</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html#bibliography"><i class="fa fa-check"></i>Bibliography</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
 </ul>
 
       </nav>
@@ -234,52 +278,384 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="prerequisites" class="section level1 hasAnchor" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Prerequisites<a href="prerequisites.html#prerequisites" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<div id="load-r-packages" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> Load R Packages<a href="prerequisites.html#load-r-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="prerequisites.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-2"><a href="prerequisites.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
-<span id="cb1-3"><a href="prerequisites.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb1-4"><a href="prerequisites.html#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mclust)</span>
-<span id="cb1-5"><a href="prerequisites.html#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
-<span id="cb1-6"><a href="prerequisites.html#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
-<span id="cb1-7"><a href="prerequisites.html#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
-<span id="cb1-8"><a href="prerequisites.html#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(processx)</span>
-<span id="cb1-9"><a href="prerequisites.html#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
-<span id="cb1-10"><a href="prerequisites.html#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span>
-<span id="cb1-11"><a href="prerequisites.html#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
-<span id="cb1-12"><a href="prerequisites.html#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
-<span id="cb1-13"><a href="prerequisites.html#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(qqplotr)</span>
-<span id="cb1-14"><a href="prerequisites.html#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bookdown)</span>
-<span id="cb1-15"><a href="prerequisites.html#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FFTrees)</span>
-<span id="cb1-16"><a href="prerequisites.html#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
-<span id="cb1-17"><a href="prerequisites.html#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span></code></pre></div>
+<div id="system-information" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> System Information<a href="prerequisites.html#system-information" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>This Web Book was created on a platform running under <strong>macOS Ventura 13.2.1</strong>.</p>
 </div>
-<div id="load-python-version-3.10.8" class="section level2 hasAnchor" number="1.2">
-<h2><span class="header-section-number">1.2</span> Load Python Version 3.10.8<a href="prerequisites.html#load-python-version-3.10.8" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="prerequisites.html#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">use_python</span>(<span class="st">&quot;/Library/Frameworks/Python.framework/Versions/3.10/bin/python3&quot;</span>)</span></code></pre></div>
+<div id="configure-chunk-options" class="section level2 hasAnchor" number="1.2">
+<h2><span class="header-section-number">1.2</span> Configure Chunk Options<a href="prerequisites.html#configure-chunk-options" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="prerequisites.html#cb1-1" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>, <span class="at">out.width =</span> <span class="st">&quot;100%&quot;</span>)</span></code></pre></div>
 </div>
-<div id="import-python-modules" class="section level2 hasAnchor" number="1.3">
-<h2><span class="header-section-number">1.3</span> Import Python Modules<a href="prerequisites.html#import-python-modules" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="prerequisites.html#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="prerequisites.html#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="prerequisites.html#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb3-4"><a href="prerequisites.html#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
-<span id="cb3-5"><a href="prerequisites.html#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
-<span id="cb3-6"><a href="prerequisites.html#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.stats.api <span class="im">as</span> sms</span>
-<span id="cb3-7"><a href="prerequisites.html#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.stats.descriptivestats <span class="im">as</span> smds</span>
-<span id="cb3-8"><a href="prerequisites.html#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> kneed <span class="im">import</span> KneeLocator</span>
-<span id="cb3-9"><a href="prerequisites.html#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
-<span id="cb3-10"><a href="prerequisites.html#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
-<span id="cb3-11"><a href="prerequisites.html#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
-<span id="cb3-12"><a href="prerequisites.html#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> tree</span>
-<span id="cb3-13"><a href="prerequisites.html#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
-<span id="cb3-14"><a href="prerequisites.html#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
-<span id="cb3-15"><a href="prerequisites.html#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
-<span id="cb3-16"><a href="prerequisites.html#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
-<span id="cb3-17"><a href="prerequisites.html#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
-<span id="cb3-18"><a href="prerequisites.html#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> kaleido</span>
-<span id="cb3-19"><a href="prerequisites.html#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> psutil</span></code></pre></div>
+<div id="load-r-packages" class="section level2 hasAnchor" number="1.3">
+<h2><span class="header-section-number">1.3</span> Load R Packages<a href="prerequisites.html#load-r-packages" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="prerequisites.html#cb2-1" tabindex="-1"></a><span class="fu">library</span>(devtools)</span>
+<span id="cb2-2"><a href="prerequisites.html#cb2-2" tabindex="-1"></a><span class="fu">library</span>(remotes)</span>
+<span id="cb2-3"><a href="prerequisites.html#cb2-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-4"><a href="prerequisites.html#cb2-4" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-5"><a href="prerequisites.html#cb2-5" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb2-6"><a href="prerequisites.html#cb2-6" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-7"><a href="prerequisites.html#cb2-7" tabindex="-1"></a><span class="fu">library</span>(broom)</span>
+<span id="cb2-8"><a href="prerequisites.html#cb2-8" tabindex="-1"></a><span class="fu">library</span>(broom.mixed)</span>
+<span id="cb2-9"><a href="prerequisites.html#cb2-9" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-10"><a href="prerequisites.html#cb2-10" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb2-11"><a href="prerequisites.html#cb2-11" tabindex="-1"></a><span class="fu">library</span>(mclust)</span>
+<span id="cb2-12"><a href="prerequisites.html#cb2-12" tabindex="-1"></a><span class="fu">library</span>(psych)</span>
+<span id="cb2-13"><a href="prerequisites.html#cb2-13" tabindex="-1"></a><span class="fu">library</span>(cat)</span>
+<span id="cb2-14"><a href="prerequisites.html#cb2-14" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb2-15"><a href="prerequisites.html#cb2-15" tabindex="-1"></a><span class="fu">library</span>(plotly)</span>
+<span id="cb2-16"><a href="prerequisites.html#cb2-16" tabindex="-1"></a><span class="fu">library</span>(processx)</span>
+<span id="cb2-17"><a href="prerequisites.html#cb2-17" tabindex="-1"></a><span class="fu">library</span>(reticulate)</span>
+<span id="cb2-18"><a href="prerequisites.html#cb2-18" tabindex="-1"></a><span class="fu">library</span>(DiagrammeR)</span>
+<span id="cb2-19"><a href="prerequisites.html#cb2-19" tabindex="-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb2-20"><a href="prerequisites.html#cb2-20" tabindex="-1"></a><span class="fu">library</span>(afex)</span>
+<span id="cb2-21"><a href="prerequisites.html#cb2-21" tabindex="-1"></a><span class="fu">library</span>(qqplotr)</span>
+<span id="cb2-22"><a href="prerequisites.html#cb2-22" tabindex="-1"></a><span class="fu">library</span>(bookdown)</span>
+<span id="cb2-23"><a href="prerequisites.html#cb2-23" tabindex="-1"></a><span class="fu">library</span>(FFTrees)</span>
+<span id="cb2-24"><a href="prerequisites.html#cb2-24" tabindex="-1"></a><span class="fu">library</span>(rpart)</span>
+<span id="cb2-25"><a href="prerequisites.html#cb2-25" tabindex="-1"></a><span class="fu">library</span>(rpart.plot)</span>
+<span id="cb2-26"><a href="prerequisites.html#cb2-26" tabindex="-1"></a><span class="fu">library</span>(binom)</span>
+<span id="cb2-27"><a href="prerequisites.html#cb2-27" tabindex="-1"></a><span class="fu">library</span>(rjags)</span>
+<span id="cb2-28"><a href="prerequisites.html#cb2-28" tabindex="-1"></a><span class="fu">library</span>(BayesianFirstAid)</span>
+<span id="cb2-29"><a href="prerequisites.html#cb2-29" tabindex="-1"></a><span class="fu">library</span>(rstatix)</span>
+<span id="cb2-30"><a href="prerequisites.html#cb2-30" tabindex="-1"></a><span class="fu">library</span>(AICcmodavg)</span>
+<span id="cb2-31"><a href="prerequisites.html#cb2-31" tabindex="-1"></a><span class="fu">library</span>(BayesFactor)</span>
+<span id="cb2-32"><a href="prerequisites.html#cb2-32" tabindex="-1"></a><span class="fu">library</span>(emmeans)</span>
+<span id="cb2-33"><a href="prerequisites.html#cb2-33" tabindex="-1"></a><span class="fu">library</span>(stanova)</span>
+<span id="cb2-34"><a href="prerequisites.html#cb2-34" tabindex="-1"></a><span class="fu">library</span>(rstanarm)</span>
+<span id="cb2-35"><a href="prerequisites.html#cb2-35" tabindex="-1"></a><span class="fu">library</span>(rstan)</span>
+<span id="cb2-36"><a href="prerequisites.html#cb2-36" tabindex="-1"></a><span class="fu">library</span>(coda)</span>
+<span id="cb2-37"><a href="prerequisites.html#cb2-37" tabindex="-1"></a><span class="fu">library</span>(StanHeaders)</span>
+<span id="cb2-38"><a href="prerequisites.html#cb2-38" tabindex="-1"></a><span class="fu">library</span>(brms)</span>
+<span id="cb2-39"><a href="prerequisites.html#cb2-39" tabindex="-1"></a><span class="fu">library</span>(caret)</span>
+<span id="cb2-40"><a href="prerequisites.html#cb2-40" tabindex="-1"></a><span class="fu">library</span>(bayesplot)</span>
+<span id="cb2-41"><a href="prerequisites.html#cb2-41" tabindex="-1"></a><span class="fu">library</span>(bayesrules)</span>
+<span id="cb2-42"><a href="prerequisites.html#cb2-42" tabindex="-1"></a><span class="fu">library</span>(tidybayes)</span>
+<span id="cb2-43"><a href="prerequisites.html#cb2-43" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb2-44"><a href="prerequisites.html#cb2-44" tabindex="-1"></a><span class="fu">library</span>(tibble)</span>
+<span id="cb2-45"><a href="prerequisites.html#cb2-45" tabindex="-1"></a><span class="fu">library</span>(glue)</span>
+<span id="cb2-46"><a href="prerequisites.html#cb2-46" tabindex="-1"></a><span class="fu">library</span>(RefManageR)</span>
+<span id="cb2-47"><a href="prerequisites.html#cb2-47" tabindex="-1"></a><span class="fu">library</span>(rmarkdown)</span></code></pre></div>
+</div>
+<div id="load-python" class="section level2 hasAnchor" number="1.4">
+<h2><span class="header-section-number">1.4</span> Load Python<a href="prerequisites.html#load-python" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="prerequisites.html#cb3-1" tabindex="-1"></a><span class="fu">use_python</span>(<span class="st">&quot;/Library/Frameworks/Python.framework/Versions/3.11/bin/python3&quot;</span>)</span></code></pre></div>
+</div>
+<div id="import-python-modules" class="section level2 hasAnchor" number="1.5">
+<h2><span class="header-section-number">1.5</span> Import Python Modules<a href="prerequisites.html#import-python-modules" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="prerequisites.html#cb4-1" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb4-2"><a href="prerequisites.html#cb4-2" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="prerequisites.html#cb4-3" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-4"><a href="prerequisites.html#cb4-4" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-5"><a href="prerequisites.html#cb4-5" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
+<span id="cb4-6"><a href="prerequisites.html#cb4-6" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
+<span id="cb4-7"><a href="prerequisites.html#cb4-7" tabindex="-1"></a><span class="im">import</span> statsmodels.stats.api <span class="im">as</span> sms</span>
+<span id="cb4-8"><a href="prerequisites.html#cb4-8" tabindex="-1"></a><span class="im">import</span> statsmodels.stats.descriptivestats <span class="im">as</span> smds</span>
+<span id="cb4-9"><a href="prerequisites.html#cb4-9" tabindex="-1"></a><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf</span>
+<span id="cb4-10"><a href="prerequisites.html#cb4-10" tabindex="-1"></a><span class="im">from</span> kneed <span class="im">import</span> KneeLocator</span>
+<span id="cb4-11"><a href="prerequisites.html#cb4-11" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb4-12"><a href="prerequisites.html#cb4-12" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb4-13"><a href="prerequisites.html#cb4-13" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb4-14"><a href="prerequisites.html#cb4-14" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> tree</span>
+<span id="cb4-15"><a href="prerequisites.html#cb4-15" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> load_iris</span>
+<span id="cb4-16"><a href="prerequisites.html#cb4-16" tabindex="-1"></a><span class="im">from</span> chart_studio.plotly <span class="im">import</span> plot, iplot</span>
+<span id="cb4-17"><a href="prerequisites.html#cb4-17" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb4-18"><a href="prerequisites.html#cb4-18" tabindex="-1"></a><span class="im">import</span> plotly.io <span class="im">as</span> pio</span>
+<span id="cb4-19"><a href="prerequisites.html#cb4-19" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb4-20"><a href="prerequisites.html#cb4-20" tabindex="-1"></a><span class="im">from</span> plotly.subplots <span class="im">import</span> make_subplots</span>
+<span id="cb4-21"><a href="prerequisites.html#cb4-21" tabindex="-1"></a><span class="im">import</span> scipy.stats <span class="im">as</span> st</span>
+<span id="cb4-22"><a href="prerequisites.html#cb4-22" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-23"><a href="prerequisites.html#cb4-23" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> Counter</span></code></pre></div>
+</div>
+<div id="manage-references" class="section level2 hasAnchor" number="1.6">
+<h2><span class="header-section-number">1.6</span> Manage References<a href="prerequisites.html#manage-references" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="prerequisites.html#cb5-1" tabindex="-1"></a><span class="fu">write_bib</span>(<span class="fu">.packages</span>(), <span class="st">&quot;r_packages.bib&quot;</span>)</span>
+<span id="cb5-2"><a href="prerequisites.html#cb5-2" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="prerequisites.html#cb5-3" tabindex="-1"></a>cite_r_rstudio <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">cat_output =</span> <span class="cn">FALSE</span>, <span class="at">write_bib_file =</span> <span class="cn">FALSE</span>){</span>
+<span id="cb5-4"><a href="prerequisites.html#cb5-4" tabindex="-1"></a>  </span>
+<span id="cb5-5"><a href="prerequisites.html#cb5-5" tabindex="-1"></a>  cite_r <span class="ot">&lt;-</span> <span class="fu">as.BibEntry</span>(<span class="fu">citation</span>())</span>
+<span id="cb5-6"><a href="prerequisites.html#cb5-6" tabindex="-1"></a>  r_version <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="fu">strsplit</span>(version[[<span class="st">&#39;version.string&#39;</span>]], <span class="st">&#39; &#39;</span>)[[<span class="dv">1</span>]][<span class="dv">3</span>],</span>
+<span id="cb5-7"><a href="prerequisites.html#cb5-7" tabindex="-1"></a>                     <span class="fu">strsplit</span>(version[[<span class="st">&#39;version.string&#39;</span>]], <span class="st">&#39; &#39;</span>)[[<span class="dv">1</span>]][<span class="dv">4</span>],</span>
+<span id="cb5-8"><a href="prerequisites.html#cb5-8" tabindex="-1"></a>                     <span class="at">sep =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb5-9"><a href="prerequisites.html#cb5-9" tabindex="-1"></a>  </span>
+<span id="cb5-10"><a href="prerequisites.html#cb5-10" tabindex="-1"></a>  r_studio <span class="ot">&lt;-</span> <span class="fu">RStudio.Version</span>()</span>
+<span id="cb5-11"><a href="prerequisites.html#cb5-11" tabindex="-1"></a>  cite_r_studio <span class="ot">&lt;-</span> <span class="fu">as.BibEntry</span>(r_studio<span class="sc">$</span>citation)</span>
+<span id="cb5-12"><a href="prerequisites.html#cb5-12" tabindex="-1"></a>  r_studio_version <span class="ot">&lt;-</span> r_studio<span class="sc">$</span>long_version</span>
+<span id="cb5-13"><a href="prerequisites.html#cb5-13" tabindex="-1"></a>  r_studio_name <span class="ot">&lt;-</span> r_studio<span class="sc">$</span>release_name</span>
+<span id="cb5-14"><a href="prerequisites.html#cb5-14" tabindex="-1"></a>  </span>
+<span id="cb5-15"><a href="prerequisites.html#cb5-15" tabindex="-1"></a>  frameline <span class="ot">&lt;-</span> <span class="fu">strrep</span>(<span class="st">&quot;-&quot;</span>, <span class="dv">50</span>)</span>
+<span id="cb5-16"><a href="prerequisites.html#cb5-16" tabindex="-1"></a>  output <span class="ot">&lt;-</span> <span class="fu">glue</span>(</span>
+<span id="cb5-17"><a href="prerequisites.html#cb5-17" tabindex="-1"></a>    r<span class="st">&quot;[</span></span>
+<span id="cb5-18"><a href="prerequisites.html#cb5-18" tabindex="-1"></a><span class="st">    {frameline}</span></span>
+<span id="cb5-19"><a href="prerequisites.html#cb5-19" tabindex="-1"></a><span class="st">    R Version: {r_version}</span></span>
+<span id="cb5-20"><a href="prerequisites.html#cb5-20" tabindex="-1"></a><span class="st">    {frameline}</span></span>
+<span id="cb5-21"><a href="prerequisites.html#cb5-21" tabindex="-1"></a><span class="st">    RStudio Version: {r_studio_name} - {r_studio_version}</span></span>
+<span id="cb5-22"><a href="prerequisites.html#cb5-22" tabindex="-1"></a><span class="st">    {frameline}</span></span>
+<span id="cb5-23"><a href="prerequisites.html#cb5-23" tabindex="-1"></a><span class="st">    ]&quot;</span>)</span>
+<span id="cb5-24"><a href="prerequisites.html#cb5-24" tabindex="-1"></a>  </span>
+<span id="cb5-25"><a href="prerequisites.html#cb5-25" tabindex="-1"></a>  <span class="cf">if</span> (cat_output){<span class="fu">cat</span>(output)}</span>
+<span id="cb5-26"><a href="prerequisites.html#cb5-26" tabindex="-1"></a>  </span>
+<span id="cb5-27"><a href="prerequisites.html#cb5-27" tabindex="-1"></a>  bib_entries <span class="ot">&lt;-</span> <span class="fu">list</span>(cite_r,cite_r_studio)</span>
+<span id="cb5-28"><a href="prerequisites.html#cb5-28" tabindex="-1"></a>  <span class="fu">names</span>(bib_entries) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Bib Entry for &#39;R&#39;&quot;</span>, </span>
+<span id="cb5-29"><a href="prerequisites.html#cb5-29" tabindex="-1"></a>                         <span class="st">&quot;Bib Entry for &#39;RStudio&#39;&quot;</span>)</span>
+<span id="cb5-30"><a href="prerequisites.html#cb5-30" tabindex="-1"></a>  </span>
+<span id="cb5-31"><a href="prerequisites.html#cb5-31" tabindex="-1"></a>  <span class="cf">if</span> (write_bib_file){</span>
+<span id="cb5-32"><a href="prerequisites.html#cb5-32" tabindex="-1"></a>    <span class="fu">WriteBib</span>(<span class="fu">c</span>(bib_entries<span class="sc">$</span><span class="st">`</span><span class="at">Bib Entry for &#39;R&#39;</span><span class="st">`</span>, </span>
+<span id="cb5-33"><a href="prerequisites.html#cb5-33" tabindex="-1"></a>               bib_entries<span class="sc">$</span><span class="st">`</span><span class="at">Bib Entry for &#39;RStudio&#39;</span><span class="st">`</span>), </span>
+<span id="cb5-34"><a href="prerequisites.html#cb5-34" tabindex="-1"></a>          <span class="at">file =</span> <span class="st">&quot;r_references.bib&quot;</span>)</span>
+<span id="cb5-35"><a href="prerequisites.html#cb5-35" tabindex="-1"></a>  }</span>
+<span id="cb5-36"><a href="prerequisites.html#cb5-36" tabindex="-1"></a>  </span>
+<span id="cb5-37"><a href="prerequisites.html#cb5-37" tabindex="-1"></a>  <span class="fu">invisible</span>(bib_entries)</span>
+<span id="cb5-38"><a href="prerequisites.html#cb5-38" tabindex="-1"></a>  </span>
+<span id="cb5-39"><a href="prerequisites.html#cb5-39" tabindex="-1"></a>}</span>
+<span id="cb5-40"><a href="prerequisites.html#cb5-40" tabindex="-1"></a></span>
+<span id="cb5-41"><a href="prerequisites.html#cb5-41" tabindex="-1"></a><span class="fu">cite_r_rstudio</span>(<span class="at">cat_output =</span> <span class="cn">FALSE</span>, <span class="at">write_bib_file =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="prerequisites.html#cb6-1" tabindex="-1"></a>numpy_bib <span class="ot">&lt;-</span> <span class="fu">GetBibEntryWithDOI</span>(<span class="st">&quot;10.1038/s41586-020-2649-2&quot;</span>)</span>
+<span id="cb6-2"><a href="prerequisites.html#cb6-2" tabindex="-1"></a>matplotlib_bib <span class="ot">&lt;-</span> <span class="fu">GetBibEntryWithDOI</span>(<span class="st">&quot;10.1109/MCSE.2007.55&quot;</span>)</span>
+<span id="cb6-3"><a href="prerequisites.html#cb6-3" tabindex="-1"></a>pandas_bib <span class="ot">&lt;-</span> <span class="fu">GetBibEntryWithDOI</span>(<span class="st">&quot;10.25080/Majora-92bf1922-00a&quot;</span>)</span>
+<span id="cb6-4"><a href="prerequisites.html#cb6-4" tabindex="-1"></a>statsmodels_bib <span class="ot">&lt;-</span> <span class="fu">as.BibEntry</span>(</span>
+<span id="cb6-5"><a href="prerequisites.html#cb6-5" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">bibtype =</span> <span class="st">&quot;inproceedings&quot;</span>,</span>
+<span id="cb6-6"><a href="prerequisites.html#cb6-6" tabindex="-1"></a>    <span class="at">key =</span> <span class="st">&quot;seabold2010statsmodels&quot;</span>,</span>
+<span id="cb6-7"><a href="prerequisites.html#cb6-7" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;statsmodels: Econometric and statistical modeling with python&quot;</span>,</span>
+<span id="cb6-8"><a href="prerequisites.html#cb6-8" tabindex="-1"></a>    <span class="at">author =</span> <span class="st">&quot;Skipper Seabold and Josef Perktold&quot;</span>,</span>
+<span id="cb6-9"><a href="prerequisites.html#cb6-9" tabindex="-1"></a>    <span class="at">booktitle =</span> <span class="st">&quot;9th Python in Science Conference&quot;</span>,</span>
+<span id="cb6-10"><a href="prerequisites.html#cb6-10" tabindex="-1"></a>    <span class="at">year =</span> <span class="st">&quot;2010&quot;</span>))</span>
+<span id="cb6-11"><a href="prerequisites.html#cb6-11" tabindex="-1"></a>kneed_bib <span class="ot">&lt;-</span> <span class="fu">GetBibEntryWithDOI</span>(<span class="st">&quot;10.1109/ICDCSW.2011.20&quot;</span>)</span>
+<span id="cb6-12"><a href="prerequisites.html#cb6-12" tabindex="-1"></a>sklearn_bib <span class="ot">&lt;-</span> <span class="fu">as.BibEntry</span>(</span>
+<span id="cb6-13"><a href="prerequisites.html#cb6-13" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">bibtype =</span> <span class="st">&quot;Article&quot;</span>,</span>
+<span id="cb6-14"><a href="prerequisites.html#cb6-14" tabindex="-1"></a>    <span class="at">key =</span> <span class="st">&quot;scikit-learn&quot;</span>,</span>
+<span id="cb6-15"><a href="prerequisites.html#cb6-15" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Scikit-learn: Machine Learning in {P}ython}&quot;</span>,</span>
+<span id="cb6-16"><a href="prerequisites.html#cb6-16" tabindex="-1"></a>    <span class="at">author =</span> <span class="st">&quot;F. Pedregosa and G. Varoquaux and A. Gramfort and V.Michel and B. Thirion and O. Grisel and M. Blondel and P. Prettenhofer and R. Weiss and V. Dubourg and J.  Vanderplas and A. Passos and D. Cournapeau and M. Brucher and M. Perrot and E. Duchesnay&quot;</span>,</span>
+<span id="cb6-17"><a href="prerequisites.html#cb6-17" tabindex="-1"></a>    <span class="at">journal =</span> <span class="st">&quot;Journal of Machine Learning Research&quot;</span>,</span>
+<span id="cb6-18"><a href="prerequisites.html#cb6-18" tabindex="-1"></a>    <span class="at">volume =</span> <span class="st">&quot;12&quot;</span>,</span>
+<span id="cb6-19"><a href="prerequisites.html#cb6-19" tabindex="-1"></a>    <span class="at">pages =</span> <span class="st">&quot;2825--2830&quot;</span>,</span>
+<span id="cb6-20"><a href="prerequisites.html#cb6-20" tabindex="-1"></a>    <span class="at">year =</span> <span class="st">&quot;2011&quot;</span>))</span>
+<span id="cb6-21"><a href="prerequisites.html#cb6-21" tabindex="-1"></a>plotly_bib <span class="ot">&lt;-</span> <span class="fu">as.BibEntry</span>(</span>
+<span id="cb6-22"><a href="prerequisites.html#cb6-22" tabindex="-1"></a>  <span class="fu">c</span>(<span class="at">bibtype =</span> <span class="st">&quot;Online&quot;</span>,</span>
+<span id="cb6-23"><a href="prerequisites.html#cb6-23" tabindex="-1"></a>    <span class="at">key =</span> <span class="st">&quot;plotly&quot;</span>,</span>
+<span id="cb6-24"><a href="prerequisites.html#cb6-24" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Collaborative data science&quot;</span>,</span>
+<span id="cb6-25"><a href="prerequisites.html#cb6-25" tabindex="-1"></a>    <span class="at">author =</span> <span class="st">&quot;Plotly Technologies Inc.&quot;</span>,</span>
+<span id="cb6-26"><a href="prerequisites.html#cb6-26" tabindex="-1"></a>    <span class="at">publisher =</span> <span class="st">&quot;Plotly Technologies Inc.&quot;</span>,</span>
+<span id="cb6-27"><a href="prerequisites.html#cb6-27" tabindex="-1"></a>    <span class="at">adress =</span> <span class="st">&quot;Montreal, QC&quot;</span>,</span>
+<span id="cb6-28"><a href="prerequisites.html#cb6-28" tabindex="-1"></a>    <span class="at">year =</span> <span class="st">&quot;2015&quot;</span>,</span>
+<span id="cb6-29"><a href="prerequisites.html#cb6-29" tabindex="-1"></a>    <span class="at">url =</span> <span class="st">&quot;https://plot.ly&quot;</span>))</span>
+<span id="cb6-30"><a href="prerequisites.html#cb6-30" tabindex="-1"></a>scipy_bib <span class="ot">&lt;-</span> <span class="fu">GetBibEntryWithDOI</span>(<span class="st">&quot;10.1038/s41592-019-0686-2&quot;</span>)</span>
+<span id="cb6-31"><a href="prerequisites.html#cb6-31" tabindex="-1"></a>seaborn_bib <span class="ot">&lt;-</span> <span class="fu">GetBibEntryWithDOI</span>(<span class="st">&quot;10.21105/joss.03021&quot;</span>)</span>
+<span id="cb6-32"><a href="prerequisites.html#cb6-32" tabindex="-1"></a></span>
+<span id="cb6-33"><a href="prerequisites.html#cb6-33" tabindex="-1"></a><span class="fu">WriteBib</span>(<span class="fu">c</span>(numpy_bib, matplotlib_bib, pandas_bib, statsmodels_bib, kneed_bib,</span>
+<span id="cb6-34"><a href="prerequisites.html#cb6-34" tabindex="-1"></a>           sklearn_bib, plotly_bib, scipy_bib, seaborn_bib), </span>
+<span id="cb6-35"><a href="prerequisites.html#cb6-35" tabindex="-1"></a>          <span class="at">file =</span> <span class="st">&quot;python_packages.bib&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="prerequisites.html#cb7-1" tabindex="-1"></a>python_version <span class="op">=</span> <span class="st">&quot;.&quot;</span>.join(<span class="bu">map</span>(<span class="bu">str</span>, sys.version_info[:<span class="dv">3</span>]))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="prerequisites.html#cb8-1" tabindex="-1"></a>cite_python <span class="ot">&lt;-</span> <span class="cf">function</span>(<span class="at">cat_output =</span> <span class="cn">FALSE</span>, <span class="at">write_bib_file =</span> <span class="cn">FALSE</span>){</span>
+<span id="cb8-2"><a href="prerequisites.html#cb8-2" tabindex="-1"></a>  </span>
+<span id="cb8-3"><a href="prerequisites.html#cb8-3" tabindex="-1"></a>  python_bib <span class="ot">&lt;-</span> <span class="fu">as.BibEntry</span>(</span>
+<span id="cb8-4"><a href="prerequisites.html#cb8-4" tabindex="-1"></a>    <span class="fu">c</span>(<span class="at">bibtype =</span> <span class="st">&quot;Article&quot;</span>,</span>
+<span id="cb8-5"><a href="prerequisites.html#cb8-5" tabindex="-1"></a>      <span class="at">key =</span> <span class="st">&quot;python1991&quot;</span>,</span>
+<span id="cb8-6"><a href="prerequisites.html#cb8-6" tabindex="-1"></a>      <span class="at">title =</span> <span class="st">&quot;Interactively testing remote servers using the Python programming language&quot;</span>,</span>
+<span id="cb8-7"><a href="prerequisites.html#cb8-7" tabindex="-1"></a>      <span class="at">author =</span> <span class="st">&quot;Guido van Rossum and Jelke de Boer&quot;</span>,</span>
+<span id="cb8-8"><a href="prerequisites.html#cb8-8" tabindex="-1"></a>      <span class="at">journal =</span> <span class="st">&quot;CWI Quarterly&quot;</span>,</span>
+<span id="cb8-9"><a href="prerequisites.html#cb8-9" tabindex="-1"></a>      <span class="at">volume =</span> <span class="st">&quot;4&quot;</span>,</span>
+<span id="cb8-10"><a href="prerequisites.html#cb8-10" tabindex="-1"></a>      <span class="at">number =</span> <span class="st">&quot;4&quot;</span>,</span>
+<span id="cb8-11"><a href="prerequisites.html#cb8-11" tabindex="-1"></a>      <span class="at">pages =</span> <span class="st">&quot;283--304&quot;</span>,</span>
+<span id="cb8-12"><a href="prerequisites.html#cb8-12" tabindex="-1"></a>      <span class="at">year =</span> <span class="st">&quot;1991&quot;</span>,</span>
+<span id="cb8-13"><a href="prerequisites.html#cb8-13" tabindex="-1"></a>      <span class="at">month =</span> <span class="st">&quot;dec&quot;</span>))</span>
+<span id="cb8-14"><a href="prerequisites.html#cb8-14" tabindex="-1"></a>  </span>
+<span id="cb8-15"><a href="prerequisites.html#cb8-15" tabindex="-1"></a>  <span class="cf">if</span> (write_bib_file){</span>
+<span id="cb8-16"><a href="prerequisites.html#cb8-16" tabindex="-1"></a>    <span class="fu">WriteBib</span>(python_bib,</span>
+<span id="cb8-17"><a href="prerequisites.html#cb8-17" tabindex="-1"></a>             <span class="at">file =</span> <span class="st">&quot;python_reference.bib&quot;</span>)</span>
+<span id="cb8-18"><a href="prerequisites.html#cb8-18" tabindex="-1"></a>    }</span>
+<span id="cb8-19"><a href="prerequisites.html#cb8-19" tabindex="-1"></a>  </span>
+<span id="cb8-20"><a href="prerequisites.html#cb8-20" tabindex="-1"></a>  frameline <span class="ot">&lt;-</span> <span class="fu">strrep</span>(<span class="st">&quot;-&quot;</span>, <span class="dv">25</span>)</span>
+<span id="cb8-21"><a href="prerequisites.html#cb8-21" tabindex="-1"></a>  output <span class="ot">&lt;-</span> <span class="fu">glue</span>(</span>
+<span id="cb8-22"><a href="prerequisites.html#cb8-22" tabindex="-1"></a>    r<span class="st">&quot;[</span></span>
+<span id="cb8-23"><a href="prerequisites.html#cb8-23" tabindex="-1"></a><span class="st">    {frameline}</span></span>
+<span id="cb8-24"><a href="prerequisites.html#cb8-24" tabindex="-1"></a><span class="st">    Python Version: {py$python_version}</span></span>
+<span id="cb8-25"><a href="prerequisites.html#cb8-25" tabindex="-1"></a><span class="st">    {frameline}</span></span>
+<span id="cb8-26"><a href="prerequisites.html#cb8-26" tabindex="-1"></a><span class="st">    ]&quot;</span>)</span>
+<span id="cb8-27"><a href="prerequisites.html#cb8-27" tabindex="-1"></a>  </span>
+<span id="cb8-28"><a href="prerequisites.html#cb8-28" tabindex="-1"></a>  <span class="cf">if</span> (cat_output){<span class="fu">cat</span>(output)}</span>
+<span id="cb8-29"><a href="prerequisites.html#cb8-29" tabindex="-1"></a>  </span>
+<span id="cb8-30"><a href="prerequisites.html#cb8-30" tabindex="-1"></a>  <span class="fu">invisible</span>(python_bib)</span>
+<span id="cb8-31"><a href="prerequisites.html#cb8-31" tabindex="-1"></a>  </span>
+<span id="cb8-32"><a href="prerequisites.html#cb8-32" tabindex="-1"></a>}</span>
+<span id="cb8-33"><a href="prerequisites.html#cb8-33" tabindex="-1"></a></span>
+<span id="cb8-34"><a href="prerequisites.html#cb8-34" tabindex="-1"></a><span class="fu">cite_python</span>(<span class="at">cat_output =</span> <span class="cn">FALSE</span>, <span class="at">write_bib_file =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="pandoc-filters" class="section level2 hasAnchor" number="1.7">
+<h2><span class="header-section-number">1.7</span> Pandoc Filters<a href="prerequisites.html#pandoc-filters" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Some <strong>lua</strong> filters do no work with the <strong>Pandoc</strong> version bundled with <strong>RStudio</strong>. Due to that I installed a separate <strong>Pandoc</strong> version. For more information see the <a href="https://pandoc.org/installing.html">Pandoc installation guide</a>.</p>
+<p>In order to render documents using a different version of <strong>Pandoc</strong> one must supply the <strong>rmarkdown</strong> package with the path of the <strong>Pandoc</strong> executable by calling the function <code>rmarkdown::find_pandoc()</code>. Find the <strong>Pandoc</strong> executable by inputting <code>which pandoc</code> in the <strong>Terminal</strong>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="prerequisites.html#cb9-1" tabindex="-1"></a><span class="fu">find_pandoc</span>(<span class="at">cache =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<pre><code>## $version
+## [1] &#39;3.1.2&#39;
+## 
+## $dir
+## [1] &quot;/usr/local/bin&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="prerequisites.html#cb11-1" tabindex="-1"></a><span class="fu">find_pandoc</span>(<span class="at">dir =</span> <span class="st">&quot;/usr/local/bin/pandoc&quot;</span>)</span></code></pre></div>
+<pre><code>## $version
+## [1] &#39;3.1.2&#39;
+## 
+## $dir
+## [1] &quot;/usr/local/bin&quot;</code></pre>
+<p>Save <strong>Lua</strong> filters to the <code>filters</code> directory of <strong>Pandoc</strong>’s user data directory. One can get the path to the user data directory with <code>pandoc -v</code>. After installation of <strong>Pandoc</strong> usually neither the <code>filters</code> nor the user data directory exist. Create the <code>filters</code> directory by inputting <code>mkdir -p ~/.local/share/pandoc/filters</code> in the <strong>Terminal</strong>.</p>
+<div id="enable-multiple-bibliographies" class="section level3 hasAnchor" number="1.7.1">
+<h3><span class="header-section-number">1.7.1</span> Enable Multiple Bibliographies<a href="prerequisites.html#enable-multiple-bibliographies" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The following code chunk writes the <strong>Lua</strong> filter by Albert Krewinkel to a <strong>Lua</strong> file within the <code>filters</code> directory mentioned above using the <code>cat</code> engine.</p>
+<p>Alternatively one could just copy and save the code manually using any other code editor.</p>
+<p>For more information and a whole host of useful filters see the <a href="https://github.com/pandoc/lua-filters">Pandoc Lua filters GitHub repository</a>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="prerequisites.html#cb13-1" tabindex="-1"></a><span class="co"># ```{cat engine.opts = list(file = &quot;/Users/constantine/.local/share/pandoc/filters/multiple-bibliographies.lua&quot;)}</span></span>
+<span id="cb13-2"><a href="prerequisites.html#cb13-2" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="prerequisites.html#cb13-3" tabindex="-1"></a><span class="co"># --[[</span></span>
+<span id="cb13-4"><a href="prerequisites.html#cb13-4" tabindex="-1"></a><span class="co"># multiple-bibliographies – create multiple bibliographies</span></span>
+<span id="cb13-5"><a href="prerequisites.html#cb13-5" tabindex="-1"></a><span class="co"># Copyright © 2018-2021 Albert Krewinkel</span></span>
+<span id="cb13-6"><a href="prerequisites.html#cb13-6" tabindex="-1"></a><span class="co"># Permission to use, copy, modify, and/or distribute this software for any</span></span>
+<span id="cb13-7"><a href="prerequisites.html#cb13-7" tabindex="-1"></a><span class="co"># purpose with or without fee is hereby granted, provided that the above</span></span>
+<span id="cb13-8"><a href="prerequisites.html#cb13-8" tabindex="-1"></a><span class="co"># copyright notice and this permission notice appear in all copies.</span></span>
+<span id="cb13-9"><a href="prerequisites.html#cb13-9" tabindex="-1"></a><span class="co"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot; AND THE AUTHOR DISCLAIMS ALL WARRANTIES</span></span>
+<span id="cb13-10"><a href="prerequisites.html#cb13-10" tabindex="-1"></a><span class="co"># WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF</span></span>
+<span id="cb13-11"><a href="prerequisites.html#cb13-11" tabindex="-1"></a><span class="co"># MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR</span></span>
+<span id="cb13-12"><a href="prerequisites.html#cb13-12" tabindex="-1"></a><span class="co"># ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES</span></span>
+<span id="cb13-13"><a href="prerequisites.html#cb13-13" tabindex="-1"></a><span class="co"># WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN</span></span>
+<span id="cb13-14"><a href="prerequisites.html#cb13-14" tabindex="-1"></a><span class="co"># ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF</span></span>
+<span id="cb13-15"><a href="prerequisites.html#cb13-15" tabindex="-1"></a><span class="co"># OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.</span></span>
+<span id="cb13-16"><a href="prerequisites.html#cb13-16" tabindex="-1"></a><span class="co"># ]]</span></span>
+<span id="cb13-17"><a href="prerequisites.html#cb13-17" tabindex="-1"></a><span class="co"># local List = require &#39;pandoc.List&#39;</span></span>
+<span id="cb13-18"><a href="prerequisites.html#cb13-18" tabindex="-1"></a><span class="co"># local utils = require &#39;pandoc.utils&#39;</span></span>
+<span id="cb13-19"><a href="prerequisites.html#cb13-19" tabindex="-1"></a><span class="co"># local stringify = utils.stringify</span></span>
+<span id="cb13-20"><a href="prerequisites.html#cb13-20" tabindex="-1"></a><span class="co"># local run_json_filter = utils.run_json_filter</span></span>
+<span id="cb13-21"><a href="prerequisites.html#cb13-21" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-22"><a href="prerequisites.html#cb13-22" tabindex="-1"></a><span class="co"># --- Collection of all cites in the document</span></span>
+<span id="cb13-23"><a href="prerequisites.html#cb13-23" tabindex="-1"></a><span class="co"># local all_cites = {}</span></span>
+<span id="cb13-24"><a href="prerequisites.html#cb13-24" tabindex="-1"></a><span class="co"># --- Document meta value</span></span>
+<span id="cb13-25"><a href="prerequisites.html#cb13-25" tabindex="-1"></a><span class="co"># local doc_meta = pandoc.Meta{}</span></span>
+<span id="cb13-26"><a href="prerequisites.html#cb13-26" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-27"><a href="prerequisites.html#cb13-27" tabindex="-1"></a><span class="co"># --- Div used by pandoc-citeproc to insert the bibliography.</span></span>
+<span id="cb13-28"><a href="prerequisites.html#cb13-28" tabindex="-1"></a><span class="co"># local refs_div = pandoc.Div({}, pandoc.Attr(&#39;refs&#39;))</span></span>
+<span id="cb13-29"><a href="prerequisites.html#cb13-29" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-30"><a href="prerequisites.html#cb13-30" tabindex="-1"></a><span class="co"># -- Div filled by citeproc with properties set according to</span></span>
+<span id="cb13-31"><a href="prerequisites.html#cb13-31" tabindex="-1"></a><span class="co"># -- the output format and the attributes of cs:bibliography</span></span>
+<span id="cb13-32"><a href="prerequisites.html#cb13-32" tabindex="-1"></a><span class="co"># local refs_div_with_properties</span></span>
+<span id="cb13-33"><a href="prerequisites.html#cb13-33" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-34"><a href="prerequisites.html#cb13-34" tabindex="-1"></a><span class="co"># local supports_quiet_flag = (function ()</span></span>
+<span id="cb13-35"><a href="prerequisites.html#cb13-35" tabindex="-1"></a><span class="co">#   -- We use pandoc instead of pandoc-citeproc starting with pandoc 2.11</span></span>
+<span id="cb13-36"><a href="prerequisites.html#cb13-36" tabindex="-1"></a><span class="co">#   if PANDOC_VERSION &gt;= &quot;2.11&quot; then</span></span>
+<span id="cb13-37"><a href="prerequisites.html#cb13-37" tabindex="-1"></a><span class="co">#     return true</span></span>
+<span id="cb13-38"><a href="prerequisites.html#cb13-38" tabindex="-1"></a><span class="co">#   end</span></span>
+<span id="cb13-39"><a href="prerequisites.html#cb13-39" tabindex="-1"></a><span class="co">#   local version = pandoc.pipe(&#39;pandoc-citeproc&#39;, {&#39;--version&#39;}, &#39;&#39;)</span></span>
+<span id="cb13-40"><a href="prerequisites.html#cb13-40" tabindex="-1"></a><span class="co">#   local major, minor, patch = version:match &#39;pandoc%-citeproc (%d+)%.(%d+)%.?(%d*)&#39;</span></span>
+<span id="cb13-41"><a href="prerequisites.html#cb13-41" tabindex="-1"></a><span class="co">#   major, minor, patch = tonumber(major), tonumber(minor), tonumber(patch)</span></span>
+<span id="cb13-42"><a href="prerequisites.html#cb13-42" tabindex="-1"></a><span class="co">#   return major &gt; 0</span></span>
+<span id="cb13-43"><a href="prerequisites.html#cb13-43" tabindex="-1"></a><span class="co">#     or minor &gt; 14</span></span>
+<span id="cb13-44"><a href="prerequisites.html#cb13-44" tabindex="-1"></a><span class="co">#     or (minor == 14 and patch &gt;= 5)</span></span>
+<span id="cb13-45"><a href="prerequisites.html#cb13-45" tabindex="-1"></a><span class="co"># end)()</span></span>
+<span id="cb13-46"><a href="prerequisites.html#cb13-46" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-47"><a href="prerequisites.html#cb13-47" tabindex="-1"></a><span class="co"># local function run_citeproc(doc, quiet)</span></span>
+<span id="cb13-48"><a href="prerequisites.html#cb13-48" tabindex="-1"></a><span class="co">#   if PANDOC_VERSION &gt;= &quot;2.11&quot; then</span></span>
+<span id="cb13-49"><a href="prerequisites.html#cb13-49" tabindex="-1"></a><span class="co">#     return run_json_filter(</span></span>
+<span id="cb13-50"><a href="prerequisites.html#cb13-50" tabindex="-1"></a><span class="co">#       doc,</span></span>
+<span id="cb13-51"><a href="prerequisites.html#cb13-51" tabindex="-1"></a><span class="co">#       &#39;pandoc&#39;,</span></span>
+<span id="cb13-52"><a href="prerequisites.html#cb13-52" tabindex="-1"></a><span class="co">#       {&#39;--from=json&#39;, &#39;--to=json&#39;, &#39;--citeproc&#39;, quiet and &#39;--quiet&#39; or nil}</span></span>
+<span id="cb13-53"><a href="prerequisites.html#cb13-53" tabindex="-1"></a><span class="co">#     )</span></span>
+<span id="cb13-54"><a href="prerequisites.html#cb13-54" tabindex="-1"></a><span class="co">#   else</span></span>
+<span id="cb13-55"><a href="prerequisites.html#cb13-55" tabindex="-1"></a><span class="co">#     -- doc = run_json_filter(doc, &#39;pandoc-citeproc&#39;)</span></span>
+<span id="cb13-56"><a href="prerequisites.html#cb13-56" tabindex="-1"></a><span class="co">#     return run_json_filter(</span></span>
+<span id="cb13-57"><a href="prerequisites.html#cb13-57" tabindex="-1"></a><span class="co">#       doc,</span></span>
+<span id="cb13-58"><a href="prerequisites.html#cb13-58" tabindex="-1"></a><span class="co">#       &#39;pandoc-citeproc&#39;,</span></span>
+<span id="cb13-59"><a href="prerequisites.html#cb13-59" tabindex="-1"></a><span class="co">#       {FORMAT, (quiet and supports_quiet_flag) and &#39;-q&#39; or nil}</span></span>
+<span id="cb13-60"><a href="prerequisites.html#cb13-60" tabindex="-1"></a><span class="co">#     )</span></span>
+<span id="cb13-61"><a href="prerequisites.html#cb13-61" tabindex="-1"></a><span class="co">#   end</span></span>
+<span id="cb13-62"><a href="prerequisites.html#cb13-62" tabindex="-1"></a><span class="co"># end</span></span>
+<span id="cb13-63"><a href="prerequisites.html#cb13-63" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-64"><a href="prerequisites.html#cb13-64" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-65"><a href="prerequisites.html#cb13-65" tabindex="-1"></a><span class="co"># --- Resolve citations in the document by combining all bibliographies</span></span>
+<span id="cb13-66"><a href="prerequisites.html#cb13-66" tabindex="-1"></a><span class="co"># -- before running pandoc-citeproc on the full document.</span></span>
+<span id="cb13-67"><a href="prerequisites.html#cb13-67" tabindex="-1"></a><span class="co"># local function resolve_doc_citations (doc)</span></span>
+<span id="cb13-68"><a href="prerequisites.html#cb13-68" tabindex="-1"></a><span class="co">#   -- combine all bibliographies</span></span>
+<span id="cb13-69"><a href="prerequisites.html#cb13-69" tabindex="-1"></a><span class="co">#   local meta = doc.meta</span></span>
+<span id="cb13-70"><a href="prerequisites.html#cb13-70" tabindex="-1"></a><span class="co">#   local orig_bib = meta.bibliography</span></span>
+<span id="cb13-71"><a href="prerequisites.html#cb13-71" tabindex="-1"></a><span class="co">#   meta.bibliography = pandoc.MetaList{orig_bib}</span></span>
+<span id="cb13-72"><a href="prerequisites.html#cb13-72" tabindex="-1"></a><span class="co">#   for name, value in pairs(meta) do</span></span>
+<span id="cb13-73"><a href="prerequisites.html#cb13-73" tabindex="-1"></a><span class="co">#     if name:match(&#39;^bibliography_&#39;) then</span></span>
+<span id="cb13-74"><a href="prerequisites.html#cb13-74" tabindex="-1"></a><span class="co">#       table.insert(meta.bibliography, value)</span></span>
+<span id="cb13-75"><a href="prerequisites.html#cb13-75" tabindex="-1"></a><span class="co">#     end</span></span>
+<span id="cb13-76"><a href="prerequisites.html#cb13-76" tabindex="-1"></a><span class="co">#   end</span></span>
+<span id="cb13-77"><a href="prerequisites.html#cb13-77" tabindex="-1"></a><span class="co">#   -- add dummy div to catch the created bibliography</span></span>
+<span id="cb13-78"><a href="prerequisites.html#cb13-78" tabindex="-1"></a><span class="co">#   table.insert(doc.blocks, refs_div)</span></span>
+<span id="cb13-79"><a href="prerequisites.html#cb13-79" tabindex="-1"></a><span class="co">#   -- resolve all citations</span></span>
+<span id="cb13-80"><a href="prerequisites.html#cb13-80" tabindex="-1"></a><span class="co">#   -- doc = run_json_filter(doc, &#39;pandoc-citeproc&#39;)</span></span>
+<span id="cb13-81"><a href="prerequisites.html#cb13-81" tabindex="-1"></a><span class="co">#   doc = run_citeproc(doc)</span></span>
+<span id="cb13-82"><a href="prerequisites.html#cb13-82" tabindex="-1"></a><span class="co">#   -- remove catch-all bibliography and keep it for future use</span></span>
+<span id="cb13-83"><a href="prerequisites.html#cb13-83" tabindex="-1"></a><span class="co">#   refs_div_with_properties = table.remove(doc.blocks)</span></span>
+<span id="cb13-84"><a href="prerequisites.html#cb13-84" tabindex="-1"></a><span class="co">#   -- restore bibliography to original value</span></span>
+<span id="cb13-85"><a href="prerequisites.html#cb13-85" tabindex="-1"></a><span class="co">#   doc.meta.bibliography = orig_bib</span></span>
+<span id="cb13-86"><a href="prerequisites.html#cb13-86" tabindex="-1"></a><span class="co">#   return doc</span></span>
+<span id="cb13-87"><a href="prerequisites.html#cb13-87" tabindex="-1"></a><span class="co"># end</span></span>
+<span id="cb13-88"><a href="prerequisites.html#cb13-88" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-89"><a href="prerequisites.html#cb13-89" tabindex="-1"></a><span class="co"># --- Explicitly create a new meta object with all fields relevant for</span></span>
+<span id="cb13-90"><a href="prerequisites.html#cb13-90" tabindex="-1"></a><span class="co"># --- pandoc-citeproc.</span></span>
+<span id="cb13-91"><a href="prerequisites.html#cb13-91" tabindex="-1"></a><span class="co"># local function meta_for_pandoc_citeproc (bibliography)</span></span>
+<span id="cb13-92"><a href="prerequisites.html#cb13-92" tabindex="-1"></a><span class="co">#   -- We could just indiscriminately copy all meta fields, but let&#39;s be</span></span>
+<span id="cb13-93"><a href="prerequisites.html#cb13-93" tabindex="-1"></a><span class="co">#   -- explicit about what&#39;s important.</span></span>
+<span id="cb13-94"><a href="prerequisites.html#cb13-94" tabindex="-1"></a><span class="co">#   local fields = {</span></span>
+<span id="cb13-95"><a href="prerequisites.html#cb13-95" tabindex="-1"></a><span class="co">#     &#39;bibliography&#39;, &#39;references&#39;, &#39;csl&#39;, &#39;citation-style&#39;,</span></span>
+<span id="cb13-96"><a href="prerequisites.html#cb13-96" tabindex="-1"></a><span class="co">#     &#39;link-citations&#39;, &#39;citation-abbreviations&#39;, &#39;lang&#39;,</span></span>
+<span id="cb13-97"><a href="prerequisites.html#cb13-97" tabindex="-1"></a><span class="co">#     &#39;suppress-bibliography&#39;, &#39;reference-section-title&#39;,</span></span>
+<span id="cb13-98"><a href="prerequisites.html#cb13-98" tabindex="-1"></a><span class="co">#     &#39;notes-after-punctuation&#39;, &#39;nocite&#39;</span></span>
+<span id="cb13-99"><a href="prerequisites.html#cb13-99" tabindex="-1"></a><span class="co">#   }</span></span>
+<span id="cb13-100"><a href="prerequisites.html#cb13-100" tabindex="-1"></a><span class="co">#   local new_meta = pandoc.Meta{}</span></span>
+<span id="cb13-101"><a href="prerequisites.html#cb13-101" tabindex="-1"></a><span class="co">#   for _, field in ipairs(fields) do</span></span>
+<span id="cb13-102"><a href="prerequisites.html#cb13-102" tabindex="-1"></a><span class="co">#     new_meta[field] = doc_meta[field]</span></span>
+<span id="cb13-103"><a href="prerequisites.html#cb13-103" tabindex="-1"></a><span class="co">#   end</span></span>
+<span id="cb13-104"><a href="prerequisites.html#cb13-104" tabindex="-1"></a><span class="co">#   new_meta.bibliography = bibliography</span></span>
+<span id="cb13-105"><a href="prerequisites.html#cb13-105" tabindex="-1"></a><span class="co">#   return new_meta</span></span>
+<span id="cb13-106"><a href="prerequisites.html#cb13-106" tabindex="-1"></a><span class="co"># end</span></span>
+<span id="cb13-107"><a href="prerequisites.html#cb13-107" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-108"><a href="prerequisites.html#cb13-108" tabindex="-1"></a><span class="co"># local function remove_duplicates(classes)</span></span>
+<span id="cb13-109"><a href="prerequisites.html#cb13-109" tabindex="-1"></a><span class="co">#   local seen = {}</span></span>
+<span id="cb13-110"><a href="prerequisites.html#cb13-110" tabindex="-1"></a><span class="co">#   return classes:filter(function(x)</span></span>
+<span id="cb13-111"><a href="prerequisites.html#cb13-111" tabindex="-1"></a><span class="co">#       if seen[x] then</span></span>
+<span id="cb13-112"><a href="prerequisites.html#cb13-112" tabindex="-1"></a><span class="co">#         return false</span></span>
+<span id="cb13-113"><a href="prerequisites.html#cb13-113" tabindex="-1"></a><span class="co">#       else</span></span>
+<span id="cb13-114"><a href="prerequisites.html#cb13-114" tabindex="-1"></a><span class="co">#         seen[x] = true</span></span>
+<span id="cb13-115"><a href="prerequisites.html#cb13-115" tabindex="-1"></a><span class="co">#         return true</span></span>
+<span id="cb13-116"><a href="prerequisites.html#cb13-116" tabindex="-1"></a><span class="co">#       end</span></span>
+<span id="cb13-117"><a href="prerequisites.html#cb13-117" tabindex="-1"></a><span class="co">#   end)</span></span>
+<span id="cb13-118"><a href="prerequisites.html#cb13-118" tabindex="-1"></a><span class="co"># end</span></span>
+<span id="cb13-119"><a href="prerequisites.html#cb13-119" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb13-120"><a href="prerequisites.html#cb13-120" tabindex="-1"></a><span class="co"># --- Create a bibliography for a given topic. This acts on all divs whose</span></span>
+<span id="cb13-121"><a href="prerequisites.html#cb13-121" tabindex="-1"></a><span class="co"># -- ID starts with &quot;refs&quot;, followed by nothing but underscores and</span></span>
+<span id="cb13-122"><a href="prerequisites.html#cb13-122" tabindex="-1"></a><span class="co"># -- alphanumeric characters.</span></span>
+<span id="cb13-123"><a href="prerequisites.html#cb13-123" tabindex="-1"></a><span class="co"># local function create_topic_bibliography (div)</span></span>
+<span id="cb13-124"><a href="prerequisites.html#cb13-124" tabindex="-1"></a><span class="co">#   local name = div.identifier:match(&#39;^refs([_%w]*)$&#39;)</span></span>
+<span id="cb13-125"><a href="prerequisites.html#cb13-125" tabindex="-1"></a><span class="co">#   local bibfile = name and doc_meta[&#39;bibliography&#39; .. name]</span></span>
+<span id="cb13-126"><a href="prerequisites.html#cb13-126" tabindex="-1"></a><span class="co">#   if not bibfile then</span></span>
+<span id="cb13-127"><a href="prerequisites.html#cb13-127" tabindex="-1"></a><span class="co">#     return nil</span></span>
+<span id="cb13-128"><a href="prerequisites.html#cb13-128" tabindex="-1"></a><span class="co">#   end</span></span>
+<span id="cb13-129"><a href="prerequisites.html#cb13-129" tabindex="-1"></a><span class="co">#   local tmp_blocks = {pandoc.Para(all_cites), refs_div}</span></span>
+<span id="cb13-130"><a href="prerequisites.html#cb13-130" tabindex="-1"></a><span class="co">#   local tmp_meta = meta_for_pandoc_citeproc(bibfile)</span></span>
+<span id="cb13-131"><a href="prerequisites.html#cb13-131" tabindex="-1"></a><span class="co">#   local tmp_doc = pandoc.Pandoc(tmp_blocks, tmp_meta)</span></span>
+<span id="cb13-132"><a href="prerequisites.html#cb13-132" tabindex="-1"></a><span class="co">#   local res = run_citeproc(tmp_doc, true) -- try to be quiet</span></span>
+<span id="cb13-133"><a href="prerequisites.html#cb13-133" tabindex="-1"></a><span class="co">#   -- First block of the result contains the dummy paragraph, second is</span></span>
+<span id="cb13-134"><a href="prerequisites.html#cb13-134" tabindex="-1"></a><span class="co">#   -- the refs Div filled by pandoc-citeproc.</span></span>
+<span id="cb13-135"><a href="prerequisites.html#cb13-135" tabindex="-1"></a><span class="co">#   div.content = res.blocks[2].content</span></span>
+<span id="cb13-136"><a href="prerequisites.html#cb13-136" tabindex="-1"></a><span class="co">#   -- Set the classes and attributes as pandoc-citeproc did it on refs_div</span></span>
+<span id="cb13-137"><a href="prerequisites.html#cb13-137" tabindex="-1"></a><span class="co">#   div.classes = remove_duplicates(refs_div_with_properties.classes)</span></span>
+<span id="cb13-138"><a href="prerequisites.html#cb13-138" tabindex="-1"></a><span class="co">#   div.attributes = refs_div_with_properties.attributes</span></span>
+<span id="cb13-139"><a href="prerequisites.html#cb13-139" tabindex="-1"></a><span class="co">#   return div</span></span>
+<span id="cb13-140"><a href="prerequisites.html#cb13-140" tabindex="-1"></a><span class="co"># end</span></span>
+<span id="cb13-141"><a href="prerequisites.html#cb13-141" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb13-142"><a href="prerequisites.html#cb13-142" tabindex="-1"></a><span class="co"># return {</span></span>
+<span id="cb13-143"><a href="prerequisites.html#cb13-143" tabindex="-1"></a><span class="co">#   {</span></span>
+<span id="cb13-144"><a href="prerequisites.html#cb13-144" tabindex="-1"></a><span class="co">#     -- Collect all citations and the doc&#39;s Meta value for other filters.</span></span>
+<span id="cb13-145"><a href="prerequisites.html#cb13-145" tabindex="-1"></a><span class="co">#     Cite = function (c) all_cites[#all_cites + 1] = c end,</span></span>
+<span id="cb13-146"><a href="prerequisites.html#cb13-146" tabindex="-1"></a><span class="co">#     Meta = function (m) doc_meta = m end,</span></span>
+<span id="cb13-147"><a href="prerequisites.html#cb13-147" tabindex="-1"></a><span class="co">#   },</span></span>
+<span id="cb13-148"><a href="prerequisites.html#cb13-148" tabindex="-1"></a><span class="co">#   { Pandoc = resolve_doc_citations },</span></span>
+<span id="cb13-149"><a href="prerequisites.html#cb13-149" tabindex="-1"></a><span class="co">#   { Div = create_topic_bibliography },</span></span>
+<span id="cb13-150"><a href="prerequisites.html#cb13-150" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb13-151"><a href="prerequisites.html#cb13-151" tabindex="-1"></a><span class="co">#```</span></span></code></pre></div>
+<p>Before being able to use a <strong>Lua</strong> filter one needs to make the appropriate adjustments to the <strong>YAML metadata</strong>. For more information see <strong>chapter 5.1.2</strong> of the <strong>R Markdown Cookbook</strong> <span class="citation">(<a href="references.html#ref-Cookbook">Xie et al., 2022</a>)</span>.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -288,7 +664,7 @@ div.csl-indent {
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="brushing-up-on-the-basics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="bayesian-statistics.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -318,10 +694,7 @@ gitbook.start({
 "family": "sans",
 "size": 2
 },
-"edit": {
-"link": null,
-"text": null
-},
+"edit": null,
 "history": {
 "link": null,
 "text": null
@@ -336,12 +709,27 @@ gitbook.start({
 "options": null
 },
 "toc": {
-"collapse": "subsection"
+"collapse": "subsection",
+"scroll_highlight": true
 }
 });
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
