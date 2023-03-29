@@ -23,11 +23,7 @@
 <meta name="author" content="Hamilkar Constantin Oueslati" />
 
 
-<<<<<<< Updated upstream
-<meta name="date" content="2022-12-01" />
-=======
 <meta name="date" content="2023-03-29" />
->>>>>>> Stashed changes
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -339,34 +335,16 @@ div.csl-indent {
 <div id="eg-dt-python" class="section level3 hasAnchor" number="4.1.5">
 <h3><span class="header-section-number">4.1.5</span> An Example of Creating a Decision Tree with <em>Python</em><a href="supervised-learning.html#eg-dt-python" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>Below you see an example of a decision tree, which I created using a free software machine learning library for the Python programming language called <a href="https://scikit-learn.org"><em>scikit-learn</em></a>.</p>
-<<<<<<< Updated upstream
-<p>The algorithm used for the creation of the following decision tree is based on the <strong>CART</strong> algorithm <span class="citation">(<a href="#ref-Breiman1984" role="doc-biblioref">Breiman, 1984</a>)</span>.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb55-1"><a href="supervised-learning.html#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co">#|label: dt-python</span></span>
-<span id="cb55-2"><a href="supervised-learning.html#cb55-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| tidy: true</span></span>
-<span id="cb55-3"><a href="supervised-learning.html#cb55-3" aria-hidden="true" tabindex="-1"></a><span class="co">#| tidy-opts: </span></span>
-<span id="cb55-4"><a href="supervised-learning.html#cb55-4" aria-hidden="true" tabindex="-1"></a><span class="co">#|   - width.cutoff=60</span></span>
-<span id="cb55-5"><a href="supervised-learning.html#cb55-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-6"><a href="supervised-learning.html#cb55-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-7"><a href="supervised-learning.html#cb55-7" aria-hidden="true" tabindex="-1"></a>py_iris <span class="op">=</span> load_iris()</span>
-<span id="cb55-8"><a href="supervised-learning.html#cb55-8" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> py_iris.data, py_iris.target</span>
-<span id="cb55-9"><a href="supervised-learning.html#cb55-9" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> tree.DecisionTreeClassifier()</span>
-<span id="cb55-10"><a href="supervised-learning.html#cb55-10" aria-hidden="true" tabindex="-1"></a>clf <span class="op">=</span> clf.fit(X, y)</span>
-<span id="cb55-11"><a href="supervised-learning.html#cb55-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-12"><a href="supervised-learning.html#cb55-12" aria-hidden="true" tabindex="-1"></a>tree.plot_tree(clf)</span></code></pre></div>
-<p><img src="advanced_data_analysis_hco_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
-<p>Unfortunately “the scikit-learn implementation does not support categorical variables for now” <span class="citation">(<a href="#ref-scikitDT" role="doc-biblioref"><span>“Decision Trees,”</span> n.d.</a>)</span>. Luckily the are <em>R</em> packages that allow the construction of decision trees based on categorical data. An example would be the <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf"><code>rpart</code> package</a>.</p>
-=======
 <p>The algorithm used for the creation of the following decision tree is based on the <strong>CART</strong> algorithm <span class="citation">(<a href="references.html#ref-Breiman1984">Breiman, 1984</a>)</span>.</p>
-<div class="sourceCode" id="cb208"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb208-1"><a href="supervised-learning.html#cb208-1" tabindex="-1"></a></span>
-<span id="cb208-2"><a href="supervised-learning.html#cb208-2" tabindex="-1"></a>py_iris <span class="op">=</span> load_iris()</span>
-<span id="cb208-3"><a href="supervised-learning.html#cb208-3" tabindex="-1"></a>X, y <span class="op">=</span> py_iris.data, py_iris.target</span>
-<span id="cb208-4"><a href="supervised-learning.html#cb208-4" tabindex="-1"></a>clf <span class="op">=</span> tree.DecisionTreeClassifier()</span>
-<span id="cb208-5"><a href="supervised-learning.html#cb208-5" tabindex="-1"></a>clf <span class="op">=</span> clf.fit(X, y)</span>
-<span id="cb208-6"><a href="supervised-learning.html#cb208-6" tabindex="-1"></a></span>
-<span id="cb208-7"><a href="supervised-learning.html#cb208-7" tabindex="-1"></a>tree.plot_tree(clf)</span></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb214-1"><a href="supervised-learning.html#cb214-1" tabindex="-1"></a></span>
+<span id="cb214-2"><a href="supervised-learning.html#cb214-2" tabindex="-1"></a>py_iris <span class="op">=</span> load_iris()</span>
+<span id="cb214-3"><a href="supervised-learning.html#cb214-3" tabindex="-1"></a>X, y <span class="op">=</span> py_iris.data, py_iris.target</span>
+<span id="cb214-4"><a href="supervised-learning.html#cb214-4" tabindex="-1"></a>clf <span class="op">=</span> tree.DecisionTreeClassifier()</span>
+<span id="cb214-5"><a href="supervised-learning.html#cb214-5" tabindex="-1"></a>clf <span class="op">=</span> clf.fit(X, y)</span>
+<span id="cb214-6"><a href="supervised-learning.html#cb214-6" tabindex="-1"></a></span>
+<span id="cb214-7"><a href="supervised-learning.html#cb214-7" tabindex="-1"></a>tree.plot_tree(clf)</span></code></pre></div>
 <p><img src="advanced_data_analysis_hco_files/figure-html/dt-python-1.png" width="100%" /></p>
 <p>Unfortunately “the scikit-learn implementation does not support categorical variables for now” <span class="citation">(<a href="references.html#ref-scikitDT"><span>“Decision Trees,”</span> n.d.</a>)</span>. Luckily the are <em>R</em> packages that allow the construction of decision trees based on categorical data. An example would be the <a href="https://cran.r-project.org/web/packages/rpart/vignettes/longintro.pdf"><code>rpart</code> package</a>.</p>
->>>>>>> Stashed changes
 </div>
 <div id="eg-dt-r" class="section level3 hasAnchor" number="4.1.6">
 <h3><span class="header-section-number">4.1.6</span> An Example of Creating a Decision Tree with <em>R</em><a href="supervised-learning.html#eg-dt-r" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -374,57 +352,57 @@ div.csl-indent {
 <p>The algorithm used for the creation of the following decision tree is based on the <strong>CART</strong> algorithm <span class="citation">(<a href="references.html#ref-Breiman1984">Breiman, 1984</a>)</span>.</p>
 <div id="prepro-dt-r" class="section level4 hasAnchor" number="4.1.6.1">
 <h4><span class="header-section-number">4.1.6.1</span> Preprocessing of Data<a href="supervised-learning.html#prepro-dt-r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb209-1"><a href="supervised-learning.html#cb209-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">678</span>)</span>
-<span id="cb209-2"><a href="supervised-learning.html#cb209-2" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/guru99-edu/R-Programming/master/titanic_data.csv&quot;</span></span>
-<span id="cb209-3"><a href="supervised-learning.html#cb209-3" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(path)</span>
-<span id="cb209-4"><a href="supervised-learning.html#cb209-4" tabindex="-1"></a></span>
-<span id="cb209-5"><a href="supervised-learning.html#cb209-5" tabindex="-1"></a>shuffle_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(titanic))</span>
-<span id="cb209-6"><a href="supervised-learning.html#cb209-6" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> titanic[shuffle_index, ]</span>
-<span id="cb209-7"><a href="supervised-learning.html#cb209-7" tabindex="-1"></a></span>
-<span id="cb209-8"><a href="supervised-learning.html#cb209-8" tabindex="-1"></a>preclean_titanic <span class="ot">&lt;-</span> titanic</span>
-<span id="cb209-9"><a href="supervised-learning.html#cb209-9" tabindex="-1"></a></span>
-<span id="cb209-10"><a href="supervised-learning.html#cb209-10" tabindex="-1"></a>preclean_titanic<span class="sc">$</span>age <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(preclean_titanic<span class="sc">$</span>age)</span></code></pre></div>
+<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="supervised-learning.html#cb215-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">678</span>)</span>
+<span id="cb215-2"><a href="supervised-learning.html#cb215-2" tabindex="-1"></a>path <span class="ot">&lt;-</span> <span class="st">&quot;https://raw.githubusercontent.com/guru99-edu/R-Programming/master/titanic_data.csv&quot;</span></span>
+<span id="cb215-3"><a href="supervised-learning.html#cb215-3" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(path)</span>
+<span id="cb215-4"><a href="supervised-learning.html#cb215-4" tabindex="-1"></a></span>
+<span id="cb215-5"><a href="supervised-learning.html#cb215-5" tabindex="-1"></a>shuffle_index <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(titanic))</span>
+<span id="cb215-6"><a href="supervised-learning.html#cb215-6" tabindex="-1"></a>titanic <span class="ot">&lt;-</span> titanic[shuffle_index, ]</span>
+<span id="cb215-7"><a href="supervised-learning.html#cb215-7" tabindex="-1"></a></span>
+<span id="cb215-8"><a href="supervised-learning.html#cb215-8" tabindex="-1"></a>preclean_titanic <span class="ot">&lt;-</span> titanic</span>
+<span id="cb215-9"><a href="supervised-learning.html#cb215-9" tabindex="-1"></a></span>
+<span id="cb215-10"><a href="supervised-learning.html#cb215-10" tabindex="-1"></a>preclean_titanic<span class="sc">$</span>age <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(preclean_titanic<span class="sc">$</span>age)</span></code></pre></div>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb211-1"><a href="supervised-learning.html#cb211-1" tabindex="-1"></a>preclean_titanic<span class="sc">$</span>fare <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(preclean_titanic<span class="sc">$</span>fare)</span></code></pre></div>
+<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb217-1"><a href="supervised-learning.html#cb217-1" tabindex="-1"></a>preclean_titanic<span class="sc">$</span>fare <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(preclean_titanic<span class="sc">$</span>fare)</span></code></pre></div>
 <pre><code>## Warning: NAs introduced by coercion</code></pre>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb213-1"><a href="supervised-learning.html#cb213-1" tabindex="-1"></a>clean_titanic <span class="ot">&lt;-</span> preclean_titanic <span class="sc">%&gt;%</span></span>
-<span id="cb213-2"><a href="supervised-learning.html#cb213-2" tabindex="-1"></a>    <span class="co"># drop variables</span></span>
-<span id="cb213-3"><a href="supervised-learning.html#cb213-3" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(home.dest, cabin, name, x, ticket)) <span class="sc">%&gt;%</span></span>
-<span id="cb213-4"><a href="supervised-learning.html#cb213-4" tabindex="-1"></a>    <span class="co"># convert to factor level</span></span>
-<span id="cb213-5"><a href="supervised-learning.html#cb213-5" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">pclass =</span> <span class="fu">factor</span>(pclass, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Upper&quot;</span>,</span>
-<span id="cb213-6"><a href="supervised-learning.html#cb213-6" tabindex="-1"></a>    <span class="st">&quot;Middle&quot;</span>, <span class="st">&quot;Lower&quot;</span>)), <span class="at">survived =</span> <span class="fu">factor</span>(survived, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
-<span id="cb213-7"><a href="supervised-learning.html#cb213-7" tabindex="-1"></a>    <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)), <span class="at">sex =</span> <span class="fu">factor</span>(sex), <span class="at">embarked =</span> <span class="fu">factor</span>(embarked)) <span class="sc">%&gt;%</span></span>
-<span id="cb213-8"><a href="supervised-learning.html#cb213-8" tabindex="-1"></a>    <span class="fu">na.omit</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="supervised-learning.html#cb219-1" tabindex="-1"></a>clean_titanic <span class="ot">&lt;-</span> preclean_titanic <span class="sc">%&gt;%</span></span>
+<span id="cb219-2"><a href="supervised-learning.html#cb219-2" tabindex="-1"></a>    <span class="co"># drop variables</span></span>
+<span id="cb219-3"><a href="supervised-learning.html#cb219-3" tabindex="-1"></a><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(home.dest, cabin, name, x, ticket)) <span class="sc">%&gt;%</span></span>
+<span id="cb219-4"><a href="supervised-learning.html#cb219-4" tabindex="-1"></a>    <span class="co"># convert to factor level</span></span>
+<span id="cb219-5"><a href="supervised-learning.html#cb219-5" tabindex="-1"></a><span class="fu">mutate</span>(<span class="at">pclass =</span> <span class="fu">factor</span>(pclass, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Upper&quot;</span>,</span>
+<span id="cb219-6"><a href="supervised-learning.html#cb219-6" tabindex="-1"></a>    <span class="st">&quot;Middle&quot;</span>, <span class="st">&quot;Lower&quot;</span>)), <span class="at">survived =</span> <span class="fu">factor</span>(survived, <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>,</span>
+<span id="cb219-7"><a href="supervised-learning.html#cb219-7" tabindex="-1"></a>    <span class="dv">1</span>), <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)), <span class="at">sex =</span> <span class="fu">factor</span>(sex), <span class="at">embarked =</span> <span class="fu">factor</span>(embarked)) <span class="sc">%&gt;%</span></span>
+<span id="cb219-8"><a href="supervised-learning.html#cb219-8" tabindex="-1"></a>    <span class="fu">na.omit</span>()</span></code></pre></div>
 </div>
 <div id="traintest-dt-r" class="section level4 hasAnchor" number="4.1.6.2">
 <h4><span class="header-section-number">4.1.6.2</span> Creating a Train and Test Dataset<a href="supervised-learning.html#traintest-dt-r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb214-1"><a href="supervised-learning.html#cb214-1" tabindex="-1"></a>create_train_test <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">size =</span> <span class="fl">0.8</span>, <span class="at">train =</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb214-2"><a href="supervised-learning.html#cb214-2" tabindex="-1"></a>    n_row <span class="ot">=</span> <span class="fu">nrow</span>(data)</span>
-<span id="cb214-3"><a href="supervised-learning.html#cb214-3" tabindex="-1"></a>    total_row <span class="ot">=</span> size <span class="sc">*</span> n_row</span>
-<span id="cb214-4"><a href="supervised-learning.html#cb214-4" tabindex="-1"></a>    train_sample <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>total_row</span>
-<span id="cb214-5"><a href="supervised-learning.html#cb214-5" tabindex="-1"></a>    <span class="cf">if</span> (train <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
-<span id="cb214-6"><a href="supervised-learning.html#cb214-6" tabindex="-1"></a>        <span class="fu">return</span>(data[train_sample, ])</span>
-<span id="cb214-7"><a href="supervised-learning.html#cb214-7" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
-<span id="cb214-8"><a href="supervised-learning.html#cb214-8" tabindex="-1"></a>        <span class="fu">return</span>(data[<span class="sc">-</span>train_sample, ])</span>
-<span id="cb214-9"><a href="supervised-learning.html#cb214-9" tabindex="-1"></a>    }</span>
-<span id="cb214-10"><a href="supervised-learning.html#cb214-10" tabindex="-1"></a>}</span>
-<span id="cb214-11"><a href="supervised-learning.html#cb214-11" tabindex="-1"></a></span>
-<span id="cb214-12"><a href="supervised-learning.html#cb214-12" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">create_train_test</span>(clean_titanic, <span class="fl">0.8</span>, <span class="at">train =</span> <span class="cn">TRUE</span>)  <span class="co"># Train dataset with 80% of original data</span></span>
-<span id="cb214-13"><a href="supervised-learning.html#cb214-13" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">create_train_test</span>(clean_titanic, <span class="fl">0.8</span>, <span class="at">train =</span> <span class="cn">FALSE</span>)  <span class="co"># test dataset with 20% of original data</span></span></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb220-1"><a href="supervised-learning.html#cb220-1" tabindex="-1"></a>create_train_test <span class="ot">&lt;-</span> <span class="cf">function</span>(data, <span class="at">size =</span> <span class="fl">0.8</span>, <span class="at">train =</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb220-2"><a href="supervised-learning.html#cb220-2" tabindex="-1"></a>    n_row <span class="ot">=</span> <span class="fu">nrow</span>(data)</span>
+<span id="cb220-3"><a href="supervised-learning.html#cb220-3" tabindex="-1"></a>    total_row <span class="ot">=</span> size <span class="sc">*</span> n_row</span>
+<span id="cb220-4"><a href="supervised-learning.html#cb220-4" tabindex="-1"></a>    train_sample <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span>total_row</span>
+<span id="cb220-5"><a href="supervised-learning.html#cb220-5" tabindex="-1"></a>    <span class="cf">if</span> (train <span class="sc">==</span> <span class="cn">TRUE</span>) {</span>
+<span id="cb220-6"><a href="supervised-learning.html#cb220-6" tabindex="-1"></a>        <span class="fu">return</span>(data[train_sample, ])</span>
+<span id="cb220-7"><a href="supervised-learning.html#cb220-7" tabindex="-1"></a>    } <span class="cf">else</span> {</span>
+<span id="cb220-8"><a href="supervised-learning.html#cb220-8" tabindex="-1"></a>        <span class="fu">return</span>(data[<span class="sc">-</span>train_sample, ])</span>
+<span id="cb220-9"><a href="supervised-learning.html#cb220-9" tabindex="-1"></a>    }</span>
+<span id="cb220-10"><a href="supervised-learning.html#cb220-10" tabindex="-1"></a>}</span>
+<span id="cb220-11"><a href="supervised-learning.html#cb220-11" tabindex="-1"></a></span>
+<span id="cb220-12"><a href="supervised-learning.html#cb220-12" tabindex="-1"></a>data_train <span class="ot">&lt;-</span> <span class="fu">create_train_test</span>(clean_titanic, <span class="fl">0.8</span>, <span class="at">train =</span> <span class="cn">TRUE</span>)  <span class="co"># Train dataset with 80% of original data</span></span>
+<span id="cb220-13"><a href="supervised-learning.html#cb220-13" tabindex="-1"></a>data_test <span class="ot">&lt;-</span> <span class="fu">create_train_test</span>(clean_titanic, <span class="fl">0.8</span>, <span class="at">train =</span> <span class="cn">FALSE</span>)  <span class="co"># test dataset with 20% of original data</span></span></code></pre></div>
 </div>
 <div id="crevi-dt-r" class="section level4 hasAnchor" number="4.1.6.3">
 <h4><span class="header-section-number">4.1.6.3</span> Creating and Visualizing the Decision Tree<a href="supervised-learning.html#crevi-dt-r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb215-1"><a href="supervised-learning.html#cb215-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> ., <span class="at">data =</span> data_train, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb215-2"><a href="supervised-learning.html#cb215-2" tabindex="-1"></a></span>
-<span id="cb215-3"><a href="supervised-learning.html#cb215-3" tabindex="-1"></a><span class="fu">rpart.plot</span>(fit, <span class="at">extra =</span> <span class="dv">106</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="supervised-learning.html#cb221-1" tabindex="-1"></a>fit <span class="ot">&lt;-</span> <span class="fu">rpart</span>(survived <span class="sc">~</span> ., <span class="at">data =</span> data_train, <span class="at">method =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb221-2"><a href="supervised-learning.html#cb221-2" tabindex="-1"></a></span>
+<span id="cb221-3"><a href="supervised-learning.html#cb221-3" tabindex="-1"></a><span class="fu">rpart.plot</span>(fit, <span class="at">extra =</span> <span class="dv">106</span>)</span></code></pre></div>
 <p><img src="advanced_data_analysis_hco_files/figure-html/rpart-crevi-1.png" width="100%" /></p>
 </div>
 <div id="predict-dt-r" class="section level4 hasAnchor" number="4.1.6.4">
 <h4><span class="header-section-number">4.1.6.4</span> Prediction of Data<a href="supervised-learning.html#predict-dt-r" class="anchor-section" aria-label="Anchor link to header"></a></h4>
-<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb216-1"><a href="supervised-learning.html#cb216-1" tabindex="-1"></a>predict_unseen <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, data_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
-<span id="cb216-2"><a href="supervised-learning.html#cb216-2" tabindex="-1"></a></span>
-<span id="cb216-3"><a href="supervised-learning.html#cb216-3" tabindex="-1"></a>table_mat <span class="ot">&lt;-</span> <span class="fu">table</span>(data_test<span class="sc">$</span>survived, predict_unseen)</span>
-<span id="cb216-4"><a href="supervised-learning.html#cb216-4" tabindex="-1"></a>table_mat</span></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb222-1"><a href="supervised-learning.html#cb222-1" tabindex="-1"></a>predict_unseen <span class="ot">&lt;-</span> <span class="fu">predict</span>(fit, data_test, <span class="at">type =</span> <span class="st">&quot;class&quot;</span>)</span>
+<span id="cb222-2"><a href="supervised-learning.html#cb222-2" tabindex="-1"></a></span>
+<span id="cb222-3"><a href="supervised-learning.html#cb222-3" tabindex="-1"></a>table_mat <span class="ot">&lt;-</span> <span class="fu">table</span>(data_test<span class="sc">$</span>survived, predict_unseen)</span>
+<span id="cb222-4"><a href="supervised-learning.html#cb222-4" tabindex="-1"></a>table_mat</span></code></pre></div>
 <pre><code>##      predict_unseen
 ##        No Yes
 ##   No  105  11
@@ -445,46 +423,16 @@ div.csl-indent {
 </div>
 <div id="fft-creation" class="section level3 hasAnchor" number="4.1.9">
 <h3><span class="header-section-number">4.1.9</span> Creating a FFT with <code>FFTrees</code><a href="supervised-learning.html#fft-creation" class="anchor-section" aria-label="Anchor link to header"></a></h3>
-<<<<<<< Updated upstream
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="supervised-learning.html#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Create FFTs from training data and test on testing data heart.</span></span>
-<span id="cb65-2"><a href="supervised-learning.html#cb65-2" aria-hidden="true" tabindex="-1"></a>heart.fft <span class="ot">&lt;-</span> <span class="fu">FFTrees</span>(<span class="at">formula =</span> diagnosis <span class="sc">~</span> ., <span class="co"># Criterion</span></span>
-<span id="cb65-3"><a href="supervised-learning.html#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> heart.train, <span class="co"># Training data </span></span>
-<span id="cb65-4"><a href="supervised-learning.html#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="at">data.test =</span> heart.test, <span class="co"># Testing data</span></span>
-<span id="cb65-5"><a href="supervised-learning.html#cb65-5" aria-hidden="true" tabindex="-1"></a><span class="at">main =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="co"># Optional labels </span></span>
-<span id="cb65-6"><a href="supervised-learning.html#cb65-6" aria-hidden="true" tabindex="-1"></a><span class="at">decision.labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low-Risk&quot;</span>, <span class="st">&quot;High-Risk&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="supervised-learning.html#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Create FFTs from training data and test on testing data heart.</span></span>
-<span id="cb66-2"><a href="supervised-learning.html#cb66-2" aria-hidden="true" tabindex="-1"></a>heart.fft <span class="ot">&lt;-</span> <span class="fu">FFTrees</span>(<span class="at">formula =</span> diagnosis <span class="sc">~</span> ., <span class="co"># Criterion</span></span>
-<span id="cb66-3"><a href="supervised-learning.html#cb66-3" aria-hidden="true" tabindex="-1"></a><span class="at">data =</span> heart.train, <span class="co"># Training data </span></span>
-<span id="cb66-4"><a href="supervised-learning.html#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="at">data.test =</span> heart.test, <span class="co"># Testing data</span></span>
-<span id="cb66-5"><a href="supervised-learning.html#cb66-5" aria-hidden="true" tabindex="-1"></a><span class="at">main =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="co"># Optional labels </span></span>
-<span id="cb66-6"><a href="supervised-learning.html#cb66-6" aria-hidden="true" tabindex="-1"></a><span class="at">decision.labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low-Risk&quot;</span>, <span class="st">&quot;High-Risk&quot;</span>))</span></code></pre></div>
-<pre><code>## Setting &#39;goal = bacc&#39;</code></pre>
-<pre><code>## Setting &#39;goal.chase = bacc&#39;</code></pre>
-<pre><code>## Setting &#39;goal.threshold = bacc&#39;</code></pre>
-<pre><code>## Setting cost.outcomes = list(hi = 0, mi = 1, fa = 1, cr = 0)</code></pre>
-<pre><code>## Growing FFTs with ifan:</code></pre>
-<pre><code>## 
-[==============================================&gt;------------------------------]  62%
-[====================================================&gt;------------------------]  69%
-[==========================================================&gt;------------------]  77%
-[================================================================&gt;------------]  85%
-[======================================================================&gt;------]  92%
-[=============================================================================] 100%
-## Fitting other algorithms for comparison (disable with do.comp = FALSE) ...</code></pre>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="supervised-learning.html#cb73-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Inspect and summarize FFTs</span></span>
-<span id="cb73-2"><a href="supervised-learning.html#cb73-2" aria-hidden="true" tabindex="-1"></a>heart.fft <span class="co"># Print statistics of the final FFT</span></span></code></pre></div>
-=======
-<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb218-1"><a href="supervised-learning.html#cb218-1" tabindex="-1"></a><span class="co"># Step 1: Create FFTs from training data and test on</span></span>
-<span id="cb218-2"><a href="supervised-learning.html#cb218-2" tabindex="-1"></a><span class="co"># testing data heart</span></span>
-<span id="cb218-3"><a href="supervised-learning.html#cb218-3" tabindex="-1"></a></span>
-<span id="cb218-4"><a href="supervised-learning.html#cb218-4" tabindex="-1"></a>heart.fft <span class="ot">&lt;-</span> <span class="fu">FFTrees</span>(<span class="at">formula =</span> diagnosis <span class="sc">~</span> ., <span class="at">data =</span> heart.train,</span>
-<span id="cb218-5"><a href="supervised-learning.html#cb218-5" tabindex="-1"></a>    <span class="at">data.test =</span> heart.test, <span class="at">main =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="at">decision.labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low-Risk&quot;</span>,</span>
-<span id="cb218-6"><a href="supervised-learning.html#cb218-6" tabindex="-1"></a>        <span class="st">&quot;High-Risk&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="supervised-learning.html#cb219-1" tabindex="-1"></a><span class="co"># Step 2: Inspect and summarize FFTs</span></span>
-<span id="cb219-2"><a href="supervised-learning.html#cb219-2" tabindex="-1"></a></span>
-<span id="cb219-3"><a href="supervised-learning.html#cb219-3" tabindex="-1"></a><span class="co"># Print statistics of the final FFT</span></span>
-<span id="cb219-4"><a href="supervised-learning.html#cb219-4" tabindex="-1"></a>heart.fft</span></code></pre></div>
->>>>>>> Stashed changes
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb224-1"><a href="supervised-learning.html#cb224-1" tabindex="-1"></a><span class="co"># Step 1: Create FFTs from training data and test on</span></span>
+<span id="cb224-2"><a href="supervised-learning.html#cb224-2" tabindex="-1"></a><span class="co"># testing data heart</span></span>
+<span id="cb224-3"><a href="supervised-learning.html#cb224-3" tabindex="-1"></a></span>
+<span id="cb224-4"><a href="supervised-learning.html#cb224-4" tabindex="-1"></a>heart.fft <span class="ot">&lt;-</span> <span class="fu">FFTrees</span>(<span class="at">formula =</span> diagnosis <span class="sc">~</span> ., <span class="at">data =</span> heart.train,</span>
+<span id="cb224-5"><a href="supervised-learning.html#cb224-5" tabindex="-1"></a>    <span class="at">data.test =</span> heart.test, <span class="at">main =</span> <span class="st">&quot;Heart Disease&quot;</span>, <span class="at">decision.labels =</span> <span class="fu">c</span>(<span class="st">&quot;Low-Risk&quot;</span>,</span>
+<span id="cb224-6"><a href="supervised-learning.html#cb224-6" tabindex="-1"></a>        <span class="st">&quot;High-Risk&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="supervised-learning.html#cb225-1" tabindex="-1"></a><span class="co"># Step 2: Inspect and summarize FFTs</span></span>
+<span id="cb225-2"><a href="supervised-learning.html#cb225-2" tabindex="-1"></a></span>
+<span id="cb225-3"><a href="supervised-learning.html#cb225-3" tabindex="-1"></a><span class="co"># Print statistics of the final FFT</span></span>
+<span id="cb225-4"><a href="supervised-learning.html#cb225-4" tabindex="-1"></a>heart.fft</span></code></pre></div>
 <pre><code>## Heart Disease
 ## FFTrees 
 ## - Trees: 7 fast-and-frugal trees predicting diagnosis
@@ -510,13 +458,13 @@ div.csl-indent {
 ## 
 ## FFT #1: Training Speed, Frugality, and Cost
 ## mcu = 1.74,  pci = 0.87,  E(cost) = 0.200</code></pre>
-<div class="sourceCode" id="cb221"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb221-1"><a href="supervised-learning.html#cb221-1" tabindex="-1"></a><span class="co"># Print a verbal description of the final FFT</span></span>
-<span id="cb221-2"><a href="supervised-learning.html#cb221-2" tabindex="-1"></a><span class="fu">inwords</span>(heart.fft)</span></code></pre></div>
+<div class="sourceCode" id="cb227"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb227-1"><a href="supervised-learning.html#cb227-1" tabindex="-1"></a><span class="co"># Print a verbal description of the final FFT</span></span>
+<span id="cb227-2"><a href="supervised-learning.html#cb227-2" tabindex="-1"></a><span class="fu">inwords</span>(heart.fft)</span></code></pre></div>
 <pre><code>## [1] &quot;If thal = {rd,fd}, decide High-Risk.&quot;                    
 ## [2] &quot;If cp != {a}, decide Low-Risk.&quot;                          
 ## [3] &quot;If ca &gt; 0, decide High-Risk, otherwise, decide Low-Risk.&quot;</code></pre>
-<div class="sourceCode" id="cb223"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb223-1"><a href="supervised-learning.html#cb223-1" tabindex="-1"></a><span class="co"># Print statistics of all FFTs</span></span>
-<span id="cb223-2"><a href="supervised-learning.html#cb223-2" tabindex="-1"></a><span class="fu">summary</span>(heart.fft)</span></code></pre></div>
+<div class="sourceCode" id="cb229"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb229-1"><a href="supervised-learning.html#cb229-1" tabindex="-1"></a><span class="co"># Print statistics of all FFTs</span></span>
+<span id="cb229-2"><a href="supervised-learning.html#cb229-2" tabindex="-1"></a><span class="fu">summary</span>(heart.fft)</span></code></pre></div>
 <pre><code>## Heart Disease
 ## 
 ## FFTrees 
@@ -562,14 +510,14 @@ div.csl-indent {
 ## |    5| 153| 28|  0| 45| 80| 0.38| 1.00| 0.00| 1.00| 0.64| 0.71| 0.69| 0.69|           0.29|         0| 0.29| 0.86| 1.78|
 ## |    6| 153| 22|  0| 51| 80| 0.30| 1.00| 0.00| 1.00| 0.61| 0.67| 0.65| 0.65|           0.33|         0| 0.33| 0.85| 1.97|
 ## |    7| 153| 72| 56|  1| 24| 0.99| 0.30| 0.70| 0.56| 0.96| 0.63| 0.64| 0.64|           0.37|         0| 0.37| 0.84| 2.11|</code></pre>
-<div class="sourceCode" id="cb225"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb225-1"><a href="supervised-learning.html#cb225-1" tabindex="-1"></a><span class="co"># Step 4: Visualize the final FFT and performance</span></span>
-<span id="cb225-2"><a href="supervised-learning.html#cb225-2" tabindex="-1"></a><span class="co"># results</span></span>
-<span id="cb225-3"><a href="supervised-learning.html#cb225-3" tabindex="-1"></a></span>
-<span id="cb225-4"><a href="supervised-learning.html#cb225-4" tabindex="-1"></a><span class="co"># a) plot final FFT applied to test data:</span></span>
-<span id="cb225-5"><a href="supervised-learning.html#cb225-5" tabindex="-1"></a><span class="fu">plot</span>(heart.fft, <span class="at">data =</span> <span class="st">&quot;test&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb231"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb231-1"><a href="supervised-learning.html#cb231-1" tabindex="-1"></a><span class="co"># Step 4: Visualize the final FFT and performance</span></span>
+<span id="cb231-2"><a href="supervised-learning.html#cb231-2" tabindex="-1"></a><span class="co"># results</span></span>
+<span id="cb231-3"><a href="supervised-learning.html#cb231-3" tabindex="-1"></a></span>
+<span id="cb231-4"><a href="supervised-learning.html#cb231-4" tabindex="-1"></a><span class="co"># a) plot final FFT applied to test data:</span></span>
+<span id="cb231-5"><a href="supervised-learning.html#cb231-5" tabindex="-1"></a><span class="fu">plot</span>(heart.fft, <span class="at">data =</span> <span class="st">&quot;test&quot;</span>)</span></code></pre></div>
 <p><img src="advanced_data_analysis_hco_files/figure-html/fft-1.png" width="100%" /></p>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb226-1"><a href="supervised-learning.html#cb226-1" tabindex="-1"></a><span class="co"># b) plot individual cue accuracies in ROC space:</span></span>
-<span id="cb226-2"><a href="supervised-learning.html#cb226-2" tabindex="-1"></a><span class="fu">plot</span>(heart.fft, <span class="at">what =</span> <span class="st">&quot;cues&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb232-1"><a href="supervised-learning.html#cb232-1" tabindex="-1"></a><span class="co"># b) plot individual cue accuracies in ROC space:</span></span>
+<span id="cb232-2"><a href="supervised-learning.html#cb232-2" tabindex="-1"></a><span class="fu">plot</span>(heart.fft, <span class="at">what =</span> <span class="st">&quot;cues&quot;</span>)</span></code></pre></div>
 <pre><code>## Using cue training statistics of object x:</code></pre>
 <pre><code>## Cue accuracies ranked by bacc</code></pre>
 <p><img src="advanced_data_analysis_hco_files/figure-html/fft-2.png" width="100%" /></p>
